@@ -1,9 +1,11 @@
 import { exportDatabase, importDatabase } from "@/db/backupRestore";
 import { getDatabase } from "@/db/database";
 import i18n from "@/i18n";
+import { useClimbsStore } from "@/store/useClimbsStore";
+import { useLoadData } from "@/store/useLoadData";
 import { Climb } from "@/types/climb";
 import { useFocusEffect } from "expo-router";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import {
   Alert,
   Linking,
@@ -30,8 +32,12 @@ const SettingSection = ({
 );
 
 export default function ClimbSettings() {
-  const [rows, setRows] = useState<Climb[]>([]);
-  const [count, setCount] = useState(0);
+  const climbs = useClimbsStore((s) => s.climbs);
+  const refresh = useClimbsStore((s) => s.refresh);
+  const { loadData } = useLoadData();
+
+  const rows = climbs.slice(0, 50) as Climb[];
+  const count = climbs.length;
 
   const COLUMNS: { key: keyof Climb; label: string; width: number }[] = [
     { key: "id", label: "ID", width: 40 },
@@ -43,20 +49,10 @@ export default function ClimbSettings() {
     { key: "attempts", label: "Tent.", width: 45 },
     { key: "mode", label: "Modo", width: 70 },
   ];
-
-  async function load() {
-    const db = await getDatabase();
-    const data = await db.getAllAsync<Climb>(
-      "SELECT * FROM climbs ORDER BY id DESC LIMIT 50",
-    );
-    setRows(data);
-    setCount(data.length);
-  }
-
   useFocusEffect(
     useCallback(() => {
-      load();
-    }, []),
+      loadData(() => refresh());
+    }, [refresh]),
   );
 
   async function clearAll() {
@@ -71,17 +67,15 @@ export default function ClimbSettings() {
           onPress: async () => {
             const db = await getDatabase();
             await db.runAsync("DELETE FROM climbs");
-            load();
+            await useClimbsStore.getState().refresh();
           },
         },
       ],
     );
   }
-
   return (
     <SafeAreaView style={styles.container} edges={["left", "right", "bottom"]}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* --- SEZIONE 1: DATABASE & BACKUP --- */}
         <SettingSection title={i18n.t("settings.databaseSettings", { count })}>
           <View style={styles.tableWrapper}>
             {rows.length === 0 ? (
@@ -91,7 +85,6 @@ export default function ClimbSettings() {
             ) : (
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <View>
-                  {/* HEADER (Resta fisso in alto rispetto allo scroll verticale) */}
                   <View style={styles.tableHeader}>
                     {COLUMNS.map((col) => (
                       <Text
@@ -102,11 +95,9 @@ export default function ClimbSettings() {
                       </Text>
                     ))}
                   </View>
-
-                  {/* BODY SCROLLABILE (Altezza limitata) */}
                   <View style={{ height: 200 }}>
                     <ScrollView
-                      nestedScrollEnabled={true} // Fondamentale per Android
+                      nestedScrollEnabled={true}
                       style={styles.tableBody}
                     >
                       {rows.map((row, i) => (
@@ -132,7 +123,6 @@ export default function ClimbSettings() {
             )}
           </View>
 
-          {/* Pulsanti Azione */}
           <View style={styles.grid}>
             {[
               {
@@ -142,12 +132,15 @@ export default function ClimbSettings() {
               },
               {
                 label: i18n.t("settings.import"),
-                onPress: () => importDatabase().then(load),
+                onPress: () =>
+                  importDatabase().then(() =>
+                    useClimbsStore.getState().refresh(),
+                  ),
                 color: "#2c2c2c",
               },
               {
                 label: i18n.t("settings.refresh"),
-                onPress: load,
+                onPress: () => loadData(() => refresh()),
                 color: "#2c2c2c",
               },
               {

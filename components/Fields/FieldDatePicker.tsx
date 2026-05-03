@@ -1,15 +1,10 @@
 import i18n from "@/i18n";
 import DateTimePicker, {
-  DateTimePickerEvent,
+    DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import { useCallback, useState } from "react";
-import {
-  Platform,
-  Text,
-  TouchableOpacity,
-  View
-} from "react-native";
-import SectionLabel from "../ui/SectionLabel";
+import { Platform, Text, TouchableOpacity, View } from "react-native";
+import SectionLabel from "../SectionLabel";
 
 const FieldDatePicker = ({
   label,

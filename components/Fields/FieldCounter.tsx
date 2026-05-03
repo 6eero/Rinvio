@@ -1,6 +1,6 @@
 import i18n from "@/i18n";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import SectionLabel from "../ui/SectionLabel";
+import SectionLabel from "../SectionLabel";
 
 const FieldCounter = ({
   label,

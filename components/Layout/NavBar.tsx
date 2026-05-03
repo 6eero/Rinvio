@@ -1,4 +1,4 @@
-import { HapticTab } from "@/components/haptic-tab";
+import { HapticTab } from "@/components/HapticTab";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import i18n from "@/i18n";
 import { Tabs } from "expo-router";
@@ -61,16 +61,6 @@ export default function NavBar() {
           tabBarIcon: ({ color }) => (
             <Database size={24} color={color} strokeWidth={2} />
           ),
-        }}
-      />
-
-      {/* Hidden */}
-      <Tabs.Screen
-        name="edit/[id]"
-        options={{
-          href: null,
-          headerShown: false,
-          tabBarStyle: { display: "none" },
         }}
       />
     </Tabs>

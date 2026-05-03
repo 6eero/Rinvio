@@ -1,5 +1,5 @@
 import OptionButton from "@/components/Buttons/OptionButton";
-import SectionLabel from "@/components/ui/SectionLabel";
+import SectionLabel from "@/components/SectionLabel";
 import i18n from "@/i18n";
 import { ScrollView, View } from "react-native";
 

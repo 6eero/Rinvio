@@ -1,6 +1,6 @@
 import i18n from "@/i18n";
 import { TextInput, View } from "react-native";
-import SectionLabel from "../ui/SectionLabel";
+import SectionLabel from "../SectionLabel";
 
 const FieldTextArea = ({
   label,

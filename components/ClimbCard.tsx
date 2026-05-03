@@ -6,7 +6,6 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type Props = {
   climb: Climb;
-  onDeleted: () => void;
 };
 
 const OUTCOME_COLOR = {
@@ -14,7 +13,7 @@ const OUTCOME_COLOR = {
   failure: "#dc2626",
 };
 
-export default function ClimbCard({ climb, onDeleted }: Props) {
+export default function ClimbCard({ climb }: Props) {
   return (
     <TouchableOpacity
       onPress={() => router.push(`/edit/${climb.id}`)}

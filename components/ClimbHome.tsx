@@ -1,10 +1,8 @@
 import i18n from "@/i18n";
+import { useClimbsStore } from "@/store/useClimbsStore";
 import { Climb } from "@/types/climb";
 import { router } from "expo-router";
-
-import { getAllClimbs } from "@/db/climbsRepository";
-import { useFocusEffect } from "expo-router";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import {
   SectionList,
   StyleSheet,
@@ -16,24 +14,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import ClimbCard from "./ClimbCard";
 
 export default function ClimbHome() {
-  const [climbs, setClimbs] = useState<Climb[]>([]);
-  const [loading, setLoading] = useState(true);
+  const climbs = useClimbsStore((s) => s.climbs);
 
-  const loadData = async () => {
-    try {
-      const data = await getAllClimbs();
-      setClimbs(data);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useFocusEffect(
-    useCallback(() => {
-      loadData();
-    }, []),
-  );
-  // Raggruppamento e ordinamento per data (dalla più recente)
   const sections = useMemo(() => {
     const grouped = climbs.reduce(
       (acc, climb) => {
@@ -46,10 +28,10 @@ export default function ClimbHome() {
     );
 
     return Object.keys(grouped)
-      .sort((a, b) => b.localeCompare(a)) // Ordine decrescente (YYYY-MM-DD)
+      .sort((a, b) => b.localeCompare(a))
       .map((date) => ({
         title: date,
-        data: grouped[date].sort((a, b) => b.id - a.id), // Ultime inserite per prime nella giornata
+        data: grouped[date].sort((a, b) => b.id - a.id),
       }));
   }, [climbs]);
 
@@ -78,9 +60,7 @@ export default function ClimbHome() {
         sections={sections}
         keyExtractor={(item) => item.id.toString()}
         stickySectionHeadersEnabled={true}
-        renderItem={({ item }) => (
-          <ClimbCard climb={item} onDeleted={loadData} />
-        )}
+        renderItem={({ item }) => <ClimbCard climb={item} />}
         renderSectionHeader={({ section: { title } }) => (
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>
@@ -92,9 +72,7 @@ export default function ClimbHome() {
             </Text>
           </View>
         )}
-        // Questo assicura che l'ultima card sia visibile sopra la navbar
         contentContainerStyle={{ paddingBottom: 100 }}
-        // Rimuovi eventuali marginVertical o simili dallo stile della lista
         style={{ flex: 1 }}
       />
     </SafeAreaView>
