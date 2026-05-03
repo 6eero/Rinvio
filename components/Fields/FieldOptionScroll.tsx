@@ -1,0 +1,52 @@
+import OptionButton from "@/components/Buttons/OptionButton";
+import SectionLabel from "@/components/ui/SectionLabel";
+import i18n from "@/i18n";
+import { ScrollView, View } from "react-native";
+
+interface Option<T> {
+  label: string;
+  value: T;
+  isKey?: boolean;
+  color?: string;
+}
+
+const FieldOptionScroll = <T extends string>({
+  label,
+  options,
+  value,
+  onChange,
+  useScroll = false,
+}: {
+  label: string;
+  options: Option<T>[];
+  value: T;
+  onChange: (value: T) => void;
+  useScroll?: boolean;
+}) => {
+  const content = options.map((opt) => (
+    <OptionButton
+      key={opt.value}
+      label={opt.isKey ? i18n.t(opt.label) : opt.label}
+      selected={value === opt.value}
+      onPress={() => onChange(opt.value)}
+      color={opt.color}
+    />
+  ));
+
+  return (
+    <View style={{ marginBottom: 15 }}>
+      <SectionLabel text={i18n.t(label)} />
+      {useScroll ? (
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {content}
+        </ScrollView>
+      ) : (
+        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+          {content}
+        </View>
+      )}
+    </View>
+  );
+};
+
+export default FieldOptionScroll;

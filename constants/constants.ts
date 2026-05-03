@@ -30,6 +30,6 @@ export const FRENCH_GRADES = [
   "9c",
 ];
 
-export const GRADE_NUMERIC: Record<string, number> = Object.fromEntries(
-  FRENCH_GRADES.map((g, i) => [g, i]),
-);
+export const MODES = ["onsight", "flash", "redpoint"];
+
+export const STYLES = ["lead", "follow"];

@@ -14,7 +14,7 @@ export interface Climb {
   mode: ClimbMode;
   style: ClimbStyle;
   difficulty: number;
-  notes: string | null;
+  notes: string;
 }
 
 export type ClimbInput = Omit<Climb, "id">;
