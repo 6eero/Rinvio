@@ -50,8 +50,6 @@ export default function EditScreen() {
     ]);
   };
 
-  if (!climb) return null;
-
   return (
     <View
       style={{
@@ -62,13 +60,16 @@ export default function EditScreen() {
       }}
     >
       <PageTitle title={i18n.t("edit.title")} />
-      <ClimbForm
-        initial={climb}
-        onSubmit={handleSubmit}
-        submitLabel={i18n.t("form.updateClimb")}
-        onDelete={handleDelete}
-        deleteLabel={i18n.t("form.deleteClimb")}
-      />
+      {climb && (
+        <ClimbForm
+          key={`edit-form-${id}`}
+          initial={climb}
+          onSubmit={handleSubmit}
+          submitLabel={i18n.t("form.updateClimb")}
+          onDelete={handleDelete}
+          deleteLabel={i18n.t("form.deleteClimb")}
+        />
+      )}
     </View>
   );
 }

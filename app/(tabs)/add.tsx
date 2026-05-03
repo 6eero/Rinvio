@@ -34,6 +34,7 @@ export default function AddScreen() {
     >
       <PageTitle title={i18n.t("add.title")} />
       <ClimbForm
+        key="add-form"
         onSubmit={handleSubmit}
         submitLabel={i18n.t("form.addClimb")}
       />

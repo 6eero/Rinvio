@@ -38,7 +38,7 @@
     "modeRedpoint": "Red Point",
     "style": "Style",
     "mode": "Mode",
-    "difficulty": "Subjective difficulty: {{value}}/10",
+    "difficulty": "Perceived difficulty",
     "notes": "Notes (optional)",
     "notesPlaceholder": "Comments, conditions, beta...",
     "save": "Save",
