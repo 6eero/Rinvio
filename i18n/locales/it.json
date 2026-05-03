@@ -1,0 +1,124 @@
+{
+  "tabs": {
+    "climbs": "Le mie salite",
+    "add": "Aggiungi",
+    "stats": "Progressi",
+    "settings": "Settings"
+  },
+  "home": {
+    "title": "Le mie salite",
+    "total": "{{count}} totali",
+    "loading": "Caricamento...",
+    "empty": "Nessuna salita ancora",
+    "addFirst": "Aggiungi la prima!"
+  },
+  "card": {
+    "deleteTitle": "Elimina salita",
+    "deleteMessage": "Vuoi eliminare \"{{name}}\"?",
+    "deleteConfirm": "Elimina",
+    "cancel": "Annulla",
+    "attempts": "tent.",
+    "difficulty": "diff."
+  },
+  "form": {
+    "date": "Data",
+    "crag": "Falesia",
+    "cragPlaceholder": "Es. Finale Ligure",
+    "routeName": "Nome Via",
+    "routeNamePlaceholder": "Es. Bicio Bragio",
+    "grade": "Grado (scala francese)",
+    "length": "Lunghezza in metri (facoltativo)",
+    "lengthPlaceholder": "Es. 25",
+    "outcome": "Esito",
+    "outcomeSuccess": "✓  Superata",
+    "outcomeFailure": "✗  Fallita",
+    "attempts": "Numero Tentativi",
+
+    "modeOnsight": "Onsight",
+    "modeFlash": "Flash",
+    "modeRedpoint": "Red Point",
+    "Style": "Stile",
+    "mode": "Modalità",
+    "difficulty": "Difficoltà soggettiva: {{value}}/10",
+    "notes": "Note (facoltativo)",
+    "notesPlaceholder": "Commenti, condizioni, beta...",
+    "save": "Salva",
+    "addClimb": "Aggiungi salita",
+    "updateClimb": "Aggiorna",
+    "deleteClimb": "Elimina",
+    "errorCrag": "Inserisci il nome della falesia",
+    "errorRoute": "Inserisci il nome della via",
+    "errorDate": "Data nel formato YYYY-MM-DD",
+    "errorInvalidDate": "Data non valida",
+    "errorAttempts": "Tentativi deve essere almeno 1"
+  },
+  "add": {
+    "title": "Aggiungi salita",
+    "savedTitle": "Salvata!",
+    "savedMessage": "Salita aggiunta con successo",
+    "errorTitle": "Errore",
+    "errorMessage": "Impossibile salvare la salita",
+    "ok": "OK"
+  },
+  "edit": {
+    "title": "Modifica salita",
+    "loading": "Caricamento...",
+    "notFound": "Salita non trovata",
+    "savedTitle": "Salvata!",
+    "savedMessage": "Salita aggiornata",
+    "deleteTitle": "Elimina salita",
+    "deleteMessage": "Sei sicuro di voler eliminare questa salita?",
+    "errorTitle": "Errore",
+    "errorMessage": "Impossibile aggiornare la salita",
+    "ok": "OK",
+    "deleteConfirm": "Elimina",
+    "cancel": "Annulla"
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "noRecords": "Nessun record",
+    "refresh": "Refresh",
+    "clear": "Clear",
+    "export": "Export",
+    "import": "Import",
+    "clearTitle": "Svuota DB",
+    "clearMessage": "Sei sicuro di voler eliminare tutti i record?",
+    "clearConfirm": "Svuota",
+    "cancel": "Annulla",
+    "databaseSettings": "Impostazioni database ({{count}} righe)",
+    "version": "Versione dell'app",
+    "preferences": "Preferenze",
+    "language": "Lingua",
+    "theme": "Tema",
+    "about": "Informazioni su Rinvio",
+    "developed_by": "Sviluppato da"
+  },
+  "backup": {
+    "exportError": "Impossibile esportare il database",
+    "exportNotAvailable": "La condivisione non è disponibile su questo dispositivo",
+    "exportDialogTitle": "Esporta backup Rinvio",
+    "dbNotFound": "Database non trovato",
+    "importTitle": "Importa backup",
+    "importMessage": "Attenzione: tutti i dati attuali verranno sostituiti. Continuare?",
+    "importConfirm": "Importa",
+    "importSuccess": "Importazione completata",
+    "importSuccessMessage": "Il backup è stato ripristinato. Riavvia l'app.",
+    "importError": "Impossibile importare il database",
+    "cancel": "Annulla"
+  },
+  "options": {
+    "outcome": {
+      "success": "✓ Superata",
+      "failure": "✗ Fallita"
+    },
+    "mode": {
+      "onsight": "Onsight",
+      "flash": "Flash",
+      "redpoint": "Redpoint"
+    },
+    "style": {
+      "lead": "Primo",
+      "follow": "Secondo"
+    }
+  }
+}

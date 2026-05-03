@@ -1,0 +1,117 @@
+{
+  "tabs": {
+    "climbs": "My climbs",
+    "add": "Add",
+    "stats": "Progress",
+    "settings": "Settings"
+  },
+  "home": {
+    "title": "My climbs",
+    "total": "{{count}} total",
+    "loading": "Loading...",
+    "empty": "No climbs yet",
+    "addFirst": "Add your first!"
+  },
+  "card": {
+    "deleteTitle": "Delete climb",
+    "deleteMessage": "Do you want to delete \"{{name}}\"?",
+    "deleteConfirm": "Delete",
+    "cancel": "Cancel",
+    "attempts": "att.",
+    "difficulty": "diff."
+  },
+  "form": {
+    "date": "Date",
+    "crag": "Crag",
+    "cragPlaceholder": "E.g. Finale Ligure",
+    "routeName": "Route name",
+    "routeNamePlaceholder": "E.g. Bicio Bragio",
+    "grade": "Grade (French scale)",
+    "length": "Length in meters (optional)",
+    "lengthPlaceholder": "E.g. 25",
+    "outcome": "Outcome",
+    "outcomeSuccess": "✓  Sent",
+    "outcomeFailure": "✗  Failed",
+    "attempts": "Number of attempts",
+    "modeOnsight": "Onsight",
+    "modeFlash": "Flash",
+    "modeRedpoint": "Red Point",
+    "style": "Style",
+    "mode": "Mode",
+    "difficulty": "Subjective difficulty: {{value}}/10",
+    "notes": "Notes (optional)",
+    "notesPlaceholder": "Comments, conditions, beta...",
+    "save": "Save",
+    "addClimb": "Add climb",
+    "updateClimb": "Update",
+    "deleteClimb": "Delete",
+    "errorCrag": "Enter the crag name",
+    "errorRoute": "Enter the route name",
+    "errorDate": "Date must be in YYYY-MM-DD format",
+    "errorInvalidDate": "Invalid date",
+    "errorAttempts": "Attempts must be at least 1"
+  },
+  "add": {
+    "title": "Add Climb",
+    "savedTitle": "Saved!",
+    "savedMessage": "Climb added successfully",
+    "errorTitle": "Error",
+    "errorMessage": "Unable to save climb",
+    "ok": "OK"
+  },
+  "edit": {
+    "title": "Edit Climb",
+    "loading": "Loading...",
+    "notFound": "Climb not found",
+    "savedTitle": "Saved!",
+    "savedMessage": "Climb updated",
+    "deleteTitle": "Delete climb",
+    "deleteMessage": "Are you sure you want to delete this climb?",
+    "errorTitle": "Error",
+    "errorMessage": "Unable to update climb",
+    "ok": "OK",
+    "deleteConfirm": "Delete",
+    "cancel": "Cancel"
+  },
+  "settings": {
+    "title": "Settings",
+    "noRecords": "No records",
+    "refresh": "Refresh",
+    "clear": "Clear",
+    "export": "Export",
+    "import": "Import",
+    "clearTitle": "Clear DB",
+    "clearMessage": "Are you sure you want to delete all records?",
+    "clearConfirm": "Clear",
+    "cancel": "Cancel",
+    "databaseSettings": "Database Settings ({{count}} rows)"
+  },
+  "backup": {
+    "exportError": "Unable to export database",
+    "exportNotAvailable": "Sharing is not available on this device",
+    "exportDialogTitle": "Export Rinvio backup",
+    "dbNotFound": "Database not found",
+    "importTitle": "Import backup",
+    "importMessage": "Warning: all current data will be replaced. Continue?",
+    "importConfirm": "Import",
+    "importSuccess": "Import complete",
+    "importSuccessMessage": "Backup restored. Restart the app to apply changes.",
+    "importError": "Unable to import database",
+    "cancel": "Cancel"
+  },
+  "options": {
+    "outcome": {
+      "success": "✓ Sent",
+      "failure": "✗ Failed"
+    },
+    "mode": {
+      "onsight": "Onsight",
+      "flash": "Flash",
+      "redpoint": "Redpoint"
+    },
+    "style": {
+      "lead": "Lead",
+      "follow": "Follow"
+    }
+  }
+}
