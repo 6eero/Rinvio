@@ -1,50 +1,57 @@
-# Welcome to your Expo app 👋
+# Rinvio 🧗‍♂️
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Rinvio is a mobile application for climbers to track their outdoor and indoor ascents. Built with React Native and Expo, it allows you to keep a personal log of your climbing progression directly on your device.
 
-## Get started
+## ✨ Features
 
-1. Install dependencies
+- **Climb Logging**: Record the name, grade, sector, and style (Lead, Top Rope, Boulder) of your climbs.
+- **SQLite Storage**: All data is stored locally on your device. Your data stays yours.
+- **Statistics**: View a summary of your activities and progression.
+- **Export/Import**: easily backup your database or move it to another device via JSON/SQLite export.
+- **Multilingual Support**: Fully localized in English and Italian.
+- **Dark Mode**: High-contrast UI designed for both indoor gyms and outdoor crags.
+
+## 🚀 Tech Stack
+
+- **Framework**: [Expo](https://expo.dev/) (React Native)
+- **Database**: [Expo SQLite](https://docs.expo.dev/versions/latest/sdk/sqlite/)
+- **Styling**: [NativeWind](https://www.nativewind.dev/) (Tailwind CSS for React Native)
+- **Icons**: [Lucide React Native](https://lucide.dev/)
+- **Navigation**: [Expo Router](https://docs.expo.dev/router/introduction/) (File-based routing)
+
+## 📦 Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone [https://github.com/6eero/rinvio.git](https://github.com/6eero/rinvio.git)
+   cd rinvio
+   ```
+
+2. **Install dependencies**
 
    ```bash
    npm install
    ```
 
-2. Start the app
-
+3. **Start the development server**
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+You can then open the app on your physical device via the **Expo Go** app by scanning the QR code, or run it on an emulator.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 🛠️ Building for Android (APK)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+This project is configured for [EAS Build](https://docs.expo.dev/build/introduction/). To generate an APK:
 
-## Get a fresh project
+1. Install EAS CLI: `npm install -g eas-cli`
+2. Run: `eas build -p android --profile preview`
 
-When you're ready, run:
+## 📄 License
 
-```bash
-npm run reset-project
-```
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+_Developed with ❤️ for the climbing community._
