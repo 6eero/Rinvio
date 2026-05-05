@@ -20,7 +20,7 @@ const FieldCounter = ({
         style={{
           flexDirection: "row",
           alignItems: "center",
-          gap: 20,
+          gap: 10,
           marginBottom: 12,
         }}
       >
@@ -47,7 +47,9 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     backgroundColor: "#161616",
-    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#202020",
+    borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
   },

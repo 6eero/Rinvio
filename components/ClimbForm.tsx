@@ -65,7 +65,6 @@ export default function ClimbForm({
 
   const isCragEditable = !isEdit && !existingCragForDate;
 
-  // Variabile d'appoggio per capire se la salita è fallita
   const isFailure = form.outcome === "failure";
 
   const modeOptions = useMemo(
@@ -128,7 +127,7 @@ export default function ClimbForm({
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={["left", "right", "bottom"]}>
+    <SafeAreaView style={styles.container} edges={["left", "right"]}>
       <ScrollView
         style={styles.container}
         contentContainerStyle={{
@@ -231,13 +230,21 @@ export default function ClimbForm({
 
         <View style={styles.actionsRow}>
           {onDelete && (
-            <TouchableOpacity style={styles.deleteBtn} onPress={onDelete}>
+            <TouchableOpacity
+              style={styles.deleteBtn}
+              onPress={onDelete}
+              activeOpacity={0.7}
+            >
               <Text style={styles.deleteBtnText}>
                 {deleteLabel ?? i18n.t("form.deleteClimb")}
               </Text>
             </TouchableOpacity>
           )}
-          <TouchableOpacity style={styles.submitBtn} onPress={handleSubmit}>
+          <TouchableOpacity
+            style={[styles.submitBtn, !onDelete && styles.submitBtnFull]}
+            onPress={handleSubmit}
+            activeOpacity={0.8}
+          >
             <Text style={styles.submitBtnText}>
               {submitLabel ?? i18n.t("form.save")}
             </Text>
@@ -250,24 +257,46 @@ export default function ClimbForm({
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#0d0d0d" },
-  actionsRow: { flexDirection: "row", gap: 15 },
-  submitBtn: {
-    flex: 1,
-    backgroundColor: "#e85d04",
-    padding: 18,
-    borderRadius: 15,
+  errorText: { color: "#ef4444", textAlign: "center", marginTop: 15 },
+
+  actionsRow: {
+    flexDirection: "row",
+    gap: 12,
+    marginTop: 35,
     alignItems: "center",
-    marginTop: 30,
   },
-  submitBtnText: { color: "#fff", fontSize: 16, fontWeight: "bold" },
+
+  submitBtn: {
+    flex: 2,
+    backgroundColor: "#ffffff",
+    paddingVertical: 16,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  submitBtnFull: {
+    flex: 1,
+  },
+  submitBtnText: {
+    color: "#0d0d0d",
+    fontSize: 15,
+    fontWeight: "700",
+    letterSpacing: 0.3,
+  },
+
   deleteBtn: {
     flex: 1,
-    backgroundColor: "#ef4444",
-    padding: 18,
-    borderRadius: 15,
+    backgroundColor: "#1a1a1a",
+    paddingVertical: 16,
+    borderRadius: 14,
     alignItems: "center",
-    marginTop: 30,
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "#262626",
   },
-  deleteBtnText: { color: "#fff", fontSize: 16, fontWeight: "bold" },
-  errorText: { color: "#ef4444", textAlign: "center", marginTop: 15 },
+  deleteBtnText: {
+    color: "#ef4444",
+    fontSize: 15,
+    fontWeight: "600",
+  },
 });
