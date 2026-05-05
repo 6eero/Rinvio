@@ -22,7 +22,6 @@ async function initSchema(db: SQLite.SQLiteDatabase): Promise<void> {
       crag       TEXT    NOT NULL,
       routeName  TEXT    NOT NULL,
       grade      TEXT    NOT NULL,
-      length     REAL,
       outcome    TEXT    NOT NULL,
       attempts   INTEGER NOT NULL DEFAULT 1,
       mode       TEXT    NOT NULL,

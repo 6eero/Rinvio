@@ -8,7 +8,6 @@ export interface Climb {
   crag: string;
   routeName: string;
   grade: string;
-  length: number | null;
   outcome: ClimbOutcome;
   attempts: number;
   mode: ClimbMode;

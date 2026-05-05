@@ -62,15 +62,13 @@ export default function ClimbHome() {
         stickySectionHeadersEnabled={true}
         renderItem={({ item }) => <ClimbCard climb={item} />}
         renderSectionHeader={({ section: { title } }) => (
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>
-              {new Date(title).toLocaleDateString(i18n.locale, {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })}
-            </Text>
-          </View>
+          <Text style={styles.sectionTitle}>
+            {new Date(title).toLocaleDateString(i18n.locale, {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
+          </Text>
         )}
         contentContainerStyle={{ paddingBottom: 100 }}
         style={{ flex: 1 }}
@@ -93,12 +91,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#0d0d0d",
     paddingHorizontal: 16,
     paddingVertical: 12,
-
     marginTop: 0,
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  sectionLine: {
+    flex: 1,
+    height: 0.5,
+    backgroundColor: "rgba(232,93,4,0.3)",
   },
   sectionTitle: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginTop: 0,
     color: "#e85d04",
-    fontSize: 13,
+    fontSize: 10,
     fontWeight: "bold",
     letterSpacing: 1,
     textTransform: "uppercase",

@@ -1,7 +1,7 @@
 import i18n from "@/i18n";
 import { Climb } from "@/types/climb";
 import { router } from "expo-router";
-import { MapPin } from "lucide-react-native";
+import { MapPin, RotateCcw } from "lucide-react-native";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type Props = {
@@ -13,48 +13,102 @@ const OUTCOME_COLOR = {
   failure: "#dc2626",
 };
 
+const MODE_STYLE = {
+  onsight: {
+    textDark: "#5DCAA5",
+    bgDark: "rgba(93,202,165,0.1)",
+    label: "OS",
+  },
+  flash: {
+    textDark: "#85B7EB",
+    bgDark: "rgba(133,183,235,0.1)",
+    label: "FL",
+  },
+  redpoint: {
+    textDark: "#F0997B",
+    bgDark: "rgba(240,153,123,0.1)",
+    label: "RP",
+  },
+};
+
+function DifficultyDots({ value, max = 5 }: { value: number; max?: number }) {
+  return (
+    <View style={styles.dotsRow}>
+      {Array.from({ length: max }).map((_, i) => (
+        <View
+          key={i}
+          style={[
+            styles.dot,
+            i < value ? styles.dotFilledDark : styles.dotEmptyDark,
+          ]}
+        />
+      ))}
+    </View>
+  );
+}
+
 export default function ClimbCard({ climb }: Props) {
+  const modeInfo = MODE_STYLE[climb.mode] ?? {
+    textDark: "#B4B2A9",
+    label: climb.mode?.slice(0, 2).toUpperCase() ?? "—",
+  };
+
+  const pinColor = "#5F5E5A";
+
   return (
     <TouchableOpacity
       onPress={() => router.push(`/edit/${climb.id}`)}
-      style={[styles.card, { borderLeftColor: OUTCOME_COLOR[climb.outcome] }]}
-      activeOpacity={0.7}
+      style={styles.card}
+      activeOpacity={0.75}
     >
-      <View style={styles.mainContainer}>
-        {/* Sinistra: Grado e Mode */}
-        <View style={styles.gradeContainer}>
+      {/* Accent bar sinistra */}
+      <View
+        style={[
+          styles.accent,
+          { backgroundColor: OUTCOME_COLOR[climb.outcome] },
+        ]}
+      />
+
+      <View style={styles.inner}>
+        {/* Colonna grado + mode */}
+        <View style={styles.gradeCol}>
           <Text style={styles.gradeText}>{climb.grade}</Text>
-          <Text style={styles.miniTagText}>
-            {i18n.t(`options.mode.${climb.mode}`).toUpperCase()}
+          <Text
+            style={[
+              styles.modeTag,
+              { color: modeInfo.textDark, backgroundColor: modeInfo.bgDark },
+            ]}
+          >
+            {modeInfo.label}
           </Text>
         </View>
 
-        {/* Centro: Nome Via, Falesia e Style */}
-        <View style={styles.contentContainer}>
+        {/* Contenuto centrale */}
+        <View style={styles.content}>
           <View style={styles.titleRow}>
-            <Text style={styles.routeNameText} numberOfLines={1}>
+            <Text style={styles.routeName} numberOfLines={1}>
               {climb.routeName}
             </Text>
             <Text style={styles.styleLabel}>
-              • {i18n.t(`options.style.${climb.style}`)}
+              · {i18n.t(`options.style.${climb.style}`)}
             </Text>
           </View>
 
-          <View style={styles.subInfoRow}>
-            <MapPin size={12} color="#666" style={{ marginRight: 4 }} />
-            <Text style={styles.subInfoText} numberOfLines={1}>
-              {climb.crag} {climb.length ? `(${climb.length}m)` : ""}
+          <View style={styles.subRow}>
+            <MapPin size={11} color={pinColor} style={{ marginRight: 3 }} />
+            <Text style={styles.subText} numberOfLines={1}>
+              {climb.crag}
             </Text>
           </View>
         </View>
 
-        {/* Destra: Solo Stats (senza data) */}
-        <View style={styles.rightContainer}>
-          <View style={styles.statsBadge}>
-            <Text style={styles.statsText}>
-              {climb.attempts}t · {climb.difficulty}/10
-            </Text>
+        {/* Colonna destra: tentativi + difficoltà */}
+        <View style={styles.rightCol}>
+          <View style={styles.attemptsPill}>
+            <Text style={styles.attemptsText}>{climb.attempts}</Text>
+            <RotateCcw size={10} color="#888780" style={{ marginLeft: 4 }} />
           </View>
+          <DifficultyDots value={climb.difficulty} />
         </View>
       </View>
     </TouchableOpacity>
@@ -64,89 +118,96 @@ export default function ClimbCard({ climb }: Props) {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "#161616",
-    borderRadius: 10,
+    borderColor: "rgba(255,255,255,0.07)",
+    flexDirection: "row",
+    borderRadius: 12,
     marginHorizontal: 12,
     marginVertical: 4,
-    borderLeftWidth: 3,
-    position: "relative",
+    borderWidth: 0.5,
+    overflow: "hidden",
   },
-  mainContainer: {
+
+  accent: {
+    width: 4,
+    flexShrink: 0,
+  },
+
+  inner: {
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 8, // Ridotto ancora per compattezza
+    paddingVertical: 10,
     paddingHorizontal: 12,
+    gap: 12,
   },
-  gradeContainer: {
-    width: 55,
+
+  /* Grado */
+  gradeCol: {
+    borderRightColor: "rgba(255,255,255,0.07)",
+    minWidth: 44,
     alignItems: "center",
     justifyContent: "center",
-    borderRightWidth: 1,
-    borderRightColor: "#2a2a2a",
-    paddingRight: 8,
+    paddingRight: 12,
+    borderRightWidth: 0.5,
+    gap: 5,
   },
+
   gradeText: {
-    color: "#fff",
-    fontSize: 17,
+    color: "#ffffff",
+    fontSize: 20,
+    fontWeight: "600",
+    lineHeight: 22,
+  },
+
+  modeTag: {
+    fontSize: 9,
     fontWeight: "800",
+    letterSpacing: 0.8,
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+    borderRadius: 4,
   },
-  miniTagText: {
-    color: "#e85d04", // Colore brand per evidenziare Onsight/Flash/Redpoint
-    fontSize: 8,
-    fontWeight: "bold",
-    marginTop: 2,
+
+  modeTagText: {
+    fontSize: 9,
+    fontWeight: "700",
+    letterSpacing: 0.6,
   },
-  contentContainer: {
-    flex: 1,
-    paddingLeft: 10,
-  },
-  titleRow: {
-    flexDirection: "row",
-    alignItems: "baseline",
-    gap: 6,
-  },
-  routeNameText: {
-    color: "#fff",
+
+  /* Contenuto */
+  content: { flex: 1, gap: 3 },
+  titleRow: { flexDirection: "row", alignItems: "baseline", gap: 5 },
+
+  routeName: {
+    color: "#ffffff",
     fontSize: 14,
     fontWeight: "600",
+    flexShrink: 1,
   },
-  styleLabel: {
-    color: "#888",
-    fontSize: 10,
-    fontStyle: "italic",
-  },
-  subInfoRow: {
+
+  styleLabel: { color: "#5F5E5A", fontSize: 11, flexShrink: 0 },
+
+  subRow: { flexDirection: "row", alignItems: "center" },
+
+  subText: { color: "#5F5E5A", fontSize: 11 },
+
+  /* Destra */
+  rightCol: { alignItems: "flex-end", gap: 6, flexShrink: 0 },
+
+  attemptsPill: {
+    backgroundColor: "#262626",
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 2,
+    borderRadius: 6,
+    paddingHorizontal: 7,
+    paddingVertical: 2,
   },
-  subInfoText: {
-    color: "#666",
-    fontSize: 11,
-  },
-  rightContainer: {
-    alignItems: "flex-end",
-  },
-  dateText: {
-    color: "#444",
-    fontSize: 9,
-    marginBottom: 2,
-  },
-  statsBadge: {
-    backgroundColor: "#262626",
-    borderRadius: 4,
-    paddingHorizontal: 5,
-    paddingVertical: 1,
-  },
-  statsText: {
-    color: "#999",
-    fontSize: 10,
-    fontWeight: "500",
-  },
-  deleteAction: {
-    position: "absolute",
-    right: 8,
-    top: 0,
-    bottom: 0,
-    justifyContent: "center",
-  },
+
+  attemptsText: { color: "#888780", fontSize: 11, fontWeight: "600" },
+
+  /* Difficulty dots */
+  dotsRow: { flexDirection: "row", gap: 3 },
+  dot: { width: 6, height: 6, borderRadius: 3 },
+  dotFilledDark: { backgroundColor: "#B4B2A9" },
+  dotEmptyDark: { backgroundColor: "#2a2a2a" },
 });
