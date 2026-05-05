@@ -116,8 +116,8 @@ const styles = StyleSheet.create({
   sectionHeader: {
     backgroundColor: "#0d0d0d",
     paddingHorizontal: 16,
-    paddingVertical: 4,
-    marginTop: 20,
+    paddingBottom: 4,
+    paddingTop: 20,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
