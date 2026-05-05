@@ -5,8 +5,9 @@ import FieldTextArea from "@/components/Fields/FieldTextArea";
 import FieldTextInput from "@/components/Fields/FieldTextInput";
 import { FRENCH_GRADES, MODES, STYLES } from "@/constants/constants";
 import i18n from "@/i18n";
+import { useClimbsStore } from "@/store/useClimbsStore";
 import { ClimbInput } from "@/types/climb";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -23,12 +24,15 @@ export default function ClimbForm({
   onDelete,
   deleteLabel,
 }: {
-  initial?: Partial<ClimbInput>;
+  initial?: Partial<ClimbInput> & { id?: number };
   onSubmit: (data: ClimbInput) => void;
   submitLabel?: string;
   onDelete?: () => void;
   deleteLabel?: string;
 }) {
+  const isEdit = !!initial?.id;
+  const climbs = useClimbsStore((s) => s.climbs);
+
   const [form, setForm] = useState<ClimbInput>({
     date: initial?.date ?? new Date().toISOString().split("T")[0],
     crag: initial?.crag ?? "",
@@ -40,13 +44,27 @@ export default function ClimbForm({
     mode: initial?.mode ?? "redpoint",
     style: initial?.style ?? "lead",
     notes: initial?.notes ?? "",
-    length: null,
   });
   const [error, setError] = useState("");
 
   const updateField = useCallback((field: keyof ClimbInput, value: any) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   }, []);
+
+  const existingCragForDate = useMemo(() => {
+    if (isEdit) return null;
+    const climbOnSameDate = climbs.find((c) => c.date === form.date);
+    return climbOnSameDate ? climbOnSameDate.crag : null;
+  }, [form.date, climbs, isEdit]);
+
+  useEffect(() => {
+    if (existingCragForDate) {
+      updateField("crag", existingCragForDate);
+    }
+  }, [existingCragForDate, updateField]);
+
+  // La falesia è modificabile SOLO SE: non siamo in edit E non ci sono falesie già registrate in quella data
+  const isCragEditable = !isEdit && !existingCragForDate;
 
   const modeOptions = useMemo(
     () =>
@@ -115,6 +133,7 @@ export default function ClimbForm({
           label="form.date"
           value={new Date(form.date)}
           onChange={(d) => updateField("date", d.toISOString().split("T")[0])}
+          editable={!isEdit}
         />
 
         <FieldTextInput
@@ -122,6 +141,7 @@ export default function ClimbForm({
           placeholder="form.cragPlaceholder"
           value={form.crag}
           setValue={(value) => updateField("crag", value)}
+          editable={isCragEditable}
         />
 
         <FieldTextInput
@@ -197,11 +217,6 @@ export default function ClimbForm({
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
         <View style={styles.actionsRow}>
-          <TouchableOpacity style={styles.submitBtn} onPress={handleSubmit}>
-            <Text style={styles.submitBtnText}>
-              {submitLabel ?? i18n.t("form.save")}
-            </Text>
-          </TouchableOpacity>
           {onDelete && (
             <TouchableOpacity style={styles.deleteBtn} onPress={onDelete}>
               <Text style={styles.deleteBtnText}>
@@ -209,6 +224,11 @@ export default function ClimbForm({
               </Text>
             </TouchableOpacity>
           )}
+          <TouchableOpacity style={styles.submitBtn} onPress={handleSubmit}>
+            <Text style={styles.submitBtnText}>
+              {submitLabel ?? i18n.t("form.save")}
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>

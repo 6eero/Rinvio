@@ -1,6 +1,6 @@
 import i18n from "@/i18n";
 import DateTimePicker, {
-    DateTimePickerEvent,
+  DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import { useCallback, useState } from "react";
 import { Platform, Text, TouchableOpacity, View } from "react-native";
@@ -10,10 +10,12 @@ const FieldDatePicker = ({
   label,
   value,
   onChange,
+  editable = true,
 }: {
   label: string;
   value: Date;
   onChange: (date: Date) => void;
+  editable?: boolean;
 }) => {
   const [showPicker, setShowPicker] = useState(false);
 
@@ -30,7 +32,7 @@ const FieldDatePicker = ({
       <SectionLabel text={i18n.t(label)} />
       <TouchableOpacity
         style={{
-          backgroundColor: "#161616",
+          backgroundColor: editable ? "#161616" : "#1f1f1f",
           borderRadius: 12,
           padding: 10,
           borderWidth: 1,
@@ -38,10 +40,11 @@ const FieldDatePicker = ({
           marginBottom: 12,
         }}
         onPress={() => setShowPicker(true)}
+        disabled={!editable}
       >
         <Text
           style={{
-            color: "#fff",
+            color: editable ? "#fff" : "#888",
             fontSize: 16,
           }}
         >
@@ -52,6 +55,7 @@ const FieldDatePicker = ({
           })}
         </Text>
       </TouchableOpacity>
+
       {showPicker && (
         <DateTimePicker
           value={value}

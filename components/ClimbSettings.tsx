@@ -208,6 +208,16 @@ export default function ClimbSettings() {
 }
 
 const styles = StyleSheet.create({
+  sectionHeader: {
+    backgroundColor: "#0d0d0d",
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    marginTop: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 12,
+  },
   container: { flex: 1, backgroundColor: "#0d0d0d", paddingTop: 16 },
   scrollContent: { padding: 16, paddingBottom: 40 },
   mainTitle: {
@@ -220,11 +230,12 @@ const styles = StyleSheet.create({
   // Sezioni
   sectionContainer: { marginBottom: 32 },
   sectionTitle: {
-    color: "#e85d04",
-    fontSize: 12,
+    color: "#fff",
+    fontSize: 10,
     fontWeight: "bold",
-    marginBottom: 12,
     letterSpacing: 1,
+    textTransform: "uppercase",
+    marginBottom: 12,
   },
   sectionContent: {
     backgroundColor: "#161616",

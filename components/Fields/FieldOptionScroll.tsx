@@ -41,7 +41,7 @@ const FieldOptionScroll = <T extends string>({
           {content}
         </ScrollView>
       ) : (
-        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+        <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
           {content}
         </View>
       )}
