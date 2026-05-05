@@ -63,8 +63,10 @@ export default function ClimbForm({
     }
   }, [existingCragForDate, updateField]);
 
-  // La falesia è modificabile SOLO SE: non siamo in edit E non ci sono falesie già registrate in quella data
   const isCragEditable = !isEdit && !existingCragForDate;
+
+  // Variabile d'appoggio per capire se la salita è fallita
+  const isFailure = form.outcome === "failure";
 
   const modeOptions = useMemo(
     () =>
@@ -110,12 +112,19 @@ export default function ClimbForm({
   const handleSubmit = () => {
     if (!validate()) return;
     setError("");
-    onSubmit({
+
+    const cleanForm: ClimbInput = {
       ...form,
       crag: form.crag.trim(),
       routeName: form.routeName.trim(),
       notes: form.notes?.trim() || "",
-    });
+      ...(isFailure && {
+        mode: "redpoint" as const,
+        difficulty: 5,
+      }),
+    };
+
+    onSubmit(cleanForm);
   };
 
   return (
@@ -160,6 +169,20 @@ export default function ClimbForm({
         />
 
         <FieldOptionScroll
+          label="form.style"
+          value={form.style}
+          onChange={(v) => updateField("style", v)}
+          options={styleOptions}
+        />
+
+        <FieldCounter
+          label="form.attempts"
+          value={form.attempts}
+          onChange={(v) => updateField("attempts", v)}
+          min={1}
+        />
+
+        <FieldOptionScroll
           label="form.outcome"
           value={form.outcome}
           onChange={(value) => updateField("outcome", value)}
@@ -179,33 +202,23 @@ export default function ClimbForm({
           ]}
         />
 
-        <FieldCounter
-          label="form.attempts"
-          value={form.attempts}
-          onChange={(v) => updateField("attempts", v)}
-          min={1}
-        />
+        {!isFailure && (
+          <>
+            <FieldOptionScroll
+              label="form.mode"
+              value={form.mode}
+              onChange={(v) => updateField("mode", v)}
+              options={modeOptions}
+            />
 
-        <FieldOptionScroll
-          label="form.mode"
-          value={form.mode}
-          onChange={(v) => updateField("mode", v)}
-          options={modeOptions}
-        />
-
-        <FieldOptionScroll
-          label="form.style"
-          value={form.style}
-          onChange={(v) => updateField("style", v)}
-          options={styleOptions}
-        />
-
-        <FieldOptionScroll
-          label="form.difficulty"
-          value={String(form.difficulty)}
-          onChange={(v) => updateField("difficulty", Number(v))}
-          options={difficultyOptions}
-        />
+            <FieldOptionScroll
+              label="form.difficulty"
+              value={String(form.difficulty)}
+              onChange={(v) => updateField("difficulty", Number(v))}
+              options={difficultyOptions}
+            />
+          </>
+        )}
 
         <FieldTextArea
           label="form.notes"

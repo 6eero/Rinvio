@@ -88,7 +88,7 @@ export default function ClimbHome() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#0d0d0d", paddingTop: 16 },
+  container: { flex: 1, backgroundColor: "#0d0d0d" },
   center: { flex: 1, justifyContent: "center", alignItems: "center", gap: 12 },
   addButton: {
     backgroundColor: "#e85d04",

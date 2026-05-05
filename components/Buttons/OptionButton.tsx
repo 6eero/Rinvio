@@ -16,8 +16,8 @@ const OptionButton = ({ label, selected, onPress, color }: any) => {
           marginBottom: 12,
         },
         selected && {
-          backgroundColor: color ?? "#e85d04",
-          borderColor: color ?? "#e85d04",
+          backgroundColor: color ?? "#474747",
+          borderColor: color ?? "#505050",
         },
       ]}
     >
