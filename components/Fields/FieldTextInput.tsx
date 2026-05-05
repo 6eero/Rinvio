@@ -16,7 +16,11 @@ const FieldTextInput = ({
   editable?: boolean;
 }) => {
   return (
-    <View>
+    <View
+      style={{
+        marginVertical: 12,
+      }}
+    >
       <SectionLabel text={i18n.t(label)} />
       <TextInput
         style={{
@@ -27,7 +31,6 @@ const FieldTextInput = ({
           fontSize: 16,
           borderWidth: 1,
           borderColor: "#202020",
-          marginBottom: 12,
         }}
         value={value}
         onChangeText={setValue}

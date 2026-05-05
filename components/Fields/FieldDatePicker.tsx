@@ -28,7 +28,11 @@ const FieldDatePicker = ({
   );
 
   return (
-    <View>
+    <View
+      style={{
+        marginVertical: 12,
+      }}
+    >
       <SectionLabel text={i18n.t(label)} />
       <TouchableOpacity
         style={{
@@ -37,7 +41,6 @@ const FieldDatePicker = ({
           padding: 10,
           borderWidth: 1,
           borderColor: "#202020",
-          marginBottom: 12,
         }}
         onPress={() => setShowPicker(true)}
         disabled={!editable}

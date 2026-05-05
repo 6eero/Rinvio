@@ -34,7 +34,11 @@ const FieldOptionScroll = <T extends string>({
   ));
 
   return (
-    <View style={{ marginBottom: 15 }}>
+    <View
+      style={{
+        marginVertical: 12,
+      }}
+    >
       <SectionLabel text={i18n.t(label)} />
       {useScroll ? (
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>

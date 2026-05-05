@@ -14,7 +14,11 @@ const FieldTextArea = ({
   onChange: (text: string) => void;
 }) => {
   return (
-    <View>
+    <View
+      style={{
+        marginVertical: 12,
+      }}
+    >
       <SectionLabel text={i18n.t(label)} />
       <TextInput
         style={{
@@ -25,7 +29,6 @@ const FieldTextArea = ({
           fontSize: 16,
           borderWidth: 1,
           borderColor: "#202020",
-          marginBottom: 12,
           minHeight: 100,
           textAlignVertical: "top",
         }}

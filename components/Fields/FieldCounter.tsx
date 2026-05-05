@@ -14,14 +14,17 @@ const FieldCounter = ({
   min?: number;
 }) => {
   return (
-    <View>
+    <View
+      style={{
+        marginVertical: 12,
+      }}
+    >
       <SectionLabel text={i18n.t(label)} />
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
           gap: 10,
-          marginBottom: 12,
         }}
       >
         <TouchableOpacity

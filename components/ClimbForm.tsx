@@ -129,7 +129,6 @@ export default function ClimbForm({
   return (
     <SafeAreaView style={styles.container} edges={["left", "right"]}>
       <ScrollView
-        style={styles.container}
         contentContainerStyle={{
           padding: 16,
           paddingTop: 0,
@@ -257,13 +256,13 @@ export default function ClimbForm({
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#0d0d0d" },
-  errorText: { color: "#ef4444", textAlign: "center", marginTop: 15 },
+  errorText: { color: "#ef4444", textAlign: "center" },
 
   actionsRow: {
     flexDirection: "row",
     gap: 12,
-    marginTop: 35,
     alignItems: "center",
+    marginTop: 10,
   },
 
   submitBtn: {

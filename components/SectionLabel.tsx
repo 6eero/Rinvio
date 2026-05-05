@@ -7,7 +7,6 @@ const SectionLabel = ({ text }: { text: string }) => (
       fontSize: 12,
       fontWeight: "700",
       marginBottom: 10,
-      marginTop: 20,
       letterSpacing: 1,
     }}
   >
