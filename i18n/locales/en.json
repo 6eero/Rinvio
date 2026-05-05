@@ -1,6 +1,7 @@
 {
   "tabs": {
     "climbs": "My climbs",
+    "analytics": "Analytics",
     "add": "Add",
     "stats": "Progress",
     "settings": "Settings"
@@ -11,6 +12,15 @@
     "loading": "Loading...",
     "empty": "No climbs yet",
     "addFirst": "Add your first!"
+  },
+  "analytics": {
+    "title": "Analytics",
+    "totalClimbs": "Total Climbs",
+    "maxLeadGrade": "Max Lead Grade",
+    "successRate": "Success Rate",
+    "favoriteCrag": "Favorite Crag",
+    "avgAttempts": "Avg Attempts",
+    "closedClimbs": "Sent Climbs"
   },
   "card": {
     "deleteTitle": "Delete climb",
@@ -84,7 +94,7 @@
     "clearMessage": "Are you sure you want to delete all records?",
     "clearConfirm": "Clear",
     "cancel": "Cancel",
-    "databaseSettings": "Database Settings ({{count}} rows)"
+    "databaseSettings": "Database Settings"
   },
   "backup": {
     "exportError": "Unable to export database",

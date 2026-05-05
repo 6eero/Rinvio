@@ -76,53 +76,21 @@ export default function ClimbSettings() {
   return (
     <SafeAreaView style={styles.container} edges={["left", "right", "bottom"]}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <SettingSection title={i18n.t("settings.databaseSettings", { count })}>
-          <View style={styles.tableWrapper}>
-            {rows.length === 0 ? (
-              <Text style={styles.emptyText}>
-                {i18n.t("settings.noRecords")}
-              </Text>
-            ) : (
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <View>
-                  <View style={styles.tableHeader}>
-                    {COLUMNS.map((col) => (
-                      <Text
-                        key={col.key}
-                        style={[styles.headerCell, { width: col.width }]}
-                      >
-                        {col.label}
-                      </Text>
-                    ))}
-                  </View>
-                  <View style={{ height: 200 }}>
-                    <ScrollView
-                      nestedScrollEnabled={true}
-                      style={styles.tableBody}
-                    >
-                      {rows.map((row, i) => (
-                        <View
-                          key={row.id}
-                          style={[styles.row, i === 0 && { borderTopWidth: 0 }]}
-                        >
-                          {COLUMNS.map((col) => (
-                            <Text
-                              key={col.key}
-                              style={[styles.cell, { width: col.width }]}
-                              numberOfLines={1}
-                            >
-                              {row[col.key]?.toString() ?? "—"}
-                            </Text>
-                          ))}
-                        </View>
-                      ))}
-                    </ScrollView>
-                  </View>
-                </View>
-              </ScrollView>
-            )}
+        {/* --- SEZIONE 2: PREFERENZE --- */}
+        <SettingSection title={i18n.t("settings.preferences")}>
+          <View style={styles.listRow}>
+            <Text style={styles.listLabel}>{i18n.t("settings.language")}</Text>
+            <Text style={styles.listValue}>{i18n.locale.toUpperCase()}</Text>
           </View>
 
+          <View style={styles.listRow}>
+            <Text style={styles.listLabel}>{i18n.t("settings.theme")}</Text>
+            <Text style={styles.listValue}>Dark</Text>
+          </View>
+        </SettingSection>
+
+        {/* DATABASE SETTINGS */}
+        <SettingSection title={i18n.t("settings.databaseSettings")}>
           <View style={styles.grid}>
             {[
               {
@@ -160,19 +128,6 @@ export default function ClimbSettings() {
           </View>
         </SettingSection>
 
-        {/* --- SEZIONE 2: PREFERENZE --- */}
-        <SettingSection title={i18n.t("settings.preferences")}>
-          <View style={styles.listRow}>
-            <Text style={styles.listLabel}>{i18n.t("settings.language")}</Text>
-            <Text style={styles.listValue}>{i18n.locale.toUpperCase()}</Text>
-          </View>
-
-          <View style={styles.listRow}>
-            <Text style={styles.listLabel}>{i18n.t("settings.theme")}</Text>
-            <Text style={styles.listValue}>Dark</Text>
-          </View>
-        </SettingSection>
-
         {/* --- SEZIONE 3: INFO APP --- */}
         <SettingSection title={i18n.t("settings.about")}>
           <View
@@ -194,7 +149,7 @@ export default function ClimbSettings() {
               <Text
                 style={[
                   styles.listValue,
-                  { color: "#e85d04", textDecorationLine: "underline" },
+                  { color: "#fff", textDecorationLine: "underline" },
                 ]}
               >
                 6eero

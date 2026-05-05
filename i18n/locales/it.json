@@ -1,6 +1,7 @@
 {
   "tabs": {
     "climbs": "Le mie salite",
+    "analytics": "Analisi",
     "add": "Aggiungi",
     "stats": "Progressi",
     "settings": "Settings"
@@ -11,6 +12,15 @@
     "loading": "Caricamento...",
     "empty": "Nessuna salita ancora",
     "addFirst": "Aggiungi la prima!"
+  },
+  "analytics": {
+    "title": "Analisi",
+    "totalClimbs": "Totale Salite",
+    "maxLeadGrade": "Grado massimo lead",
+    "successRate": "Tasso di Successo",
+    "favoriteCrag": "Falesia preferita",
+    "avgAttempts": "Media Tentativi",
+    "closedClimbs": "Salite chiuse"
   },
   "card": {
     "deleteTitle": "Elimina salita",
@@ -85,7 +95,7 @@
     "clearMessage": "Sei sicuro di voler eliminare tutti i record?",
     "clearConfirm": "Svuota",
     "cancel": "Annulla",
-    "databaseSettings": "Impostazioni database ({{count}} righe)",
+    "databaseSettings": "Impostazioni database",
     "version": "Versione dell'app",
     "preferences": "Preferenze",
     "language": "Lingua",

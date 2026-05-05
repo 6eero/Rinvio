@@ -2,7 +2,7 @@ import { HapticTab } from "@/components/HapticTab";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import i18n from "@/i18n";
 import { Tabs } from "expo-router";
-import { Database, List, PlusCircle } from "lucide-react-native";
+import { ChartSpline, Database, List, PlusCircle } from "lucide-react-native";
 import { Colors } from "../../constants/theme";
 
 export default function NavBar() {
@@ -50,6 +50,16 @@ export default function NavBar() {
           title: i18n.t("tabs.add"),
           tabBarIcon: ({ color }) => (
             <PlusCircle size={24} color={color} strokeWidth={2} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="analytics"
+        options={{
+          title: i18n.t("tabs.analytics"),
+          tabBarIcon: ({ color }) => (
+            <ChartSpline size={24} color={color} strokeWidth={2} />
           ),
         }}
       />
