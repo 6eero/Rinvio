@@ -7,7 +7,27 @@ import Badge from "./Badge/Badge";
 import DotRating from "./Indicators/DotRating";
 
 export default function ClimbCard({ climb }: { climb: Climb }) {
-  const isFailure = climb.outcome === "failure";
+  const getModeBadgeProps = (climb: Climb) => {
+    if (climb.outcome === "failure") {
+      return {
+        text: i18n.t("options.outcome.failure").toUpperCase(),
+        badgeColor: "#EF44441A",
+        textColor: "#c09b9b",
+      };
+    }
+    if (climb.outcome === "hangdog") {
+      return {
+        text: i18n.t("options.outcome.hangdog").toUpperCase(),
+        badgeColor: "#efa5441a",
+        textColor: "#c0a88a",
+      };
+    }
+    return {
+      text: i18n.t(`options.mode.${climb.mode}`).toUpperCase(),
+      badgeColor: "#44efc41a",
+      textColor: "#a5c09b",
+    };
+  };
 
   return (
     <TouchableOpacity
@@ -92,15 +112,7 @@ export default function ClimbCard({ climb }: { climb: Climb }) {
               text={i18n.t(`options.style.${climb.style}`).toUpperCase()}
             />
 
-            {isFailure ? (
-              <Badge text={"FAIL"} badgeColor="#EF44441A" textColor="#c09b9b" />
-            ) : (
-              <Badge
-                text={i18n.t(`options.mode.${climb.mode}`).toUpperCase()}
-                badgeColor="#44efc41a"
-                textColor="#a5c09b"
-              />
-            )}
+            <Badge {...getModeBadgeProps(climb)} />
           </View>
         </View>
 

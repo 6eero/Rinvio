@@ -1,4 +1,4 @@
-export type ClimbOutcome = "success" | "failure";
+export type ClimbOutcome = "success" | "failure" | "hangdog";
 export type ClimbMode = "onsight" | "flash" | "redpoint";
 export type ClimbStyle = "lead" | "follow";
 

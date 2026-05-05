@@ -16,29 +16,28 @@ const FieldOptionScroll = <T extends string>({
   value,
   onChange,
   useScroll = false,
+  disabled = false,
 }: {
   label: string;
   options: Option<T>[];
   value: T;
   onChange: (value: T) => void;
   useScroll?: boolean;
+  disabled?: boolean;
 }) => {
   const content = options.map((opt) => (
     <OptionButton
       key={opt.value}
       label={opt.isKey ? i18n.t(opt.label) : opt.label}
       selected={value === opt.value}
-      onPress={() => onChange(opt.value)}
+      onPress={() => !disabled && onChange(opt.value)}
       color={opt.color}
+      disabled={disabled}
     />
   ));
 
   return (
-    <View
-      style={{
-        marginVertical: 12,
-      }}
-    >
+    <View style={{ marginVertical: 12 }}>
       <SectionLabel text={i18n.t(label)} />
       {useScroll ? (
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>

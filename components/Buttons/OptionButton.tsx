@@ -1,9 +1,22 @@
 import { Text, TouchableOpacity } from "react-native";
 
-const OptionButton = ({ label, selected, onPress, color }: any) => {
+const OptionButton = ({
+  label,
+  selected,
+  onPress,
+  color,
+  disabled = false,
+}: {
+  label: string;
+  selected: boolean;
+  onPress: () => void;
+  color?: string;
+  disabled?: boolean;
+}) => {
   return (
     <TouchableOpacity
       onPress={onPress}
+      disabled={disabled}
       style={[
         {
           paddingHorizontal: 14,
@@ -13,6 +26,7 @@ const OptionButton = ({ label, selected, onPress, color }: any) => {
           borderWidth: 1,
           borderColor: "#202020",
           marginRight: 8,
+          opacity: disabled ? 0.4 : 1,
         },
         selected && {
           backgroundColor: color ?? "#474747",

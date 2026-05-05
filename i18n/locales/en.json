@@ -111,8 +111,9 @@
   },
   "options": {
     "outcome": {
-      "success": "✓ Sent",
-      "failure": "✗ Failed"
+      "success": "Sent",
+      "hangdog": "Hangdog",
+      "failure": "Failed"
     },
     "mode": {
       "onsight": "Onsight",

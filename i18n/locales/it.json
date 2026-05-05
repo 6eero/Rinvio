@@ -43,7 +43,7 @@
     "outcomeSuccess": "✓  Superata",
     "outcomeFailure": "✗  Fallita",
     "attempts": "Numero Tentativi",
-
+    "style": "Stile",
     "modeOnsight": "Onsight",
     "modeFlash": "Flash",
     "modeRedpoint": "Red Point",
@@ -118,8 +118,9 @@
   },
   "options": {
     "outcome": {
-      "success": "✓ Superata",
-      "failure": "✗ Fallita"
+      "success": "Liberata",
+      "hangdog": "Lavorata",
+      "failure": "Abbandonata"
     },
     "mode": {
       "onsight": "Onsight",

@@ -7,38 +7,40 @@ const FieldCounter = ({
   value,
   onChange,
   min = 1,
+  disabled = false,
 }: {
   label: string;
   value: number;
   onChange: (value: number) => void;
   min?: number;
+  disabled?: boolean;
 }) => {
   return (
-    <View
-      style={{
-        marginVertical: 12,
-      }}
-    >
+    <View style={{ marginVertical: 12 }}>
       <SectionLabel text={i18n.t(label)} />
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          gap: 10,
-        }}
-      >
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
         <TouchableOpacity
-          style={styles.btn}
-          onPress={() => onChange(Math.max(min, value - 1))}
+          style={[styles.btn, disabled && styles.btnDisabled]}
+          onPress={() => !disabled && onChange(Math.max(min, value - 1))}
+          disabled={disabled}
         >
-          <Text style={styles.btnText}>−</Text>
+          <Text style={[styles.btnText, disabled && styles.textDisabled]}>
+            −
+          </Text>
         </TouchableOpacity>
-        <Text style={styles.value}>{value}</Text>
+
+        <Text style={[styles.value, disabled && styles.textDisabled]}>
+          {value}
+        </Text>
+
         <TouchableOpacity
-          style={styles.btn}
-          onPress={() => onChange(value + 1)}
+          style={[styles.btn, disabled && styles.btnDisabled]}
+          onPress={() => !disabled && onChange(value + 1)}
+          disabled={disabled}
         >
-          <Text style={styles.btnText}>+</Text>
+          <Text style={[styles.btnText, disabled && styles.textDisabled]}>
+            +
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -56,9 +58,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  btnDisabled: {
+    backgroundColor: "#1f1f1f",
+    borderColor: "#1a1a1a",
+  },
   btnText: {
     color: "#fff",
     fontSize: 16,
+  },
+  textDisabled: {
+    color: "#555",
   },
   value: {
     color: "#fff",
