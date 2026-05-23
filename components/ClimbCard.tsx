@@ -9,108 +9,65 @@ import DotRating from "./Indicators/DotRating";
 export default function ClimbCard({ climb }: { climb: Climb }) {
   const isFailed =
     climb.mode === "lead_failure" || climb.mode === "follow_failure";
+
   return (
     <TouchableOpacity
       onPress={() => router.push(`/edit/${climb.id}`)}
+      activeOpacity={0.8}
       style={{
-        backgroundColor: "#161616",
-        borderColor: "rgba(255,255,255,0.07)",
         flexDirection: "row",
-        borderRadius: 12,
-        marginHorizontal: 12,
-        marginVertical: 4,
-        borderWidth: 0.5,
-        overflow: "hidden",
+        alignItems: "center",
+        padding: 10,
       }}
-      activeOpacity={0.75}
     >
+      {/* Voto (Grade) - Stile "Tabellino" */}
       <View
         style={{
-          flex: 1,
-          flexDirection: "row",
+          backgroundColor: "#252525",
+          padding: 8,
+          borderRadius: 8,
+          minWidth: 50,
           alignItems: "center",
-          paddingVertical: 0,
-          paddingRight: 12,
-          gap: 14,
+          marginRight: 16,
         }}
       >
-        {/* LEFT */}
-        <View
+        <Text
           style={{
-            backgroundColor: "#1f1f1f",
-            borderRightColor: "rgba(255,255,255,0.08)",
-            borderRightWidth: 0.5,
-            minWidth: 54,
-            alignSelf: "stretch",
-            alignItems: "center",
-            justifyContent: "center",
-            paddingHorizontal: 8,
-            paddingVertical: 14,
+            color: "#fff",
+            fontSize: 16,
+            fontWeight: "800",
+            fontFamily: "monospace",
           }}
         >
-          <Text
-            style={{
-              color: "#ffffff",
-              fontSize: 21,
-              fontWeight: "700",
-              fontFamily: "monospace",
-              letterSpacing: -0.5,
-            }}
-          >
-            {climb.grade}
-          </Text>
-        </View>
+          {climb.grade}
+        </Text>
+      </View>
 
-        {/* CENTER */}
-        <View
-          style={{
-            flex: 1,
-            gap: 5,
-            paddingVertical: 12,
-          }}
+      {/* Info Centrali */}
+      <View style={{ flex: 1, gap: 4 }}>
+        <Text
+          style={{ color: "#f0f0f0", fontSize: 16, fontWeight: "600" }}
+          numberOfLines={1}
         >
-          <Text
-            style={{
-              color: "#ffffff",
-              fontSize: 14,
-              fontWeight: "600",
-              flexShrink: 1,
-            }}
-            numberOfLines={1}
-          >
-            {climb.route}
-          </Text>
-
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 6,
-            }}
-          >
-            <Badge
-              text={i18n.t(`options.style.${climb.style}`).toUpperCase()}
-            />
-            <Badge
-              text={i18n.t(`options.mode.${climb.mode}`).toUpperCase()}
-              badgeColor={isFailed ? "#ff4b4b20" : "#a8ff4b20"}
-              textColor={isFailed ? "#ffc9c9" : "#d6ffc9"}
-            />
-          </View>
+          {climb.route}
+        </Text>
+        <View style={{ flexDirection: "row", gap: 8 }}>
+          <Badge text={i18n.t(`options.style.${climb.style}`).toUpperCase()} />
+          <Badge
+            text={i18n.t(`options.mode.${climb.mode}`).toUpperCase()}
+            badgeColor={isFailed ? "#4a2a2a" : "#2a4a2a"}
+            textColor={isFailed ? "#ffaaaa" : "#aaffaa"}
+          />
         </View>
+      </View>
 
-        {/* RIGHT */}
-        <View
-          style={{
-            alignItems: "flex-end",
-            gap: 6,
-            flexShrink: 0,
-            paddingVertical: 12,
-          }}
-        >
-          <Badge text={climb.attempts.toString()} icon={<RotateCcw />} />
-          <DotRating value={climb.difficulty} />
+      {/* Indicatori a destra */}
+      <View style={{ alignItems: "flex-end", gap: 6 }}>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+          <RotateCcw size={14} color="#888" />
+          <Text style={{ color: "#888", fontSize: 12 }}>{climb.attempts}</Text>
         </View>
+        <DotRating value={climb.difficulty} />
       </View>
     </TouchableOpacity>
   );

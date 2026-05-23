@@ -14,6 +14,7 @@ export default function HomeScreen() {
         flex: 1,
         backgroundColor: "#151718",
         paddingTop: insets.top,
+        paddingBottom: 60,
       }}
     >
       <PageTitle title={i18n.t("home.title")} />

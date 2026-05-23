@@ -7,6 +7,7 @@ type BadgeProps = {
   icon?: React.ReactNode;
   badgeColor?: string;
   textColor?: string;
+  rounded?: boolean;
 };
 
 const Badge = ({
@@ -14,14 +15,17 @@ const Badge = ({
   fontSize = 8,
   icon,
   badgeColor = "#252525",
-  textColor = "#a3a3a3",
+  textColor = "#c4c4c4",
+  rounded = false,
 }: BadgeProps) => {
   return (
     <View
       style={{
-        paddingHorizontal: 6,
-        paddingVertical: 3,
-        borderRadius: 4,
+        paddingHorizontal: rounded ? 0 : 6,
+        paddingVertical: rounded ? 0 : 3,
+        borderRadius: rounded ? "100%" : 4,
+        aspectRatio: rounded ? 1 : undefined,
+        height: rounded ? 20 : undefined,
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: badgeColor,
