@@ -26,7 +26,10 @@
     "completionRateLead": "% Lead Chiuse",
     "avgAttemptsLead": "Media Tentativi Lead",
     "maxLeadGrade": "Grado Massimo",
-    "favoriteCrag": "Falesia Preferita"
+    "favoriteCrag": "Falesia Preferita",
+    "calendar": {
+      "title": "Calendario {{year}}"
+    }
   },
   "card": {
     "deleteTitle": "Elimina salita",

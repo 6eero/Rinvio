@@ -6,6 +6,7 @@ import { Climb } from "@/types/climb";
 import React, { useEffect, useMemo } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import ActivityCalendar from "./Analytics/ActivityCalendar";
 
 export default function ClimbAnalytics() {
   const climbs = useClimbsStore((s) => s.climbs);
@@ -18,6 +19,8 @@ export default function ClimbAnalytics() {
 
   const global = useMemo(() => getGlobalStats(climbs), [climbs]);
   const lead = useMemo(() => getLeadStats(climbs), [climbs]);
+
+  const currentYear = new Date().getFullYear();
 
   if (!climbs.length) {
     return (
@@ -38,6 +41,16 @@ export default function ClimbAnalytics() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
+        {/* ── CALENDAR ── */}
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>
+            {i18n.t("analytics.calendar.title", { year: currentYear })}
+          </Text>
+        </View>
+        <View style={{ marginBottom: 20 }}>
+          <ActivityCalendar climbs={climbs} />
+        </View>
+
         {/* ── GLOBALI ── */}
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>
