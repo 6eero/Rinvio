@@ -108,8 +108,26 @@ export async function importDatabase(): Promise<void> {
 }
 
 export async function clearDatabase(): Promise<void> {
+  const confirmed = await new Promise<boolean>((resolve) => {
+    Alert.alert(
+      "Elimina database",
+      "Tutti i dati verranno eliminati definitivamente. Continuare?",
+      [
+        { text: "Annulla", style: "cancel", onPress: () => resolve(false) },
+        { text: "Elimina", style: "destructive", onPress: () => resolve(true) },
+      ],
+    );
+  });
+
+  if (!confirmed) return;
+
   const db = await getDatabase();
   await db.closeAsync();
   resetDatabase();
   await FileSystem.deleteAsync(getDbPath(), { idempotent: true });
+
+  Alert.alert(
+    "Database eliminato",
+    "Riavvia l'app per applicare le modifiche.",
+  );
 }
