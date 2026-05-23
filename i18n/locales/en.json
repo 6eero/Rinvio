@@ -15,12 +15,18 @@
   },
   "analytics": {
     "title": "Analytics",
-    "totalLead": "Total Lead Climbs",
-    "maxLeadGrade": "Max Lead Grade",
-    "completionRateLead": "Lead Completion Rate",
-    "favoriteCrag": "Favorite Crag",
+    "empty": "No data to analyze",
+    "globalTitle": "Global",
+    "leadTitle": "Lead",
+    "total": "Total Climbs",
+    "successRate": "Success Rate",
+    "avgAttempts": "Avg Attempts",
+    "totalLead": "Total Lead",
+    "closedLead": "Closed Climbs",
+    "completionRateLead": "Lead Close Rate",
     "avgAttemptsLead": "Avg Lead Attempts",
-    "closedLead": "Closed Lead Climbs"
+    "maxLeadGrade": "Max Grade",
+    "favoriteCrag": "Favorite Crag"
   },
   "card": {
     "deleteTitle": "Delete climb",

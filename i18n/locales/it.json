@@ -15,12 +15,18 @@
   },
   "analytics": {
     "title": "Analisi",
-    "totalLead": "Totale Salite Lead",
-    "maxLeadGrade": "Grado Max Lead",
-    "completionRateLead": "Lead Close Rate",
-    "favoriteCrag": "Falesia Preferita",
+    "empty": "Nessun dato da analizzare",
+    "globalTitle": "Globale",
+    "leadTitle": "Lead",
+    "total": "Totale Salite",
+    "successRate": "Tasso di Successo",
+    "avgAttempts": "Media Tentativi",
+    "totalLead": "Totale Lead",
+    "closedLead": "Salite Chiuse",
+    "completionRateLead": "% Lead Chiuse",
     "avgAttemptsLead": "Media Tentativi Lead",
-    "closedLead": "Salite Chiuse Lead"
+    "maxLeadGrade": "Grado Massimo",
+    "favoriteCrag": "Falesia Preferita"
   },
   "card": {
     "deleteTitle": "Elimina salita",
