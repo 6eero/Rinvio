@@ -1,13 +1,19 @@
+import { DB_NAME } from "@/constants/constants";
+import * as FileSystem from "expo-file-system/legacy";
 import * as SQLite from "expo-sqlite";
 
 let db: SQLite.SQLiteDatabase | null = null;
 
 export async function getDatabase(): Promise<SQLite.SQLiteDatabase> {
   if (!db) {
-    db = await SQLite.openDatabaseAsync("climbing.db");
+    db = await SQLite.openDatabaseAsync(DB_NAME);
     await initSchema(db);
   }
   return db;
+}
+
+export function getDbPath(): string {
+  return `${FileSystem.documentDirectory}SQLite/${DB_NAME}`;
 }
 
 export function resetDatabase(): void {

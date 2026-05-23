@@ -1,3 +1,5 @@
+import { CSV_COLUMNS } from "@/constants/constants";
+
 export type ClimbStyle = "lead" | "follow";
 export type ClimbMode =
   | "lead_onsight"
@@ -22,3 +24,5 @@ export interface Climb {
 }
 
 export type ClimbInput = Omit<Climb, "id">;
+
+export type ClimbRow = Record<(typeof CSV_COLUMNS)[number], unknown>;

@@ -101,6 +101,8 @@
     "clear": "Clear",
     "export": "Export",
     "import": "Import",
+    "exportAsCSV": "Export come CSV",
+    "importAsCSV": "Import come CSV",
     "clearTitle": "Svuota DB",
     "clearMessage": "Sei sicuro di voler eliminare tutti i record?",
     "clearConfirm": "Svuota",
@@ -111,7 +113,37 @@
     "language": "Lingua",
     "theme": "Tema",
     "about": "Informazioni su Rinvio",
-    "developed_by": "Sviluppato da"
+    "developed_by": "Sviluppato da",
+    "alert": {
+      "export": {
+        "noDataTitle": "Nessun dato",
+        "noDataMsg": "Non ci sono salite da esportare.",
+        "errorSharingTitle": "Errore",
+        "errorSharingMsg": "La condivisione non è disponibile su questo dispositivo",
+        "dialogTitle": "Esporta salite come CSV",
+        "errorTitle": "Errore",
+        "errorMsg": "Impossibile esportare i dati in CSV."
+      },
+      "import": {
+        "confirmTitle": "Importa CSV",
+        "confirmMsg": "Tutti i dati attuali verranno sostituiti con quelli del file CSV. Continuare?",
+        "btnCancel": "Annulla",
+        "btnImport": "Importa",
+        "successTitle": "Importazione completata",
+        "successMsgSingular": "salita importata con successo.",
+        "successMsgPlural": "salite importate con successo.",
+        "errorTitle": "Errore importazione",
+        "errorDefaultMsg": "Impossibile importare il CSV."
+      },
+      "clear": {
+        "confirmTitle": "Elimina database",
+        "confirmMsg": "Tutti i dati verranno eliminati definitivamente. Continuare?",
+        "btnCancel": "Annulla",
+        "btnDelete": "Elimina",
+        "successTitle": "Database eliminato",
+        "successMsg": "Riavvia l'app per applicare le modifiche."
+      }
+    }
   },
   "backup": {
     "exportError": "Impossibile esportare il database",

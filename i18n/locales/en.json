@@ -49,10 +49,11 @@
     "outcomeSuccess": "✓  Sent",
     "outcomeFailure": "✗  Failed",
     "attempts": "Number of attempts",
+    "style": "Style",
+    "Style": "Style",
     "modeOnsight": "Onsight",
     "modeFlash": "Flash",
     "modeRedpoint": "Red Point",
-    "style": "Style",
     "mode": "Mode",
     "difficulty": "Perceived difficulty",
     "notes": "Notes (optional)",
@@ -100,11 +101,49 @@
     "clear": "Clear",
     "export": "Export",
     "import": "Import",
+    "exportAsCSV": "Export as CSV",
+    "importAsCSV": "Import as CSV",
     "clearTitle": "Clear DB",
     "clearMessage": "Are you sure you want to delete all records?",
     "clearConfirm": "Clear",
     "cancel": "Cancel",
-    "databaseSettings": "Database Settings"
+    "databaseSettings": "Database Settings",
+    "version": "App version",
+    "preferences": "Preferences",
+    "language": "Language",
+    "theme": "Theme",
+    "about": "About Rinvio",
+    "developed_by": "Developed by",
+    "alert": {
+      "export": {
+        "noDataTitle": "No data",
+        "noDataMsg": "There are no climbs to export.",
+        "errorSharingTitle": "Error",
+        "errorSharingMsg": "Sharing is not available on this device",
+        "dialogTitle": "Export climbs as CSV",
+        "errorTitle": "Error",
+        "errorMsg": "Unable to export data as CSV."
+      },
+      "import": {
+        "confirmTitle": "Import CSV",
+        "confirmMsg": "All current data will be replaced with the data from the CSV file. Continue?",
+        "btnCancel": "Cancel",
+        "btnImport": "Import",
+        "successTitle": "Import complete",
+        "successMsgSingular": "climb successfully imported.",
+        "successMsgPlural": "climbs successfully imported.",
+        "errorTitle": "Import error",
+        "errorDefaultMsg": "Unable to import CSV."
+      },
+      "clear": {
+        "confirmTitle": "Delete database",
+        "confirmMsg": "All data will be permanently deleted. Continue?",
+        "btnCancel": "Cancel",
+        "btnDelete": "Delete",
+        "successTitle": "Database deleted",
+        "successMsg": "Restart the app to apply changes."
+      }
+    }
   },
   "backup": {
     "exportError": "Unable to export database",

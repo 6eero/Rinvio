@@ -1,7 +1,7 @@
 import {
   clearDatabase,
-  exportDatabase,
-  importDatabase,
+  exportDatabaseAsCSV,
+  importDatabaseAsCSV
 } from "@/db/backupRestore";
 import i18n from "@/i18n";
 import { useClimbsStore } from "@/store/useClimbsStore";
@@ -64,14 +64,14 @@ export default function ClimbSettings() {
           <View style={styles.grid}>
             {[
               {
-                label: i18n.t("settings.export"),
-                onPress: exportDatabase,
+                label: i18n.t("settings.exportAsCSV"),
+                onPress: exportDatabaseAsCSV,
                 color: "#2c2c2c",
               },
               {
-                label: i18n.t("settings.import"),
+                label: i18n.t("settings.importAsCSV"),
                 onPress: () =>
-                  importDatabase().then(() =>
+                  importDatabaseAsCSV().then(() =>
                     useClimbsStore.getState().refresh(),
                   ),
                 color: "#2c2c2c",

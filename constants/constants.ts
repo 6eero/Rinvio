@@ -1,3 +1,5 @@
+import { ClimbInput } from "@/types/climb";
+
 export const FRENCH_GRADES = [
   "4a",
   "4b",
@@ -40,4 +42,30 @@ export const MODES = [
   "follow_failure",
 ];
 
+export const CSV_COLUMNS = [
+  "date",
+  "crag",
+  "route",
+  "grade",
+  "style",
+  "mode",
+  "attempts",
+  "difficulty",
+  "notes",
+] as const;
+
+export const DB_NAME = "climbing.db";
+
 export const STYLES = ["lead", "follow"];
+
+export const DEFAULT_FORM: ClimbInput = {
+  date: new Date().toISOString().split("T")[0],
+  crag: "",
+  route: "",
+  grade: "5a",
+  style: "lead",
+  attempts: 1,
+  mode: "lead_redpoint",
+  difficulty: 3,
+  notes: "",
+};

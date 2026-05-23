@@ -1,20 +1,7 @@
+import { DEFAULT_FORM } from "@/constants/constants";
 import i18n from "@/i18n";
 import { ClimbInput, ClimbStyle } from "@/types/climb";
 import { useCallback, useRef, useState } from "react";
-
-// ─── Constants ────────────────────────────────────────────────────────────────
-
-const DEFAULT_FORM: ClimbInput = {
-  date: new Date().toISOString().split("T")[0],
-  crag: "",
-  route: "",
-  grade: "5a",
-  style: "lead",
-  attempts: 1,
-  mode: "lead_redpoint",
-  difficulty: 3,
-  notes: "",
-};
 
 // ─── Validation & Payload ─────────────────────────────────────────────────────
 

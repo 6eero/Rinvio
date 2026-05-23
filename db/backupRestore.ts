@@ -1,61 +1,64 @@
+import { CSV_COLUMNS } from "@/constants/constants";
+import i18n from "@/i18n";
+import { ClimbRow } from "@/types/climb";
+import { parseCSV, rowsToCSV } from "@/utilities/CSV";
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system/legacy";
 import * as Sharing from "expo-sharing";
 import { Alert } from "react-native";
-import { getDatabase, resetDatabase } from "./database";
+import { getDatabase, getDbPath, resetDatabase } from "./database";
 
-const DB_NAME = "climbing.db";
-
-function getDbPath(): string {
-  return `${FileSystem.documentDirectory}SQLite/${DB_NAME}`;
-}
-
-function getExportPath(): string {
-  const date = new Date().toISOString().split("T")[0];
-  return `${FileSystem.cacheDirectory}rinvio_backup_${date}.db`;
-}
-
-export async function exportDatabase(): Promise<void> {
+export async function exportDatabaseAsCSV(): Promise<void> {
   try {
-    const dbPath = getDbPath();
-    const exportPath = getExportPath();
+    const db = await getDatabase();
 
-    // Verifica che il DB esista
-    const info = await FileSystem.getInfoAsync(dbPath);
-    if (!info.exists) {
-      Alert.alert("Errore", "Database non trovato");
+    const rows = await db.getAllAsync<ClimbRow>(
+      `SELECT ${CSV_COLUMNS.join(", ")} FROM climbs ORDER BY date DESC`,
+    );
+
+    if (rows.length === 0) {
+      Alert.alert(
+        i18n.t("settings.alert.export.noDataTitle"),
+        i18n.t("settings.alert.export.noDataMsg"),
+      );
       return;
     }
 
-    // Copia il DB nella cache
-    await FileSystem.copyAsync({ from: dbPath, to: exportPath });
+    const csvContent = rowsToCSV(rows);
+    const date = new Date().toISOString().split("T")[0];
+    const exportPath = `${FileSystem.cacheDirectory}rinvio_export_${date}.csv`;
 
-    // Condividi il file
+    await FileSystem.writeAsStringAsync(exportPath, csvContent, {
+      encoding: FileSystem.EncodingType.UTF8,
+    });
+
     const canShare = await Sharing.isAvailableAsync();
     if (!canShare) {
       Alert.alert(
-        "Errore",
-        "La condivisione non è disponibile su questo dispositivo",
+        i18n.t("settings.alert.export.errorSharingTitle"),
+        i18n.t("settings.alert.export.errorSharingMsg"),
       );
       return;
     }
 
     await Sharing.shareAsync(exportPath, {
-      mimeType: "application/octet-stream",
-      dialogTitle: "Esporta backup Rinvio",
-      UTI: "public.database",
+      mimeType: "text/csv",
+      dialogTitle: i18n.t("settings.alert.export.dialogTitle"),
+      UTI: "public.comma-separated-values-text",
     });
   } catch (e) {
-    console.error(e);
-    Alert.alert("Errore", "Impossibile esportare il database");
+    console.error("[exportDatabaseAsCSV]", e);
+    Alert.alert(
+      i18n.t("settings.alert.export.errorTitle"),
+      i18n.t("settings.alert.export.errorMsg"),
+    );
   }
 }
 
-export async function importDatabase(): Promise<void> {
+export async function importDatabaseAsCSV(): Promise<void> {
   try {
-    // Scegli il file
     const result = await DocumentPicker.getDocumentAsync({
-      type: "*/*",
+      type: ["text/csv", "text/comma-separated-values", "text/plain", "*/*"],
       copyToCacheDirectory: true,
     });
 
@@ -63,58 +66,81 @@ export async function importDatabase(): Promise<void> {
 
     const file = result.assets[0];
 
-    // Conferma
     await new Promise<void>((resolve, reject) => {
       Alert.alert(
-        "Importa backup",
-        "Attenzione: tutti i dati attuali verranno sostituiti con quelli del backup. Continuare?",
+        i18n.t("settings.alert.import.confirmTitle"),
+        i18n.t("settings.alert.import.confirmMsg"),
         [
           {
-            text: "Annulla",
+            text: i18n.t("settings.alert.import.btnCancel"),
             style: "cancel",
             onPress: () => reject(new Error("cancelled")),
           },
-          { text: "Importa", style: "destructive", onPress: () => resolve() },
+          {
+            text: i18n.t("settings.alert.import.btnImport"),
+            style: "destructive",
+            onPress: () => resolve(),
+          },
         ],
       );
     });
 
-    const dbPath = getDbPath();
+    const rawText = await FileSystem.readAsStringAsync(file.uri, {
+      encoding: FileSystem.EncodingType.UTF8,
+    });
 
-    // Assicurati che la cartella SQLite esista
-    const sqliteDir = `${FileSystem.documentDirectory}SQLite`;
-    const dirInfo = await FileSystem.getInfoAsync(sqliteDir);
-    if (!dirInfo.exists) {
-      await FileSystem.makeDirectoryAsync(sqliteDir, { intermediates: true });
-    }
-
-    // Chiudi il DB prima di sovrascriverlo
+    const rows = parseCSV(rawText);
     const db = await getDatabase();
-    await db.closeAsync();
-    resetDatabase();
 
-    // Sovrascrivi il DB con il backup
-    await FileSystem.copyAsync({ from: file.uri, to: dbPath });
+    await db.withTransactionAsync(async () => {
+      await db.runAsync("DELETE FROM climbs");
+
+      const stmt = await db.prepareAsync(
+        `INSERT INTO climbs (${CSV_COLUMNS.join(", ")})
+         VALUES (${CSV_COLUMNS.map(() => "?").join(", ")})`,
+      );
+
+      try {
+        for (const row of rows) {
+          await stmt.executeAsync(CSV_COLUMNS.map((col) => (row as any)[col]));
+        }
+      } finally {
+        await stmt.finalizeAsync();
+      }
+    });
 
     Alert.alert(
-      "Importazione completata",
-      "Il backup è stato ripristinato. Riavvia l'app per applicare le modifiche.",
+      i18n.t("settings.alert.import.successTitle"),
+      i18n.t("settings.alert.import.successMsgSingular", {
+        count: rows.length,
+      }),
     );
   } catch (e: any) {
     if (e?.message === "cancelled") return;
-    console.error(e);
-    Alert.alert("Errore", "Impossibile importare il database");
+    console.error("[importDatabaseAsCSV]", e);
+    Alert.alert(
+      i18n.t("settings.alert.import.errorTitle"),
+      e?.message ?? i18n.t("settings.alert.import.errorDefaultMsg"),
+    );
   }
 }
 
 export async function clearDatabase(): Promise<void> {
   const confirmed = await new Promise<boolean>((resolve) => {
     Alert.alert(
-      "Elimina database",
-      "Tutti i dati verranno eliminati definitivamente. Continuare?",
+      i18n.t("settings.alert.clear.confirmTitle"),
+      i18n.t("settings.alert.clear.confirmMsg"),
       [
-        { text: "Annulla", style: "cancel", onPress: () => resolve(false) },
-        { text: "Elimina", style: "destructive", onPress: () => resolve(true) },
+        {
+          text: i18n.t("settings.alert.clear.btnCancel"),
+          style: "cancel",
+          onPress: () => resolve(false),
+        },
+        {
+          text: i18n.t("settings.alert.clear.btnDelete"),
+          style: "destructive",
+          onPress: () => resolve(true),
+        },
       ],
     );
   });
@@ -127,7 +153,7 @@ export async function clearDatabase(): Promise<void> {
   await FileSystem.deleteAsync(getDbPath(), { idempotent: true });
 
   Alert.alert(
-    "Database eliminato",
-    "Riavvia l'app per applicare le modifiche.",
+    i18n.t("settings.alert.clear.successTitle"),
+    i18n.t("settings.alert.clear.successMsg"),
   );
 }
