@@ -68,6 +68,7 @@ export default function EditScreen() {
           submitLabel={i18n.t("form.updateClimb")}
           onDelete={handleDelete}
           deleteLabel={i18n.t("form.deleteClimb")}
+          isEdit={true}
         />
       )}
     </View>

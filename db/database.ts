@@ -16,7 +16,6 @@ export function resetDatabase(): void {
 
 async function initSchema(db: SQLite.SQLiteDatabase): Promise<void> {
   await db.execAsync(`
-    DROP TABLE IF EXISTS climbs;
     CREATE TABLE IF NOT EXISTS climbs (
       id         INTEGER PRIMARY KEY AUTOINCREMENT,
       date       TEXT    NOT NULL,

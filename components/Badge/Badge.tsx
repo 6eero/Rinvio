@@ -13,7 +13,7 @@ const Badge = ({
   text,
   fontSize = 8,
   icon,
-  badgeColor = "#222222",
+  badgeColor = "#252525",
   textColor = "#a3a3a3",
 }: BadgeProps) => {
   return (

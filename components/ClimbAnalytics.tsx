@@ -8,59 +8,71 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import KPI from "./Analytics/KPI";
 
 // ─── Logica Analytics ────────────────────────────────────────────────────────
-
 interface AnalyticsResult {
-  total: number;
-  successRate: number;
   maxLeadGrade: string;
-  mostVisitedCrag: string;
-  avgAttempts: number;
+  favoriteCrag: string;
+  totalLead: number;
+  closedLead: number;
+  completionRateLead: number;
+  avgAttemptsLead: number;
 }
 
 function getAnalytics(climbs: Climb[]): AnalyticsResult {
-  if (!climbs || climbs.length === 0) {
-    return {
-      total: 0,
-      successRate: 0,
-      maxLeadGrade: "—",
-      mostVisitedCrag: "—",
-      avgAttempts: 0,
-    };
-  }
+  const empty = {
+    maxLeadGrade: "—",
+    favoriteCrag: "—",
+    totalLead: 0,
+    closedLead: 0,
+    completionRateLead: 0,
+    avgAttemptsLead: 0,
+  };
 
-  const total = climbs.length;
+  if (!climbs || climbs.length === 0) return empty;
 
-  const successfulClimbs = climbs.filter((c) => c.outcome === "success");
-  const successRate = Math.round((successfulClimbs.length / total) * 100);
+  const leadClimbs = climbs.filter((c) => c.style === "lead");
+  if (leadClimbs.length === 0) return empty;
 
-  let maxLeadGrade = "—";
-  const leadSuccesses = successfulClimbs.filter((c) => c.style === "lead");
-  if (leadSuccesses.length > 0) {
-    const sorted = [...leadSuccesses].sort(
-      (a, b) => FRENCH_GRADES.indexOf(a.grade) - FRENCH_GRADES.indexOf(b.grade),
-    );
-    maxLeadGrade = sorted[sorted.length - 1].grade;
-  }
+  // Massimo grado lead (su tutte le lead, non solo chiuse)
+  const sorted = [...leadClimbs].sort(
+    (a, b) => FRENCH_GRADES.indexOf(a.grade) - FRENCH_GRADES.indexOf(b.grade),
+  );
+  const maxLeadGrade = sorted[sorted.length - 1].grade;
 
+  // Falesia preferita (su tutte le salite)
   const cragCounts: Record<string, number> = {};
   climbs.forEach((c) => {
     if (c.crag) cragCounts[c.crag] = (cragCounts[c.crag] || 0) + 1;
   });
   const cragKeys = Object.keys(cragCounts);
-  const mostVisitedCrag =
+  const favoriteCrag =
     cragKeys.length > 0
       ? cragKeys.reduce((a, b) => (cragCounts[a] >= cragCounts[b] ? a : b))
       : "—";
 
-  const totalAttempts = climbs.reduce((sum, c) => sum + (c.attempts ?? 1), 0);
-  const avgAttempts = Math.round((totalAttempts / total) * 10) / 10;
+  // Salite lead chiuse (onsight, flash, redpoint)
+  const closedLead = leadClimbs.filter(
+    (c) =>
+      c.mode === "lead_onsight" ||
+      c.mode === "lead_flash" ||
+      c.mode === "lead_redpoint",
+  ).length;
+
+  const completionRateLead = Math.round((closedLead / leadClimbs.length) * 100);
+
+  const avgAttemptsLead =
+    Math.round(
+      (leadClimbs.reduce((sum, c) => sum + (c.attempts ?? 1), 0) /
+        leadClimbs.length) *
+        10,
+    ) / 10;
 
   return {
-    total,
-    successRate,
     maxLeadGrade,
-    mostVisitedCrag,
-    avgAttempts,
+    favoriteCrag,
+    totalLead: leadClimbs.length,
+    closedLead,
+    completionRateLead,
+    avgAttemptsLead,
   };
 }
 
@@ -74,7 +86,7 @@ export default function ClimbAnalytics() {
 
   const stats = useMemo(() => getAnalytics(climbs), [climbs]);
 
-  if (stats.total === 0) {
+  if (stats.totalLead === 0) {
     return (
       <SafeAreaView
         style={styles.container}
@@ -88,29 +100,17 @@ export default function ClimbAnalytics() {
   }
 
   const kpiConfig = [
+    { label: i18n.t("analytics.maxLeadGrade"), value: stats.maxLeadGrade },
+    { label: i18n.t("analytics.favoriteCrag"), value: stats.favoriteCrag },
+    { label: i18n.t("analytics.totalLead"), value: String(stats.totalLead) },
+    { label: i18n.t("analytics.closedLead"), value: String(stats.closedLead) },
     {
-      label: i18n.t("analytics.maxLeadGrade"),
-      value: stats.maxLeadGrade,
+      label: i18n.t("analytics.completionRateLead"),
+      value: `${stats.completionRateLead}%`,
     },
     {
-      label: i18n.t("analytics.favoriteCrag"),
-      value: stats.mostVisitedCrag,
-    },
-    {
-      label: i18n.t("analytics.totalClimbs"),
-      value: String(stats.total),
-    },
-    {
-      label: i18n.t("analytics.closedClimbs"),
-      value: String(Math.round((stats.successRate / 100) * stats.total)),
-    },
-    {
-      label: i18n.t("analytics.successRate"),
-      value: `${stats.successRate}%`,
-    },
-    {
-      label: i18n.t("analytics.avgAttempts"),
-      value: String(stats.avgAttempts),
+      label: i18n.t("analytics.avgAttemptsLead"),
+      value: String(stats.avgAttemptsLead),
     },
   ];
 

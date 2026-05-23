@@ -4,11 +4,12 @@ import FieldOptionScroll from "@/components/Fields/FieldOptionScroll";
 import FieldTextArea from "@/components/Fields/FieldTextArea";
 import FieldTextInput from "@/components/Fields/FieldTextInput";
 import { FRENCH_GRADES, MODES, STYLES } from "@/constants/constants";
+import { getCragByDate } from "@/db/climbsRepository";
 import { useClimbForm } from "@/hooks/useClimbForm";
 import i18n from "@/i18n";
 import { ClimbInput, ClimbMode, ClimbStyle } from "@/types/climb";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -40,16 +41,30 @@ export default function ClimbForm({
   submitLabel,
   onDelete,
   deleteLabel,
+  isEdit = false,
 }: {
   initial?: Partial<ClimbInput> & { id?: number };
   onSubmit: (data: ClimbInput) => void;
   submitLabel?: string;
   onDelete?: () => void;
   deleteLabel?: string;
+  isEdit?: boolean;
 }) {
   const { form, updateField, buildPayload, validate } = useClimbForm(initial);
-
+  const [cragLocked, setCragLocked] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (isEdit) return;
+    getCragByDate(form.date, initial?.id).then((crag) => {
+      if (crag) {
+        updateField("crag", crag);
+        setCragLocked(true);
+      } else {
+        setCragLocked(false);
+      }
+    });
+  }, [form.date, isEdit]);
 
   const handleSubmit = () => {
     console.log("form state:", JSON.stringify(form, null, 2));
@@ -86,6 +101,7 @@ export default function ClimbForm({
           label="form.date"
           value={new Date(form.date)}
           onChange={(d) => updateField("date", d.toISOString().split("T")[0])}
+          disabled={isEdit}
         />
 
         <FieldTextInput
@@ -93,6 +109,7 @@ export default function ClimbForm({
           placeholder="form.cragPlaceholder"
           value={form.crag}
           setValue={(v) => updateField("crag", v)}
+          disabled={isEdit || cragLocked}
         />
 
         <FieldTextInput

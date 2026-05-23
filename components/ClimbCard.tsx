@@ -7,6 +7,8 @@ import Badge from "./Badge/Badge";
 import DotRating from "./Indicators/DotRating";
 
 export default function ClimbCard({ climb }: { climb: Climb }) {
+  const isFailed =
+    climb.mode === "lead_failure" || climb.mode === "follow_failure";
   return (
     <TouchableOpacity
       onPress={() => router.push(`/edit/${climb.id}`)}
@@ -89,7 +91,11 @@ export default function ClimbCard({ climb }: { climb: Climb }) {
             <Badge
               text={i18n.t(`options.style.${climb.style}`).toUpperCase()}
             />
-            <Badge text={i18n.t(`options.mode.${climb.mode}`).toUpperCase()} />
+            <Badge
+              text={i18n.t(`options.mode.${climb.mode}`).toUpperCase()}
+              badgeColor={isFailed ? "#ff4b4b20" : "#a8ff4b20"}
+              textColor={isFailed ? "#ffc9c9" : "#d6ffc9"}
+            />
           </View>
         </View>
 

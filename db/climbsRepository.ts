@@ -60,3 +60,20 @@ export async function deleteClimb(id: number): Promise<void> {
   const db = await getDatabase();
   await db.runAsync("DELETE FROM climbs WHERE id = ?", [id]);
 }
+
+export async function getCragByDate(
+  date: string,
+  excludeId?: number,
+): Promise<string | null> {
+  const db = await getDatabase();
+  const row = excludeId
+    ? await db.getFirstAsync<{ crag: string }>(
+        "SELECT crag FROM climbs WHERE date = ? AND id != ? LIMIT 1",
+        [date, excludeId],
+      )
+    : await db.getFirstAsync<{ crag: string }>(
+        "SELECT crag FROM climbs WHERE date = ? LIMIT 1",
+        [date],
+      );
+  return row?.crag ?? null;
+}

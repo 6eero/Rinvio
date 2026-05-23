@@ -15,12 +15,12 @@
   },
   "analytics": {
     "title": "Analisi",
-    "totalClimbs": "Totale Salite",
-    "maxLeadGrade": "Grado massimo lead",
-    "successRate": "Tasso di Successo",
-    "favoriteCrag": "Falesia preferita",
-    "avgAttempts": "Media Tentativi",
-    "closedClimbs": "Salite chiuse"
+    "totalLead": "Totale Salite Lead",
+    "maxLeadGrade": "Grado Max Lead",
+    "completionRateLead": "Lead Close Rate",
+    "favoriteCrag": "Falesia Preferita",
+    "avgAttemptsLead": "Media Tentativi Lead",
+    "closedLead": "Salite Chiuse Lead"
   },
   "card": {
     "deleteTitle": "Elimina salita",
