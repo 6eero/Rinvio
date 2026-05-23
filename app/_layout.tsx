@@ -17,7 +17,6 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  // const isLoading = useAppStore((s) => s.isLoading);
   const refresh = useClimbsStore((s) => s.refresh);
 
   useEffect(() => {
@@ -29,27 +28,8 @@ export default function RootLayout() {
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="modal"
-            options={{ presentation: "modal", title: "Modal" }}
-          />
           <Stack.Screen name="edit/[id]" options={{ headerShown: false }} />
         </Stack>
-
-        {/* {isLoading && (
-          <View
-            style={{
-              ...StyleSheet.absoluteFillObject,
-              backgroundColor: "rgba(13,13,13,0.75)",
-              justifyContent: "center",
-              alignItems: "center",
-              zIndex: 999,
-            }}
-          >
-            <ActivityIndicator size="large" color="#e85d04" />
-          </View>
-        )} */}
-
         <StatusBar style="auto" />
       </ThemeProvider>
     </SafeAreaProvider>
