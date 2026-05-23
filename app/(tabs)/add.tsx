@@ -19,6 +19,7 @@ export default function AddScreen() {
         { text: i18n.t("add.ok"), onPress: () => router.push("/(tabs)") },
       ]);
     } catch (e) {
+      console.log("insert error:", e);
       Alert.alert(i18n.t("add.errorTitle"), i18n.t("add.errorMessage"));
     }
   }

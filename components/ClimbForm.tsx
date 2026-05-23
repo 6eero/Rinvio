@@ -6,7 +6,8 @@ import FieldTextInput from "@/components/Fields/FieldTextInput";
 import { FRENCH_GRADES, MODES, STYLES } from "@/constants/constants";
 import { useClimbForm } from "@/hooks/useClimbForm";
 import i18n from "@/i18n";
-import { ClimbInput, ClimbMode, ClimbOutcome, ClimbStyle } from "@/types/climb";
+import { ClimbInput, ClimbMode, ClimbStyle } from "@/types/climb";
+
 import { useState } from "react";
 import {
   ScrollView,
@@ -17,17 +18,14 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const GRADE_OPTIONS = FRENCH_GRADES.map((g) => ({ label: g, value: g }));
-
-const MODE_OPTIONS = MODES.map((m) => ({
-  label: `options.mode.${m}`,
-  value: m,
-  isKey: true as const,
+const GRADE_OPTIONS = FRENCH_GRADES.map((grade) => ({
+  label: grade,
+  value: grade,
 }));
 
-const STYLE_OPTIONS = STYLES.map((s) => ({
-  label: `options.style.${s}`,
-  value: s,
+const STYLE_OPTIONS = STYLES.map((style) => ({
+  label: `options.style.${style}`,
+  value: style,
   isKey: true as const,
 }));
 
@@ -35,27 +33,6 @@ const DIFFICULTY_OPTIONS = [1, 2, 3, 4, 5].map((n) => ({
   label: String(n),
   value: String(n),
 }));
-
-const OUTCOME_OPTIONS = [
-  {
-    label: "options.outcome.success",
-    value: "success",
-    isKey: true as const,
-    color: "#22c55e",
-  },
-  {
-    label: "options.outcome.hangdog",
-    value: "hangdog",
-    isKey: true as const,
-    color: "#f97316",
-  },
-  {
-    label: "options.outcome.failure",
-    value: "failure",
-    isKey: true as const,
-    color: "#ef4444",
-  },
-];
 
 export default function ClimbForm({
   initial,
@@ -70,23 +47,12 @@ export default function ClimbForm({
   onDelete?: () => void;
   deleteLabel?: string;
 }) {
-  const {
-    form,
-    updateField,
-    isDateDisabled,
-    isCragDisabled,
-    isModeDisabled,
-    isDifficultyDisabled,
-    isAttemptsDisabled,
-    isOutcomeSuccessDisabled,
-    showMode,
-    buildPayload,
-    validate,
-  } = useClimbForm(initial);
+  const { form, updateField, buildPayload, validate } = useClimbForm(initial);
 
   const [error, setError] = useState("");
 
   const handleSubmit = () => {
+    console.log("form state:", JSON.stringify(form, null, 2));
     const errorMsg = validate();
     if (errorMsg) {
       setError(errorMsg);
@@ -95,6 +61,16 @@ export default function ClimbForm({
     setError("");
     onSubmit(buildPayload());
   };
+
+  const filteredModeOptions = MODES.filter((mode) =>
+    mode.startsWith(form.style),
+  ).map((mode) => ({
+    label: `options.mode.${mode}`,
+    value: mode,
+    isKey: true as const,
+    disabled:
+      form.attempts > 1 && (mode === "lead_onsight" || mode === "lead_flash"),
+  }));
 
   return (
     <SafeAreaView style={styles.container} edges={["left", "right"]}>
@@ -110,7 +86,6 @@ export default function ClimbForm({
           label="form.date"
           value={new Date(form.date)}
           onChange={(d) => updateField("date", d.toISOString().split("T")[0])}
-          editable={!isDateDisabled}
         />
 
         <FieldTextInput
@@ -118,14 +93,13 @@ export default function ClimbForm({
           placeholder="form.cragPlaceholder"
           value={form.crag}
           setValue={(v) => updateField("crag", v)}
-          editable={!isCragDisabled}
         />
 
         <FieldTextInput
-          label="form.routeName"
-          placeholder="form.routeNamePlaceholder"
-          value={form.routeName}
-          setValue={(v) => updateField("routeName", v)}
+          label="form.route"
+          placeholder="form.routePlaceholder"
+          value={form.route}
+          setValue={(v) => updateField("route", v)}
         />
 
         <FieldOptionScroll
@@ -143,40 +117,26 @@ export default function ClimbForm({
           options={STYLE_OPTIONS}
         />
 
+        <FieldOptionScroll
+          label="form.mode"
+          value={form.mode}
+          onChange={(v) => updateField("mode", v as ClimbMode)}
+          useScroll
+          options={filteredModeOptions}
+        />
+
         <FieldCounter
           label="form.attempts"
           value={form.attempts}
           onChange={(v) => updateField("attempts", v)}
           min={1}
-          disabled={isAttemptsDisabled}
         />
-
-        <FieldOptionScroll
-          label="form.outcome"
-          value={form.outcome}
-          onChange={(v) => updateField("outcome", v as ClimbOutcome)}
-          options={OUTCOME_OPTIONS.map((o) => ({
-            ...o,
-            disabled: o.value === "success" && isOutcomeSuccessDisabled,
-          }))}
-        />
-
-        {showMode && (
-          <FieldOptionScroll
-            label="form.mode"
-            value={form.mode}
-            onChange={(v) => updateField("mode", v as ClimbMode)}
-            options={MODE_OPTIONS}
-            disabled={isModeDisabled}
-          />
-        )}
 
         <FieldOptionScroll
           label="form.difficulty"
           value={String(form.difficulty)}
           onChange={(v) => updateField("difficulty", Number(v))}
           options={DIFFICULTY_OPTIONS}
-          disabled={isDifficultyDisabled}
         />
 
         <FieldTextArea

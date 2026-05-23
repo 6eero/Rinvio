@@ -1,145 +1,113 @@
 import i18n from "@/i18n";
-import { useClimbsStore } from "@/store/useClimbsStore";
-import { ClimbInput } from "@/types/climb";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { ClimbInput, ClimbStyle } from "@/types/climb";
+import { useCallback, useRef, useState } from "react";
 
-// ─── Constants ───────────────────────────────────────────────────────────────
+// ─── Constants ────────────────────────────────────────────────────────────────
 
-const DEFAULT_FORM: Omit<ClimbInput, "date"> = {
+const DEFAULT_FORM: ClimbInput = {
+  date: new Date().toISOString().split("T")[0],
   crag: "",
-  routeName: "",
+  route: "",
   grade: "5a",
-  outcome: "success",
-  attempts: 1,
-  difficulty: 1,
-  mode: "redpoint",
   style: "lead",
+  attempts: 1,
+  mode: "lead_redpoint",
+  difficulty: 3,
   notes: "",
 };
 
-const getTodayString = () => new Date().toISOString().split("T")[0];
+// ─── Validation & Payload ─────────────────────────────────────────────────────
 
-// ─── Constraint derivations ───────────────────────────────────────────────────
+function validate(form: ClimbInput): string | null {
+  // Check required text fields and prevent empty/whitespace strings
+  if (!form.crag.trim()) return i18n.t("form.errorCrag");
+  if (!form.route.trim()) return i18n.t("form.errorRoute");
+  if (!form.grade.trim()) return i18n.t("form.errorGrade");
 
-function deriveConstraints(form: ClimbInput) {
-  const isFailure = form.outcome === "failure";
-  const isHangdog = form.outcome === "hangdog";
+  // Constraint 1: Alignment between Style and Mode
+  if (form.style === "lead") {
+    const validLeadModes = [
+      "lead_onsight",
+      "lead_flash",
+      "lead_redpoint",
+      "lead_hangdog",
+      "lead_failure",
+    ];
+    if (!validLeadModes.includes(form.mode))
+      return i18n.t("form.errorInvalidLeadMode");
+  }
 
-  // Vincolo 2: style=follow o attempts>1 forza mode=redpoint e disabilita success
-  const isModeForced = form.style === "follow" || form.attempts > 1;
+  if (form.style === "follow") {
+    const validFollowModes = ["follow_success", "follow_failure"];
+    if (!validFollowModes.includes(form.mode))
+      return i18n.t("form.errorInvalidFollowMode");
+  }
 
-  // Vincolo 5: success + onsight/flash forza attempts=1
-  const isAttemptsForced =
-    form.outcome === "success" &&
-    (form.mode === "onsight" || form.mode === "flash");
+  // Constraint 2: Perfect ascents (Onsight/Flash) mathematical logic
+  if (
+    (form.mode === "lead_onsight" || form.mode === "lead_flash") &&
+    form.attempts !== 1
+  ) {
+    return i18n.t("form.errorPerfectAscentAttempts");
+  }
 
-  return {
-    isFailure,
-    isHangdog,
-    isModeForced,
-    isAttemptsForced,
-    // Vincolo 3 & 4: failure e hangdog nascondono mode
-    showMode: !isFailure && !isHangdog,
-    isModeDisabled: isModeForced,
-    // Vincolo 3: failure disabilita difficulty
-    isDifficultyDisabled: isFailure,
-    isAttemptsDisabled: isAttemptsForced,
-    // Vincolo 2: se mode forzato, success non è selezionabile
-    isOutcomeSuccessDisabled: isModeForced,
-  };
+  return null;
 }
 
-function buildPayload(
-  form: ClimbInput,
-  constraints: ReturnType<typeof deriveConstraints>,
-): ClimbInput {
-  const { showMode, isModeForced, isFailure, isAttemptsForced } = constraints;
-
+function buildPayload(form: ClimbInput): ClimbInput {
   return {
     ...form,
     crag: form.crag.trim(),
-    routeName: form.routeName.trim(),
+    route: form.route.trim(),
     notes: form.notes?.trim() ?? "",
-    mode: showMode && !isModeForced ? form.mode : "redpoint",
-    difficulty: isFailure ? 5 : form.difficulty,
-    attempts: isAttemptsForced ? 1 : form.attempts,
   };
-}
-
-function validate(form: ClimbInput): string | null {
-  if (!form.crag.trim()) return i18n.t("form.errorCrag");
-  if (!form.routeName.trim()) return i18n.t("form.errorRoute");
-  return null;
 }
 
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
 export function useClimbForm(initial?: Partial<ClimbInput> & { id?: number }) {
-  const isEdit = !!initial?.id;
-  const climbs = useClimbsStore((s) => s.climbs);
-  const initialCrag = initial?.crag ?? "";
-
   const [form, setForm] = useState<ClimbInput>({
-    date: getTodayString(),
     ...DEFAULT_FORM,
     ...initial,
   });
 
+  // ← ref sempre aggiornata al form corrente
+  const formRef = useRef(form);
+  formRef.current = form;
+
   const updateField = useCallback(
     <K extends keyof ClimbInput>(field: K, value: ClimbInput[K]) => {
-      setForm((prev) => ({ ...prev, [field]: value }));
+      setForm((prev) => {
+        const next = { ...prev, [field]: value };
+
+        // on style change
+        if (field === "style") {
+          const style = value as ClimbStyle;
+          if (style === "lead") {
+            next.mode = "lead_onsight";
+            next.attempts = 1;
+          } else {
+            next.mode = "follow_success";
+            next.attempts = 1;
+          }
+        }
+
+        // on attempt change
+        if (field === "attempts" && (value as number) > 1) {
+          if (next.mode === "lead_onsight" || next.mode === "lead_flash") {
+            next.mode = "lead_redpoint";
+          }
+        }
+        return next;
+      });
     },
     [],
   );
 
-  // Vincolo 1: auto-fill crag dalla data, reset se non c'è match
-  const existingCragForDate = useMemo(() => {
-    if (isEdit) return null;
-    return climbs.find((c) => c.date === form.date)?.crag ?? null;
-  }, [isEdit, form.date, climbs]);
-
-  useEffect(() => {
-    if (isEdit) return;
-    updateField("crag", existingCragForDate ?? initialCrag);
-  }, [existingCragForDate, updateField]);
-
-  const constraints = useMemo(() => deriveConstraints(form), [form]);
-
-  // Vincolo 2: forza mode=redpoint nello stato visibile
-  useEffect(() => {
-    if (constraints.isModeForced) {
-      updateField("mode", "redpoint");
-    }
-  }, [constraints.isModeForced]);
-
-  // Vincolo 2: resetta outcome a hangdog se success non è più selezionabile
-  useEffect(() => {
-    if (constraints.isOutcomeSuccessDisabled && form.outcome === "success") {
-      updateField("outcome", "hangdog");
-    }
-  }, [constraints.isOutcomeSuccessDisabled]);
-
-  // Vincolo 3: forza difficulty=5 nello stato visibile
-  useEffect(() => {
-    if (constraints.isFailure) {
-      updateField("difficulty", 5);
-    }
-  }, [constraints.isFailure]);
-
   return {
     form,
     updateField,
-    // field disability flags
-    isDateDisabled: isEdit,
-    isCragDisabled: isEdit || !!existingCragForDate,
-    isModeDisabled: constraints.isModeDisabled,
-    isDifficultyDisabled: constraints.isDifficultyDisabled,
-    isAttemptsDisabled: constraints.isAttemptsDisabled,
-    isOutcomeSuccessDisabled: constraints.isOutcomeSuccessDisabled,
-    // visibility flags
-    showMode: constraints.showMode,
-    // helpers
-    buildPayload: () => buildPayload(form, constraints),
-    validate: () => validate(form),
+    validate: () => validate(formRef.current),
+    buildPayload: () => buildPayload(formRef.current),
   };
 }

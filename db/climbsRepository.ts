@@ -14,15 +14,13 @@ export async function getClimbById(id: number): Promise<Climb | null> {
 export async function insertClimb(climb: ClimbInput): Promise<number> {
   const db = await getDatabase();
   const result = await db.runAsync(
-    `INSERT INTO climbs (date, crag, routeName, grade, length, outcome, attempts, mode, style, difficulty, notes)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO climbs (date, crag, route, grade, attempts, mode, style, difficulty, notes)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       climb.date,
       climb.crag,
-      climb.routeName,
+      climb.route,
       climb.grade,
-      climb.length ?? null,
-      climb.outcome,
       climb.attempts,
       climb.mode,
       climb.style,
@@ -40,16 +38,14 @@ export async function updateClimb(
   const db = await getDatabase();
   await db.runAsync(
     `UPDATE climbs
-     SET date=?, crag=?, routeName=?, grade=?, length=?,
-         outcome=?, attempts=?, mode=?, style=?, difficulty=?, notes=?
+     SET date=?, crag=?, route=?, grade=?,
+         attempts=?, mode=?, style=?, difficulty=?, notes=?
      WHERE id=?`,
     [
       climb.date,
       climb.crag,
-      climb.routeName,
+      climb.route,
       climb.grade,
-      climb.length ?? null,
-      climb.outcome,
       climb.attempts,
       climb.mode,
       climb.style,

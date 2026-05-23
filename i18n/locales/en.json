@@ -34,8 +34,8 @@
     "date": "Date",
     "crag": "Crag",
     "cragPlaceholder": "E.g. Finale Ligure",
-    "routeName": "Route name",
-    "routeNamePlaceholder": "E.g. Bicio Bragio",
+    "route": "Route name",
+    "routePlaceholder": "E.g. Bicio Bragio",
     "grade": "Grade (French scale)",
     "length": "Length in meters (optional)",
     "lengthPlaceholder": "E.g. 25",
@@ -59,7 +59,11 @@
     "errorRoute": "Enter the route name",
     "errorDate": "Date must be in YYYY-MM-DD format",
     "errorInvalidDate": "Invalid date",
-    "errorAttempts": "Attempts must be at least 1"
+    "errorAttempts": "Attempts must be at least 1",
+    "errorGrade": "Please select the route grade",
+    "errorInvalidLeadMode": "Selected mode is invalid for Lead climbing",
+    "errorInvalidFollowMode": "Selected mode is invalid for Follow climbing",
+    "errorPerfectAscentAttempts": "Onsight and Flash ascents are only possible on the 1st attempt"
   },
   "add": {
     "title": "Add Climb",
@@ -110,19 +114,18 @@
     "cancel": "Cancel"
   },
   "options": {
-    "outcome": {
-      "success": "Sent",
-      "hangdog": "Hangdog",
-      "failure": "Failed"
-    },
-    "mode": {
-      "onsight": "Onsight",
-      "flash": "Flash",
-      "redpoint": "Redpoint"
-    },
     "style": {
       "lead": "Lead",
       "follow": "Follow"
+    },
+    "mode": {
+      "lead_onsight": "Onsight",
+      "lead_flash": "Flash",
+      "lead_redpoint": "Redpoint",
+      "lead_hangdog": "Hangdog",
+      "lead_failure": "Failed",
+      "follow_success": "Sent",
+      "follow_failure": "Failed"
     }
   }
 }

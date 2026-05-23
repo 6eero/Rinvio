@@ -7,13 +7,13 @@ const FieldTextInput = ({
   placeholder,
   value,
   setValue,
-  editable = true,
+  disabled = false,
 }: {
   label: string;
   placeholder: string;
   value: string;
   setValue: (text: string) => void;
-  editable?: boolean;
+  disabled?: boolean;
 }) => {
   return (
     <View
@@ -24,8 +24,8 @@ const FieldTextInput = ({
       <SectionLabel text={i18n.t(label)} />
       <TextInput
         style={{
-          backgroundColor: editable ? "#161616" : "#1f1f1f",
-          color: editable ? "#fff" : "#888",
+          backgroundColor: disabled ? "#1f1f1f" : "#161616",
+          color: disabled ? "#888" : "#fff",
           borderRadius: 12,
           padding: 10,
           fontSize: 16,
@@ -36,7 +36,7 @@ const FieldTextInput = ({
         onChangeText={setValue}
         placeholder={i18n.t(placeholder)}
         placeholderTextColor="#555"
-        editable={editable}
+        editable={!disabled}
       />
     </View>
   );

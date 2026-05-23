@@ -7,28 +7,6 @@ import Badge from "./Badge/Badge";
 import DotRating from "./Indicators/DotRating";
 
 export default function ClimbCard({ climb }: { climb: Climb }) {
-  const getModeBadgeProps = (climb: Climb) => {
-    if (climb.outcome === "failure") {
-      return {
-        text: i18n.t("options.outcome.failure").toUpperCase(),
-        badgeColor: "#EF44441A",
-        textColor: "#c09b9b",
-      };
-    }
-    if (climb.outcome === "hangdog") {
-      return {
-        text: i18n.t("options.outcome.hangdog").toUpperCase(),
-        badgeColor: "#efa5441a",
-        textColor: "#c0a88a",
-      };
-    }
-    return {
-      text: i18n.t(`options.mode.${climb.mode}`).toUpperCase(),
-      badgeColor: "#44efc41a",
-      textColor: "#a5c09b",
-    };
-  };
-
   return (
     <TouchableOpacity
       onPress={() => router.push(`/edit/${climb.id}`)}
@@ -98,7 +76,7 @@ export default function ClimbCard({ climb }: { climb: Climb }) {
             }}
             numberOfLines={1}
           >
-            {climb.routeName}
+            {climb.route}
           </Text>
 
           <View
@@ -111,8 +89,7 @@ export default function ClimbCard({ climb }: { climb: Climb }) {
             <Badge
               text={i18n.t(`options.style.${climb.style}`).toUpperCase()}
             />
-
-            <Badge {...getModeBadgeProps(climb)} />
+            <Badge text={i18n.t(`options.mode.${climb.mode}`).toUpperCase()} />
           </View>
         </View>
 

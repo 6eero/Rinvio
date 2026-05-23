@@ -43,7 +43,7 @@ export default function ClimbSettings() {
     { key: "id", label: "ID", width: 40 },
     { key: "date", label: "Data", width: 90 },
     { key: "crag", label: "Falesia", width: 110 },
-    { key: "routeName", label: "Via", width: 110 },
+    { key: "route", label: "Via", width: 110 },
     { key: "grade", label: "Grado", width: 50 },
     { key: "outcome", label: "Esito", width: 70 },
     { key: "attempts", label: "Tent.", width: 45 },

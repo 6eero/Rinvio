@@ -1,17 +1,22 @@
-export type ClimbOutcome = "success" | "failure" | "hangdog";
-export type ClimbMode = "onsight" | "flash" | "redpoint";
 export type ClimbStyle = "lead" | "follow";
+export type ClimbMode =
+  | "lead_onsight"
+  | "lead_flash"
+  | "lead_redpoint"
+  | "lead_hangdog"
+  | "lead_failure"
+  | "follow_success"
+  | "follow_failure";
 
 export interface Climb {
   id: number;
   date: string;
   crag: string;
-  routeName: string;
+  route: string;
   grade: string;
-  outcome: ClimbOutcome;
-  attempts: number;
-  mode: ClimbMode;
   style: ClimbStyle;
+  mode: ClimbMode;
+  attempts: number;
   difficulty: number;
   notes: string;
 }

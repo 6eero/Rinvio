@@ -30,6 +30,14 @@ export const FRENCH_GRADES = [
   "9c",
 ];
 
-export const MODES = ["onsight", "flash", "redpoint"];
+export const MODES = [
+  "lead_onsight",
+  "lead_flash",
+  "lead_redpoint",
+  "lead_hangdog",
+  "lead_failure",
+  "follow_success",
+  "follow_failure",
+];
 
 export const STYLES = ["lead", "follow"];

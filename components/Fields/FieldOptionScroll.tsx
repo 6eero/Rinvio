@@ -8,6 +8,7 @@ interface Option<T> {
   value: T;
   isKey?: boolean;
   color?: string;
+  disabled?: boolean;
 }
 
 const FieldOptionScroll = <T extends string>({
@@ -30,9 +31,9 @@ const FieldOptionScroll = <T extends string>({
       key={opt.value}
       label={opt.isKey ? i18n.t(opt.label) : opt.label}
       selected={value === opt.value}
-      onPress={() => !disabled && onChange(opt.value)}
+      onPress={() => !disabled && !opt.disabled && onChange(opt.value)}
       color={opt.color}
-      disabled={disabled}
+      disabled={disabled || !!opt.disabled}
     />
   ));
 

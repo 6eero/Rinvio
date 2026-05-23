@@ -34,8 +34,8 @@
     "date": "Data",
     "crag": "Falesia",
     "cragPlaceholder": "Es. Finale Ligure",
-    "routeName": "Nome Via",
-    "routeNamePlaceholder": "Es. Bicio Bragio",
+    "route": "Nome Via",
+    "routePlaceholder": "Es. Bicio Bragio",
     "grade": "Grado (scala francese)",
     "length": "Lunghezza in metri (facoltativo)",
     "lengthPlaceholder": "Es. 25",
@@ -56,11 +56,15 @@
     "addClimb": "Aggiungi salita",
     "updateClimb": "Aggiorna",
     "deleteClimb": "Elimina",
-    "errorCrag": "Inserisci il nome della falesia",
     "errorRoute": "Inserisci il nome della via",
     "errorDate": "Data nel formato YYYY-MM-DD",
     "errorInvalidDate": "Data non valida",
-    "errorAttempts": "Tentativi deve essere almeno 1"
+    "errorAttempts": "Tentativi deve essere almeno 1",
+    "errorCrag": "Inserisci il nome della falesia",
+    "errorGrade": "Seleziona il grado della via",
+    "errorInvalidLeadMode": "La modalità scelta non è valida per la scalata da primo (Lead)",
+    "errorInvalidFollowMode": "La modalità scelta non è valida per la scalata da secondo (Follow)",
+    "errorPerfectAscentAttempts": "Le salite Onsight e Flash sono possibili solo al 1° tentativo"
   },
   "add": {
     "title": "Aggiungi salita",
@@ -117,19 +121,18 @@
     "cancel": "Annulla"
   },
   "options": {
-    "outcome": {
-      "success": "Liberata",
-      "hangdog": "Lavorata",
-      "failure": "Abbandonata"
-    },
-    "mode": {
-      "onsight": "Onsight",
-      "flash": "Flash",
-      "redpoint": "Redpoint"
-    },
     "style": {
       "lead": "Primo",
       "follow": "Secondo"
+    },
+    "mode": {
+      "lead_onsight": "Onsight",
+      "lead_flash": "Flash",
+      "lead_redpoint": "Redpoint",
+      "lead_hangdog": "Lavorata",
+      "lead_failure": "Abbandonata",
+      "follow_success": "Chiusa",
+      "follow_failure": "Abbandonata"
     }
   }
 }

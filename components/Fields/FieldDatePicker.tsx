@@ -10,12 +10,12 @@ const FieldDatePicker = ({
   label,
   value,
   onChange,
-  editable = true,
+  disabled = false,
 }: {
   label: string;
   value: Date;
   onChange: (date: Date) => void;
-  editable?: boolean;
+  disabled?: boolean;
 }) => {
   const [showPicker, setShowPicker] = useState(false);
 
@@ -36,18 +36,18 @@ const FieldDatePicker = ({
       <SectionLabel text={i18n.t(label)} />
       <TouchableOpacity
         style={{
-          backgroundColor: editable ? "#161616" : "#1f1f1f",
+          backgroundColor: disabled ? "#1f1f1f" : "#161616",
           borderRadius: 12,
           padding: 10,
           borderWidth: 1,
           borderColor: "#202020",
         }}
         onPress={() => setShowPicker(true)}
-        disabled={!editable}
+        disabled={disabled}
       >
         <Text
           style={{
-            color: editable ? "#fff" : "#888",
+            color: disabled ? "#888" : "#fff",
             fontSize: 16,
           }}
         >

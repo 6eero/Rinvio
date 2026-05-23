@@ -22,11 +22,38 @@ interface Climb {
 
 Voglio implementare i seguenti vincoli:
 
-0. Se sono in edit: data e crag sempre disabilitati.
-1. Se per la date selezionata esiste già un'altra via salvata: il campo crag si autocompila con il nome della falesia di quel giorno e diventa disabilitato.
+lead:
+onsight - vai su da primo senza sapere niente e chiudi senza appenderti
+flash - vai su da primo avendo studiato la via e chiudi senza appenderti
+redpoint - vai su da primo avendo gia provato la via e chiudi senza appenderti
+hangdog - vai su da primo appendnendoti (sia che tui abbia studiato la via che non)
+failure - via non chiusa
 
-2. Se style="follow" o attempts > 1: mode="redpoint" e disabilitato, outcome="success" disabilitato
+follow:
+success - via chiusa
+failure - via non chiusa
 
-3. Se outcome="success" e mode è "onsight" o "flash": attempts viene forzato a 1 e disabilitato.
-4. Se outcome="hamgdog": nasconde la modalità
-5. Se outcome="failure": nasconde la modalità, imposta la difficoltà percepita a 5 e disabilita il campo
+```typescript
+type ClimbStyle = "lead" | "follow";
+type ClimbMode =
+  | "lead_onsight"
+  | "lead_flash"
+  | "lead_redpoint"
+  | "lead_hangdog"
+  | "lead_failure"
+  | "follow_success"
+  | "follow_failure";
+
+interface Climb {
+  id: number;
+  date: string;
+  crag: string;
+  route: string;
+  grade: string;
+  style: ClimbStyle;
+  mode: ClimbMode;
+  attempts: number;
+  difficulty: number;
+  notes: string;
+}
+```

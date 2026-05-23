@@ -16,18 +16,23 @@ export function resetDatabase(): void {
 
 async function initSchema(db: SQLite.SQLiteDatabase): Promise<void> {
   await db.execAsync(`
+    DROP TABLE IF EXISTS climbs;
     CREATE TABLE IF NOT EXISTS climbs (
       id         INTEGER PRIMARY KEY AUTOINCREMENT,
-      date       TEXT    NOT NULL CHECK(date GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]'),
-      crag       TEXT    NOT NULL CHECK(length(trim(crag)) > 0),
-      routeName  TEXT    NOT NULL CHECK(length(trim(routeName)) > 0),
+      date       TEXT    NOT NULL,
+      crag       TEXT    NOT NULL,
+      route      TEXT    NOT NULL,
       grade      TEXT    NOT NULL,
-      outcome    TEXT    NOT NULL CHECK(outcome IN ('success', 'hangdog', 'failure')),
-      attempts   INTEGER NOT NULL DEFAULT 1 CHECK(attempts >= 1),
-      mode       TEXT    NOT NULL CHECK(mode IN ('onsight', 'flash', 'redpoint')),
-      style      TEXT    NOT NULL CHECK(style IN ('lead', 'follow')),
-      difficulty INTEGER NOT NULL CHECK(difficulty BETWEEN 1 AND 5),
-      notes      TEXT
+      style      TEXT    NOT NULL,
+      mode       TEXT    NOT NULL,
+      attempts   INTEGER NOT NULL DEFAULT 1,
+      difficulty INTEGER NOT NULL,
+      notes      TEXT,
+
+      CONSTRAINT check_style_mode CHECK (
+        (style = 'lead' AND mode IN ('lead_onsight', 'lead_flash', 'lead_redpoint', 'lead_hangdog', 'lead_failure')) OR
+        (style = 'follow' AND mode IN ('follow_success', 'follow_failure'))
+      )
     );
   `);
 }
