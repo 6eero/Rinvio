@@ -1,11 +1,11 @@
 import ClimbForm from "@/components/ClimbForm";
 import PageTitle from "@/components/Layout/PageTitle";
-import { insertClimb } from "@/db/climbsRepository";
+import { insertClimb, seedMockData } from "@/db/climbsRepository";
 import i18n from "@/i18n";
 import { useClimbsStore } from "@/store/useClimbsStore";
 import { ClimbInput } from "@/types/climb";
 import { router } from "expo-router";
-import { Alert, View } from "react-native";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function AddScreen() {
@@ -34,6 +34,18 @@ export default function AddScreen() {
       }}
     >
       <PageTitle title={i18n.t("add.title")} />
+      {__DEV__ && (
+        <TouchableOpacity
+          onPress={async () => {
+            await seedMockData();
+            await useClimbsStore.getState().refresh();
+            Alert.alert("Done", "Mock data inserito");
+          }}
+          style={{ padding: 16, alignItems: "center" }}
+        >
+          <Text style={{ color: "#666" }}>🌱 Seed mock data</Text>
+        </TouchableOpacity>
+      )}
       <ClimbForm
         key="add-form"
         onSubmit={handleSubmit}
