@@ -1,13 +1,14 @@
-import { exportDatabase, importDatabase } from "@/db/backupRestore";
-import { getDatabase } from "@/db/database";
+import {
+  clearDatabase,
+  exportDatabase,
+  importDatabase,
+} from "@/db/backupRestore";
 import i18n from "@/i18n";
 import { useClimbsStore } from "@/store/useClimbsStore";
 import { useLoadData } from "@/store/useLoadData";
-import { Climb } from "@/types/climb";
 import { useFocusEffect } from "expo-router";
 import { useCallback } from "react";
 import {
-  Alert,
   Linking,
   ScrollView,
   StyleSheet,
@@ -36,43 +37,12 @@ export default function ClimbSettings() {
   const refresh = useClimbsStore((s) => s.refresh);
   const { loadData } = useLoadData();
 
-  const rows = climbs.slice(0, 50) as Climb[];
-  const count = climbs.length;
-
-  const COLUMNS: { key: keyof Climb; label: string; width: number }[] = [
-    { key: "id", label: "ID", width: 40 },
-    { key: "date", label: "Data", width: 90 },
-    { key: "crag", label: "Falesia", width: 110 },
-    { key: "route", label: "Via", width: 110 },
-    { key: "grade", label: "Grado", width: 50 },
-    { key: "outcome", label: "Esito", width: 70 },
-    { key: "attempts", label: "Tent.", width: 45 },
-    { key: "mode", label: "Modo", width: 70 },
-  ];
   useFocusEffect(
     useCallback(() => {
       loadData(() => refresh());
     }, [refresh]),
   );
 
-  async function clearAll() {
-    Alert.alert(
-      i18n.t("settings.clearTitle"),
-      i18n.t("settings.clearMessage"),
-      [
-        { text: i18n.t("settings.cancel"), style: "cancel" },
-        {
-          text: i18n.t("settings.clearConfirm"),
-          style: "destructive",
-          onPress: async () => {
-            const db = await getDatabase();
-            await db.runAsync("DELETE FROM climbs");
-            await useClimbsStore.getState().refresh();
-          },
-        },
-      ],
-    );
-  }
   return (
     <SafeAreaView style={styles.container} edges={["left", "right", "bottom"]}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -113,7 +83,7 @@ export default function ClimbSettings() {
               },
               {
                 label: i18n.t("settings.clear"),
-                onPress: clearAll,
+                onPress: clearDatabase,
                 color: "#441a1a",
               },
             ].map((item, index) => (

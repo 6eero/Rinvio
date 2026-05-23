@@ -6,12 +6,10 @@ import { getDatabase, resetDatabase } from "./database";
 
 const DB_NAME = "climbing.db";
 
-// Path del DB dentro l'app
 function getDbPath(): string {
   return `${FileSystem.documentDirectory}SQLite/${DB_NAME}`;
 }
 
-// Path temporaneo per l'export
 function getExportPath(): string {
   const date = new Date().toISOString().split("T")[0];
   return `${FileSystem.cacheDirectory}rinvio_backup_${date}.db`;
@@ -107,4 +105,11 @@ export async function importDatabase(): Promise<void> {
     console.error(e);
     Alert.alert("Errore", "Impossibile importare il database");
   }
+}
+
+export async function clearDatabase(): Promise<void> {
+  const db = await getDatabase();
+  await db.closeAsync();
+  resetDatabase();
+  await FileSystem.deleteAsync(getDbPath(), { idempotent: true });
 }
