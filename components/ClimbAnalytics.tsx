@@ -2,22 +2,22 @@ import KPI from "@/components/Analytics/KPI";
 import { useClimbAnalysis } from "@/hooks/useClimbAnalysis";
 import i18n from "@/i18n";
 import { useClimbsStore } from "@/store/useClimbsStore";
-import { Climb } from "@/types/climb";
 import React, { useEffect, useMemo } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ActivityCalendar from "./Analytics/ActivityCalendar";
+import { GradeChart } from "./Analytics/GradeChart";
+import AnalyticSection from "./Analytics/Section";
 
 export default function ClimbAnalytics() {
   const climbs = useClimbsStore((s) => s.climbs);
   const refresh = useClimbsStore((s) => s.refresh);
-  const { getGlobalStats, getLeadStats } = useClimbAnalysis();
+  const { getLeadStats } = useClimbAnalysis();
 
   useEffect(() => {
     refresh();
   }, []);
 
-  const global = useMemo(() => getGlobalStats(climbs), [climbs]);
   const lead = useMemo(() => getLeadStats(climbs), [climbs]);
 
   const currentYear = new Date().getFullYear();
@@ -41,72 +41,48 @@ export default function ClimbAnalytics() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* ── CALENDAR ── */}
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>
-            {i18n.t("analytics.calendar.title", { year: currentYear })}
-          </Text>
-        </View>
-        <View style={{ marginBottom: 20 }}>
-          <ActivityCalendar climbs={climbs} />
-        </View>
-
-        {/* ── GLOBALI ── */}
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>
-            {i18n.t("analytics.globalTitle")}
-          </Text>
-        </View>
-        <View style={styles.grid}>
-          <KPI
-            singleLine
-            label={i18n.t("analytics.total")}
-            value={String(global.total)}
-          />
-          <KPI
-            singleLine
-            label={i18n.t("analytics.successRate")}
-            value={`${global.successRate}%`}
-          />
-          <KPI
-            singleLine
-            label={i18n.t("analytics.avgAttempts")}
-            value={String(global.avgAttempts)}
-          />
-        </View>
-
-        {/* ── LEAD ── */}
+        {/* ── KPIs ── */}
         {lead && (
-          <>
-            <View style={[styles.sectionHeader, { marginTop: 28 }]}>
-              <Text style={styles.sectionTitle}>
-                {i18n.t("analytics.leadTitle")}
-              </Text>
-            </View>
-            <View style={styles.grid}>
-              <KPI
-                singleLine
-                label={i18n.t("analytics.totalLead")}
-                value={String(lead.total)}
-              />
-              <KPI
-                singleLine
-                label={i18n.t("analytics.closedLead")}
-                value={String(lead.closed)}
-              />
-              <KPI
-                singleLine
-                label={i18n.t("analytics.completionRateLead")}
-                value={`${lead.completionRate}%`}
-              />
-              <KPI
-                singleLine
-                label={i18n.t("analytics.avgAttemptsLead")}
-                value={String(lead.avgAttempts)}
-              />
-            </View>
-          </>
+          <AnalyticSection
+            title={i18n.t("analytics.leadTitle")}
+            children={
+              <View style={styles.grid}>
+                <KPI
+                  singleLine
+                  label={i18n.t("analytics.maxLeadGrade")}
+                  value={lead.maxGrade}
+                />
+                <KPI
+                  singleLine
+                  label={i18n.t("analytics.totalLead")}
+                  value={String(lead.total)}
+                />
+                <KPI
+                  singleLine
+                  label={i18n.t("analytics.closedLead")}
+                  value={String(lead.closed)}
+                />
+                <KPI
+                  singleLine
+                  label={i18n.t("analytics.completionRateLead")}
+                  value={`${lead.completionRate}%`}
+                />
+              </View>
+            }
+          />
         )}
+
+        {/* ── CALENDAR ── */}
+        <AnalyticSection
+          title={i18n.t("analytics.calendar.title", { year: currentYear })}
+          children={<ActivityCalendar climbs={climbs} />}
+        />
+
+        {/* ── Grade chart ── */}
+        <AnalyticSection
+          title={i18n.t("analytics.gradeChart.title")}
+          children={<GradeChart climbs={climbs} />}
+        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -117,28 +93,9 @@ const styles = StyleSheet.create({
   center: { flex: 1, justifyContent: "center", alignItems: "center" },
   emptyText: { color: "#6b6a65", fontSize: 16 },
   scrollContent: { paddingHorizontal: 16, paddingVertical: 20 },
-  sectionHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 12,
-  },
-  sectionTitle: {
-    color: "#ffffff",
-    fontSize: 16,
-    fontWeight: "700",
-    letterSpacing: 0.3,
-  },
   grid: {
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 10,
   },
 });
-function getGlobalStats(climbs: Climb[]): any {
-  throw new Error("Function not implemented.");
-}
-
-function getLeadStats(climbs: Climb[]): any {
-  throw new Error("Function not implemented.");
-}

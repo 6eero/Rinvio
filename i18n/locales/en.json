@@ -14,19 +14,19 @@
     "addFirst": "Add your first!"
   },
   "analytics": {
-    "title": "Analytics",
+    "title": "Lead climb analytics",
     "empty": "No data to analyze",
-    "globalTitle": "Global",
-    "leadTitle": "Lead",
-    "total": "Total Climbs",
-    "successRate": "Success Rate",
-    "avgAttempts": "Avg Attempts",
-    "totalLead": "Total Lead",
+    "leadTitle": "Statistics",
+    "totalLead": "Total",
     "closedLead": "Closed Climbs",
-    "completionRateLead": "Lead Close Rate",
-    "avgAttemptsLead": "Avg Lead Attempts",
+    "completionRateLead": "Closed Rate",
     "maxLeadGrade": "Max Grade",
-    "favoriteCrag": "Favorite Crag"
+    "calendar": {
+      "title": "Calendar {{year}}"
+    },
+    "gradeChart": {
+      "title": "Closed grades"
+    }
   },
   "card": {
     "deleteTitle": "Delete climb",
@@ -50,10 +50,10 @@
     "outcomeFailure": "✗  Failed",
     "attempts": "Number of attempts",
     "style": "Style",
-    "Style": "Style",
     "modeOnsight": "Onsight",
     "modeFlash": "Flash",
     "modeRedpoint": "Red Point",
+    "Style": "Style",
     "mode": "Mode",
     "difficulty": "Perceived difficulty",
     "notes": "Notes (optional)",
@@ -62,11 +62,11 @@
     "addClimb": "Add climb",
     "updateClimb": "Update",
     "deleteClimb": "Delete",
-    "errorCrag": "Enter the crag name",
     "errorRoute": "Enter the route name",
     "errorDate": "Date must be in YYYY-MM-DD format",
     "errorInvalidDate": "Invalid date",
     "errorAttempts": "Attempts must be at least 1",
+    "errorCrag": "Enter the crag name",
     "errorGrade": "Please select the route grade",
     "errorInvalidLeadMode": "Selected mode is invalid for Lead climbing",
     "errorInvalidFollowMode": "Selected mode is invalid for Follow climbing",

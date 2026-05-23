@@ -12,12 +12,11 @@ const KPI = ({ label, value, accent, singleLine }: KPIProps) => {
     <View
       style={{
         backgroundColor: "#161616",
-        borderColor: "rgba(255,255,255,0.05)",
+        borderColor: "rgba(255,255,255,0.075)",
         borderWidth: 0.5,
         borderRadius: 12,
         padding: 14,
         width: "48.5%",
-        minHeight: 80,
         justifyContent: "center",
       }}
     >

@@ -30,6 +30,8 @@ export default function SquareGrid({ climbs }: { climbs: Climb[] }) {
     <View
       style={{
         backgroundColor: "#161616",
+        borderColor: "rgba(255,255,255,0.075)",
+        borderWidth: 0.5,
         borderRadius: 12,
         padding: 14,
         flexDirection: "row",

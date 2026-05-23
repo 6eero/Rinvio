@@ -67,7 +67,6 @@ export default function ClimbForm({
   }, [form.date, isEdit]);
 
   const handleSubmit = () => {
-    console.log("form state:", JSON.stringify(form, null, 2));
     const errorMsg = validate();
     if (errorMsg) {
       setError(errorMsg);

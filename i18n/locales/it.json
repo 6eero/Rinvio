@@ -14,21 +14,18 @@
     "addFirst": "Aggiungi la prima!"
   },
   "analytics": {
-    "title": "Analisi",
+    "title": "Analisi salite da primo",
     "empty": "Nessun dato da analizzare",
-    "globalTitle": "Globale",
-    "leadTitle": "Lead",
-    "total": "Totale Salite",
-    "successRate": "Tasso di Successo",
-    "avgAttempts": "Media Tentativi",
-    "totalLead": "Totale Lead",
+    "leadTitle": "Statistiche",
+    "totalLead": "Totale",
     "closedLead": "Salite Chiuse",
-    "completionRateLead": "% Lead Chiuse",
-    "avgAttemptsLead": "Media Tentativi Lead",
+    "completionRateLead": "Percentuale Chiuse",
     "maxLeadGrade": "Grado Massimo",
-    "favoriteCrag": "Falesia Preferita",
     "calendar": {
       "title": "Calendario {{year}}"
+    },
+    "gradeChart": {
+      "title": "Gradi chiusi"
     }
   },
   "card": {
