@@ -262,6 +262,7 @@
   "csv": {
     "errorEmpty": "Il file CSV non contiene dati (serve almeno una riga oltre all'intestazione).",
     "errorMissingColumns": "Colonne mancanti nel CSV: {{columns}}.\nAssicurati di esportare il file dall'app e di non eliminare colonne in Google Fogli.",
-    "errorRow": "Riga {{line}}: {{error}}"
+    "errorRow": "Riga {{line}}: {{error}}",
+    "errorTooLarge": "Il file è troppo grande (massimo {{maxMB}} MB)."
   }
 }

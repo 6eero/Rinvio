@@ -8,6 +8,8 @@ import * as Sharing from "expo-sharing";
 import { Alert, Platform } from "react-native";
 import { getAllClimbs } from "./climbsRepository";
 
+const MAX_IMPORT_BYTES = 5 * 1024 * 1024;
+
 export async function exportDatabaseAsCSV(): Promise<void> {
   try {
     const climbs = await getAllClimbs();
@@ -54,6 +56,15 @@ export async function importDatabaseAsCSV(): Promise<void> {
       copyToCacheDirectory: Platform.OS !== "android",
     });
     if (result.canceled) return;
+
+    // A real export is a few hundred KB at most: refuse anything that could
+    // exhaust memory once read and parsed
+    const { size } = result.assets[0];
+    if (size !== undefined && size > MAX_IMPORT_BYTES) {
+      throw new CSVImportError("csv.errorTooLarge", {
+        maxMB: MAX_IMPORT_BYTES / 1024 / 1024,
+      });
+    }
 
     const confirmed = await confirmImport();
     if (!confirmed) return;

@@ -27,6 +27,20 @@ describe("CSV", () => {
     ]);
   });
 
+  it("defuses spreadsheet formulas and restores them on import", () => {
+    const formula: ClimbInput = {
+      ...climb,
+      crag: "=HYPERLINK(\"http://x\")",
+      route: "@SUM(A1)",
+      notes: "-2+3",
+    };
+    const csv = climbsToCSV([formula]);
+    expect(csv).toContain(`"'=HYPERLINK(""http://x"")"`);
+    expect(csv).toContain("'@SUM(A1)");
+    expect(csv).toContain("'-2+3");
+    expect(parseClimbsCSV(csv)).toEqual([formula]);
+  });
+
   it("handles CRLF line endings and blank lines", () => {
     expect(parseCSVRecords('a,b\r\n\r\n"x\r\ny",2\r\n')).toEqual([
       ["a", "b"],

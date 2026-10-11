@@ -262,6 +262,7 @@
   "csv": {
     "errorEmpty": "The CSV file has no data (at least one row after the header is required).",
     "errorMissingColumns": "Missing columns in the CSV: {{columns}}.\nMake sure you export the file from the app and don't delete columns in Google Sheets.",
-    "errorRow": "Line {{line}}: {{error}}"
+    "errorRow": "Line {{line}}: {{error}}",
+    "errorTooLarge": "The file is too large (maximum {{maxMB}} MB)."
   }
 }

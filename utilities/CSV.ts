@@ -20,15 +20,26 @@ export class CSVImportError extends Error {
   }
 }
 
+// Spreadsheets run a cell starting with one of these as a formula
+// (CSV injection): such text is exported with a leading apostrophe.
+const FORMULA_TRIGGER = /^[=+\-@\t\r]/;
+const DEFUSED_FORMULA = /^'[=+\-@\t\r]/;
+
 /**
  * Escapes a value for CSV (RFC 4180): wraps it in double quotes when it
  * contains commas, newlines or quotes, and doubles the inner quotes.
+ * Text that a spreadsheet would read as a formula is prefixed with `'`.
  */
 export function escapeCSV(value: unknown): string {
   if (value === null || value === undefined) return "";
-  const str = String(value);
+  let str = String(value);
+  if (typeof value === "string" && FORMULA_TRIGGER.test(str)) str = `'${str}`;
   return /[",\n\r]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str;
 }
+
+/** Reverts the formula prefix added by escapeCSV. */
+const unescapeFormula = (value: string): string =>
+  DEFUSED_FORMULA.test(value) ? value.slice(1) : value;
 
 /**
  * Serializes climbs to CSV with a header row. The UTF-8 BOM lets
@@ -111,7 +122,7 @@ export function parseClimbsCSV(text: string): ClimbInput[] {
     const line = idx + 2; // 1-based, after the header
     const raw: Record<string, string> = {};
     headers.forEach((header, col) => {
-      raw[header] = values[col]?.trim() ?? "";
+      raw[header] = unescapeFormula(values[col]?.trim() ?? "");
     });
 
     const climb = normalizeClimbInput({
