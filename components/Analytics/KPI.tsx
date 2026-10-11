@@ -1,52 +1,67 @@
-import { Text, View } from "react-native";
+import Card from "@/components/Layout/Card";
+import { Colors } from "@/constants/theme";
+import { Text, TouchableOpacity } from "react-native";
 
 interface KPIProps {
   label: string;
   value: string;
+  /** Small line under the value, e.g. the route a record was set on. */
+  caption?: string;
   accent?: string;
   singleLine?: boolean;
+  onPress?: () => void;
 }
 
-const KPI = ({ label, value, accent, singleLine }: KPIProps) => {
+const KPI = ({
+  label,
+  value,
+  caption,
+  accent,
+  singleLine,
+  onPress,
+}: KPIProps) => {
   return (
-    <View
-      style={{
-        backgroundColor: "#161616",
-        borderColor: "rgba(255,255,255,0.075)",
-        borderWidth: 0.5,
-        borderRadius: 12,
-        padding: 14,
-        width: "48.5%",
-        justifyContent: "center",
-      }}
+    <TouchableOpacity
+      disabled={!onPress}
+      onPress={onPress}
+      activeOpacity={0.7}
+      style={{ width: "48.5%" }}
     >
-      <Text
-        style={{
-          color: "#5F5E5A",
-          fontSize: 11,
-          fontWeight: "600",
-          textTransform: "uppercase",
-          letterSpacing: 0.5,
-          marginBottom: 4,
-        }}
-      >
-        {label}
-      </Text>
-      <Text
-        style={[
-          {
-            color: "#ffffff",
+      <Card style={{ padding: 14, flex: 1, justifyContent: "center" }}>
+        <Text
+          style={{
+            color: Colors.textFaint,
+            fontSize: 11,
+            fontWeight: "600",
+            textTransform: "uppercase",
+            letterSpacing: 0.5,
+            marginBottom: 4,
+          }}
+          numberOfLines={1}
+        >
+          {label}
+        </Text>
+        <Text
+          style={{
+            color: accent ?? Colors.text,
             fontSize: 20,
             fontWeight: "700",
-          },
-          accent ? { color: accent } : undefined,
-        ]}
-        numberOfLines={singleLine ? 1 : undefined}
-        adjustsFontSizeToFit={singleLine}
-      >
-        {value}
-      </Text>
-    </View>
+          }}
+          numberOfLines={singleLine ? 1 : undefined}
+          adjustsFontSizeToFit={singleLine}
+        >
+          {value}
+        </Text>
+        {caption ? (
+          <Text
+            style={{ color: Colors.textMuted, fontSize: 12, marginTop: 2 }}
+            numberOfLines={1}
+          >
+            {caption}
+          </Text>
+        ) : null}
+      </Card>
+    </TouchableOpacity>
   );
 };
 

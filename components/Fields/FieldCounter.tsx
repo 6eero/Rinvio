@@ -1,4 +1,4 @@
-import i18n from "@/i18n";
+import { Colors, Radius } from "@/constants/theme";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import SectionLabel from "../SectionLabel";
 
@@ -17,11 +17,11 @@ const FieldCounter = ({
 }) => {
   return (
     <View style={{ marginVertical: 12 }}>
-      <SectionLabel text={i18n.t(label)} />
+      <SectionLabel text={label} />
       <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
         <TouchableOpacity
           style={[styles.btn, disabled && styles.btnDisabled]}
-          onPress={() => !disabled && onChange(Math.max(min, value - 1))}
+          onPress={() => onChange(Math.max(min, value - 1))}
           disabled={disabled}
         >
           <Text style={[styles.btnText, disabled && styles.textDisabled]}>
@@ -35,7 +35,7 @@ const FieldCounter = ({
 
         <TouchableOpacity
           style={[styles.btn, disabled && styles.btnDisabled]}
-          onPress={() => !disabled && onChange(value + 1)}
+          onPress={() => onChange(value + 1)}
           disabled={disabled}
         >
           <Text style={[styles.btnText, disabled && styles.textDisabled]}>
@@ -51,26 +51,26 @@ const styles = StyleSheet.create({
   btn: {
     width: 40,
     height: 40,
-    backgroundColor: "#161616",
+    backgroundColor: Colors.surface,
     borderWidth: 1,
-    borderColor: "#202020",
-    borderRadius: 10,
+    borderColor: Colors.border,
+    borderRadius: Radius.md + 2,
     alignItems: "center",
     justifyContent: "center",
   },
   btnDisabled: {
-    backgroundColor: "#1f1f1f",
-    borderColor: "#1a1a1a",
+    backgroundColor: Colors.surfaceMuted,
+    borderColor: Colors.border,
   },
   btnText: {
-    color: "#fff",
+    color: Colors.text,
     fontSize: 16,
   },
   textDisabled: {
-    color: "#555",
+    color: Colors.textFaint,
   },
   value: {
-    color: "#fff",
+    color: Colors.text,
     fontSize: 16,
     fontWeight: "bold",
     minWidth: 30,

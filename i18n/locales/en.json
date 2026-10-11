@@ -3,38 +3,151 @@
     "climbs": "My climbs",
     "analytics": "Analytics",
     "add": "Add",
-    "stats": "Progress",
     "settings": "Settings"
   },
   "home": {
     "title": "My climbs",
-    "total": "{{count}} total",
-    "loading": "Loading...",
-    "empty": "No climbs yet",
-    "addFirst": "Add your first!"
-  },
-  "analytics": {
-    "title": "Lead climb analytics",
-    "empty": "No data to analyze",
-    "leadTitle": "Statistics",
-    "totalLead": "Total",
-    "closedLead": "Closed Climbs",
-    "completionRateLead": "Closed Rate",
-    "maxLeadGrade": "Max Grade",
-    "calendar": {
-      "title": "Calendar {{year}}"
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "routes": {
+      "one": "1 route",
+      "other": "{{count}} routes"
     },
-    "gradeChart": {
-      "title": "Closed grades"
+    "closed": {
+      "one": "1 topped",
+      "other": "{{count}} topped"
+    },
+    "maxGrade": "max {{grade}}",
+    "addToSession": "Add route",
+    "searchPlaceholder": "Search crag, route or grade",
+    "noResults": "No climbs found",
+    "emptyTitle": "No climbs yet",
+    "emptyMessage": "Log your first route to start your logbook.",
+    "emptyAction": "Add climb",
+    "attempts": {
+      "one": "1 attempt",
+      "other": "{{count}} attempts"
     }
   },
-  "card": {
-    "deleteTitle": "Delete climb",
-    "deleteMessage": "Do you want to delete \"{{name}}\"?",
-    "deleteConfirm": "Delete",
-    "cancel": "Cancel",
-    "attempts": "att.",
-    "difficulty": "diff."
+  "analytics": {
+    "title": "Analytics",
+    "empty": "No data to analyze",
+    "emptyRange": "No climbs in this period",
+    "range": {
+      "3m": "3 months",
+      "12m": "12 months",
+      "ytd": "This year",
+      "all": "All time"
+    },
+    "outcome": {
+      "firstTry": "Onsight/Flash",
+      "redpoint": "Redpoint",
+      "hangdog": "Hangdog",
+      "follow": "Follow",
+      "failure": "Abandoned"
+    },
+    "overview": {
+      "title": "Overview",
+      "routes": "Routes",
+      "split": "{{lead}} lead · {{follow}} follow",
+      "days": "Days out",
+      "crags": {
+        "one": "1 crag",
+        "other": "{{count}} crags"
+      }
+    },
+    "level": {
+      "maxSend": "Max grade",
+      "top10": "Top 10 average",
+      "top10Caption": {
+        "one": "of your best route",
+        "other": "of your {{count}} best routes"
+      },
+      "maxOnsight": "Max onsight",
+      "maxFlash": "Max flash"
+    },
+    "insights": {
+      "title": "What the data says",
+      "trendUp": "On the rise: in the last 3 months you sent {{recent}}, up from {{previous}} in the 3 months before.",
+      "trendDown": "In the last 3 months your hardest send is {{recent}}, below the {{previous}} of the 3 months before.",
+      "trendSteady": "Steady level: hardest send {{recent}} both in the last 3 months and in the 3 before.",
+      "firstTryGap": {
+        "one": "Your first-try max ({{firstTry}}) is just 1 grade below your worked max ({{send}}).",
+        "other": "Your first-try max ({{firstTry}}) is {{count}} grades below your worked max ({{send}})."
+      },
+      "firstTryAtMax": "You sent your max grade ({{send}}) first try: there is room to work harder routes.",
+      "comfortZone": "Comfort zone up to {{grade}}: there you send {{rate}}% of your lead attempts.",
+      "wallGrade": "{{grade}} is your wall: you only send {{rate}}% of it on lead.",
+      "highFailure": "You abandon {{rate}}% of your lead routes: try working them with rests instead of lowering off.",
+      "noFailure": "No abandoned or hangdogged routes: try some harder grades, that is where you improve.",
+      "followShare": "{{rate}}% of your topped routes were on follow: they don't count for your lead grade."
+    },
+    "lead": {
+      "title": "Lead",
+      "subtitle": {
+        "one": "1 route tried · grades count clean sends only (onsight, flash, redpoint)",
+        "other": "{{count}} routes tried · grades count clean sends only (onsight, flash, redpoint)"
+      },
+      "sendRate": "Clean sends",
+      "sendCaption": "{{onsight}} OS · {{flash}} FL · {{redpoint}} RP",
+      "firstTryRate": "First try",
+      "firstTryCaption": "of clean sends",
+      "hangdog": "Hangdogged",
+      "failure": "Abandoned",
+      "failureCaption": "{{rate}}% of lead routes",
+      "toppedRate": "Topped",
+      "toppedCaption": "rests included",
+      "avgRedpointAttempts": "Tries per RP",
+      "avgRedpointCaption": "average per redpoint"
+    },
+    "follow": {
+      "title": "Follow",
+      "subtitle": "Good for training, but they don't count for your grade",
+      "topped": "Topped",
+      "maxGrade": "Max grade",
+      "failures": {
+        "one": "1 abandoned",
+        "other": "{{count}} abandoned"
+      }
+    },
+    "pyramid": {
+      "title": "Grade pyramid",
+      "subtitle": "All routes by grade and outcome",
+      "hint": "Tap a grade to see its breakdown",
+      "selected": {
+        "one": "{{grade}}: 1 route",
+        "other": "{{grade}}: {{count}} routes"
+      }
+    },
+    "monthly": {
+      "title": "Over time",
+      "subtitle": "Tap a month to see its numbers",
+      "progression": "GRADE PROGRESSION",
+      "volume": "ROUTES PER MONTH",
+      "sendSeries": "Max clean send",
+      "firstTrySeries": "Max onsight/flash",
+      "maxSend": "max {{grade}}",
+      "maxFirstTry": "onsight/flash {{grade}}",
+      "noSends": "No clean lead sends in this period"
+    },
+    "projects": {
+      "title": "Open projects",
+      "subtitle": "{{open}} to send on lead · {{sent}} sent after several tries",
+      "sessions": {
+        "one": "1 session",
+        "other": "{{count}} sessions"
+      }
+    },
+    "crags": {
+      "title": "Crags",
+      "days": {
+        "one": "1 day",
+        "other": "{{count}} days"
+      }
+    },
+    "calendar": {
+      "title": "Calendar {{year}}"
+    }
   },
   "form": {
     "date": "Date",
@@ -43,70 +156,46 @@
     "route": "Route name",
     "routePlaceholder": "E.g. Bicio Bragio",
     "grade": "Grade (French scale)",
-    "length": "Length in meters (optional)",
-    "lengthPlaceholder": "E.g. 25",
-    "outcome": "Outcome",
-    "outcomeSuccess": "✓  Sent",
-    "outcomeFailure": "✗  Failed",
     "attempts": "Number of attempts",
     "style": "Style",
-    "modeOnsight": "Onsight",
-    "modeFlash": "Flash",
-    "modeRedpoint": "Red Point",
-    "Style": "Style",
     "mode": "Mode",
     "difficulty": "Perceived difficulty",
     "notes": "Notes (optional)",
     "notesPlaceholder": "Comments, conditions, beta...",
-    "save": "Save",
     "addClimb": "Add climb",
     "updateClimb": "Update",
     "deleteClimb": "Delete",
     "errorRoute": "Enter the route name",
-    "errorDate": "Date must be in YYYY-MM-DD format",
     "errorInvalidDate": "Invalid date",
     "errorAttempts": "Attempts must be at least 1",
     "errorCrag": "Enter the crag name",
     "errorGrade": "Please select the route grade",
     "errorInvalidLeadMode": "Selected mode is invalid for Lead climbing",
     "errorInvalidFollowMode": "Selected mode is invalid for Follow climbing",
-    "errorPerfectAscentAttempts": "Onsight and Flash ascents are only possible on the 1st attempt"
+    "errorPerfectAscentAttempts": "Onsight and Flash ascents are only possible on the 1st attempt",
+    "errorStyle": "Select a style",
+    "errorDifficulty": "Perceived difficulty must be between 1 and 5"
   },
   "add": {
     "title": "Add Climb",
     "savedTitle": "Saved!",
     "savedMessage": "Climb added successfully",
-    "errorTitle": "Error",
-    "errorMessage": "Unable to save climb",
-    "ok": "OK"
+    "errorMessage": "Unable to save climb"
   },
   "edit": {
     "title": "Edit Climb",
-    "loading": "Loading...",
-    "notFound": "Climb not found",
     "savedTitle": "Saved!",
     "savedMessage": "Climb updated",
     "deleteTitle": "Delete climb",
     "deleteMessage": "Are you sure you want to delete this climb?",
-    "errorTitle": "Error",
     "errorMessage": "Unable to update climb",
-    "ok": "OK",
     "deleteConfirm": "Delete",
-    "cancel": "Cancel"
+    "deleteErrorMessage": "Could not delete the climb"
   },
   "settings": {
     "title": "Settings",
-    "noRecords": "No records",
-    "refresh": "Refresh",
-    "clear": "Clear",
-    "export": "Export",
-    "import": "Import",
     "exportAsCSV": "Export as CSV",
     "importAsCSV": "Import as CSV",
-    "clearTitle": "Clear DB",
-    "clearMessage": "Are you sure you want to delete all records?",
-    "clearConfirm": "Clear",
-    "cancel": "Cancel",
     "databaseSettings": "Database Settings",
     "version": "App version",
     "preferences": "Preferences",
@@ -130,33 +219,15 @@
         "btnCancel": "Cancel",
         "btnImport": "Import",
         "successTitle": "Import complete",
-        "successMsgSingular": "climb successfully imported.",
-        "successMsgPlural": "climbs successfully imported.",
         "errorTitle": "Import error",
-        "errorDefaultMsg": "Unable to import CSV."
-      },
-      "clear": {
-        "confirmTitle": "Delete database",
-        "confirmMsg": "All data will be permanently deleted. Continue?",
-        "btnCancel": "Cancel",
-        "btnDelete": "Delete",
-        "successTitle": "Database deleted",
-        "successMsg": "Restart the app to apply changes."
+        "errorDefaultMsg": "Unable to import CSV.",
+        "successMsg": {
+          "one": "1 climb imported successfully.",
+          "other": "{{count}} climbs imported successfully."
+        }
       }
-    }
-  },
-  "backup": {
-    "exportError": "Unable to export database",
-    "exportNotAvailable": "Sharing is not available on this device",
-    "exportDialogTitle": "Export Rinvio backup",
-    "dbNotFound": "Database not found",
-    "importTitle": "Import backup",
-    "importMessage": "Warning: all current data will be replaced. Continue?",
-    "importConfirm": "Import",
-    "importSuccess": "Import complete",
-    "importSuccessMessage": "Backup restored. Restart the app to apply changes.",
-    "importError": "Unable to import database",
-    "cancel": "Cancel"
+    },
+    "themeDark": "Dark"
   },
   "options": {
     "style": {
@@ -171,6 +242,26 @@
       "lead_failure": "Failed",
       "follow_success": "Sent",
       "follow_failure": "Failed"
+    },
+    "modeHint": {
+      "lead_onsight": "Sent first try with no prior information about the route and without watching anyone climb it.",
+      "lead_flash": "Sent first try, but with prior information (beta, videos, watching someone climb it).",
+      "lead_redpoint": "Sent without falling or resting on the rope, after one or more previous attempts.",
+      "lead_hangdog": "Reached the anchor, but fell or rested on the rope along the way.",
+      "lead_failure": "Didn't reach the anchor.",
+      "follow_success": "Reached the anchor while following.",
+      "follow_failure": "Didn't reach the anchor.",
+      "firstTryOnly": "Onsight and flash are only possible on the first attempt."
     }
+  },
+  "common": {
+    "ok": "OK",
+    "cancel": "Cancel",
+    "errorTitle": "Error"
+  },
+  "csv": {
+    "errorEmpty": "The CSV file has no data (at least one row after the header is required).",
+    "errorMissingColumns": "Missing columns in the CSV: {{columns}}.\nMake sure you export the file from the app and don't delete columns in Google Sheets.",
+    "errorRow": "Line {{line}}: {{error}}"
   }
 }

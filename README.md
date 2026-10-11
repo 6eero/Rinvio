@@ -7,7 +7,7 @@ Rinvio is a mobile application for climbers to track their outdoor and indoor as
 - **Climb Logging**: Record the name, grade, sector, and style (Lead, Top Rope, Boulder) of your climbs.
 - **SQLite Storage**: All data is stored locally on your device. Your data stays yours.
 - **Statistics**: View a summary of your activities and progression.
-- **Export/Import**: easily backup your database or move it to another device via JSON/SQLite export.
+- **Export/Import**: easily backup your database or move it to another device via CSV export/import.
 - **Multilingual Support**: Fully localized in English and Italian.
 - **Dark Mode**: High-contrast UI designed for both indoor gyms and outdoor crags.
 
@@ -15,7 +15,7 @@ Rinvio is a mobile application for climbers to track their outdoor and indoor as
 
 - **Framework**: [Expo](https://expo.dev/) (React Native)
 - **Database**: [Expo SQLite](https://docs.expo.dev/versions/latest/sdk/sqlite/)
-- **Styling**: [NativeWind](https://www.nativewind.dev/) (Tailwind CSS for React Native)
+- **Styling**: React Native styles with shared design tokens (`constants/theme.ts`)
 - **Icons**: [Lucide React Native](https://lucide.dev/)
 - **Navigation**: [Expo Router](https://docs.expo.dev/router/introduction/) (File-based routing)
 
@@ -37,6 +37,13 @@ Rinvio is a mobile application for climbers to track their outdoor and indoor as
 3. **Start the development server**
    ```bash
    npx expo start
+   ```
+
+4. **Run the checks**
+   ```bash
+   npm test           # unit tests (domain rules, CSV, dates, stats)
+   npm run typecheck
+   npm run lint
    ```
 
 You can then open the app on your physical device via the **Expo Go** app by scanning the QR code, or run it on an emulator.

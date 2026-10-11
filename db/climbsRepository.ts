@@ -1,34 +1,32 @@
-import { Climb, ClimbInput } from "../types/climb";
+import { CLIMB_COLUMNS, Climb, ClimbInput } from "@/domain/climb";
+import { SQLiteDatabase } from "expo-sqlite";
 import { getDatabase } from "./database";
+
+const COLUMNS = CLIMB_COLUMNS.join(", ");
+const PLACEHOLDERS = CLIMB_COLUMNS.map(() => "?").join(", ");
+const ASSIGNMENTS = CLIMB_COLUMNS.map((col) => `${col} = ?`).join(", ");
+
+type ClimbRow = Omit<Climb, "notes"> & { notes: string | null };
+
+const fromRow = (row: ClimbRow): Climb => ({ ...row, notes: row.notes ?? "" });
+
+/** Values in CLIMB_COLUMNS order; empty notes are stored as NULL. */
+const toParams = (climb: ClimbInput) =>
+  CLIMB_COLUMNS.map((col) =>
+    col === "notes" ? climb.notes || null : climb[col],
+  );
 
 export async function getAllClimbs(): Promise<Climb[]> {
   const db = await getDatabase();
-  return db.getAllAsync<Climb>("SELECT * FROM climbs ORDER BY date DESC");
-}
-
-export async function getClimbById(id: number): Promise<Climb | null> {
-  const db = await getDatabase();
-  return db.getFirstAsync<Climb>("SELECT * FROM climbs WHERE id = ?", [id]);
+  const rows = await db.getAllAsync<ClimbRow>(
+    `SELECT id, ${COLUMNS} FROM climbs ORDER BY date DESC, id DESC`,
+  );
+  return rows.map(fromRow);
 }
 
 export async function insertClimb(climb: ClimbInput): Promise<number> {
   const db = await getDatabase();
-  const result = await db.runAsync(
-    `INSERT INTO climbs (date, crag, route, grade, attempts, mode, style, difficulty, notes)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    [
-      climb.date,
-      climb.crag,
-      climb.route,
-      climb.grade,
-      climb.attempts,
-      climb.mode,
-      climb.style,
-      climb.difficulty,
-      climb.notes ?? null,
-    ],
-  );
-  return result.lastInsertRowId;
+  return insert(db, climb);
 }
 
 export async function updateClimb(
@@ -36,24 +34,10 @@ export async function updateClimb(
   climb: ClimbInput,
 ): Promise<void> {
   const db = await getDatabase();
-  await db.runAsync(
-    `UPDATE climbs
-     SET date=?, crag=?, route=?, grade=?,
-         attempts=?, mode=?, style=?, difficulty=?, notes=?
-     WHERE id=?`,
-    [
-      climb.date,
-      climb.crag,
-      climb.route,
-      climb.grade,
-      climb.attempts,
-      climb.mode,
-      climb.style,
-      climb.difficulty,
-      climb.notes ?? null,
-      id,
-    ],
-  );
+  await db.runAsync(`UPDATE climbs SET ${ASSIGNMENTS} WHERE id = ?`, [
+    ...toParams(climb),
+    id,
+  ]);
 }
 
 export async function deleteClimb(id: number): Promise<void> {
@@ -61,83 +45,30 @@ export async function deleteClimb(id: number): Promise<void> {
   await db.runAsync("DELETE FROM climbs WHERE id = ?", [id]);
 }
 
-export async function getCragByDate(
-  date: string,
-  excludeId?: number,
-): Promise<string | null> {
+export async function insertClimbs(climbs: ClimbInput[]): Promise<void> {
   const db = await getDatabase();
-  const row = excludeId
-    ? await db.getFirstAsync<{ crag: string }>(
-        "SELECT crag FROM climbs WHERE date = ? AND id != ? LIMIT 1",
-        [date, excludeId],
-      )
-    : await db.getFirstAsync<{ crag: string }>(
-        "SELECT crag FROM climbs WHERE date = ? LIMIT 1",
-        [date],
-      );
-  return row?.crag ?? null;
+  await db.withTransactionAsync(async () => {
+    for (const climb of climbs) {
+      await insert(db, climb);
+    }
+  });
 }
 
-export async function seedMockData(): Promise<void> {
+/** Atomically replaces every climb (used by the CSV import). */
+export async function replaceAllClimbs(climbs: ClimbInput[]): Promise<void> {
   const db = await getDatabase();
-
-  const crags = ["Finale Ligure", "Arco", "Moonarie", "Céüse", "Wenden"];
-  const grades = ["5c", "6a", "6a+", "6b", "6b+", "6c", "7a"];
-  const leadModes = [
-    "lead_onsight",
-    "lead_flash",
-    "lead_redpoint",
-    "lead_hangdog",
-    "lead_failure",
-  ];
-  const followModes = ["follow_success", "follow_failure"];
-
-  const routes = [
-    "Via Normale",
-    "Spigolo Nord",
-    "Diedro Giallo",
-    "Fessura",
-    "Placca Rossa",
-    "Tetto",
-    "Strapiombo",
-  ];
-
-  // genera date negli ultimi 6 mesi
-  const dates: string[] = [];
-  for (let i = 0; i < 6; i++) {
-    const d = new Date();
-    d.setMonth(d.getMonth() - i);
-    for (let j = 0; j < 4; j++) {
-      d.setDate(Math.floor(Math.random() * 28) + 1);
-      dates.push(d.toISOString().split("T")[0]);
+  await db.withTransactionAsync(async () => {
+    await db.runAsync("DELETE FROM climbs");
+    for (const climb of climbs) {
+      await insert(db, climb);
     }
-  }
+  });
+}
 
-  for (const date of dates) {
-    const style = Math.random() > 0.2 ? "lead" : "follow";
-    const mode =
-      style === "lead"
-        ? leadModes[Math.floor(Math.random() * leadModes.length)]
-        : followModes[Math.floor(Math.random() * followModes.length)];
-    const attempts =
-      mode === "lead_onsight" || mode === "lead_flash"
-        ? 1
-        : Math.floor(Math.random() * 4) + 1;
-
-    await db.runAsync(
-      `INSERT INTO climbs (date, crag, route, grade, style, mode, attempts, difficulty, notes)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        date,
-        crags[Math.floor(Math.random() * crags.length)],
-        routes[Math.floor(Math.random() * routes.length)],
-        grades[Math.floor(Math.random() * grades.length)],
-        style,
-        mode,
-        attempts,
-        Math.floor(Math.random() * 5) + 1,
-        "",
-      ],
-    );
-  }
+async function insert(db: SQLiteDatabase, climb: ClimbInput): Promise<number> {
+  const result = await db.runAsync(
+    `INSERT INTO climbs (${COLUMNS}) VALUES (${PLACEHOLDERS})`,
+    toParams(climb),
+  );
+  return result.lastInsertRowId;
 }

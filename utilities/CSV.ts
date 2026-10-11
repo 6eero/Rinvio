@@ -1,138 +1,138 @@
-import { CSV_COLUMNS } from "@/constants/constants";
-import { ClimbRow } from "@/types/climb";
+import {
+  CLIMB_COLUMNS,
+  ClimbInput,
+  ClimbMode,
+  ClimbStyle,
+  normalizeClimbInput,
+  validateClimb,
+} from "@/domain/climb";
+
+const BOM = "﻿";
+
+/** Import failure; `key` and `params` are an i18n message for the user. */
+export class CSVImportError extends Error {
+  constructor(
+    public readonly key: string,
+    public readonly params: Record<string, unknown> = {},
+  ) {
+    super(key);
+    this.name = "CSVImportError";
+  }
+}
 
 /**
- * Escapa un valore per il formato CSV (RFC 4180).
- * Racchiude tra virgolette doppie se il valore contiene virgole,
- * newline o virgolette; raddoppia le virgolette interne.
+ * Escapes a value for CSV (RFC 4180): wraps it in double quotes when it
+ * contains commas, newlines or quotes, and doubles the inner quotes.
  */
 export function escapeCSV(value: unknown): string {
   if (value === null || value === undefined) return "";
   const str = String(value);
-  if (
-    str.includes(",") ||
-    str.includes('"') ||
-    str.includes("\n") ||
-    str.includes("\r")
-  ) {
-    return `"${str.replace(/"/g, '""')}"`;
-  }
-  return str;
+  return /[",\n\r]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str;
 }
 
 /**
- * Converte un array di righe in stringa CSV con intestazione.
- * Aggiunge il BOM UTF-8 così Google Fogli / Excel riconoscono
- * subito la codifica e mostrano correttamente accenti e caratteri speciali.
+ * Serializes climbs to CSV with a header row. The UTF-8 BOM lets
+ * Google Sheets / Excel detect the encoding and show accents correctly.
  */
-export function rowsToCSV(rows: ClimbRow[]): string {
-  const BOM = "\uFEFF";
-  const header = CSV_COLUMNS.join(",");
-  const lines = rows.map((row) =>
-    CSV_COLUMNS.map((col) => escapeCSV(row[col])).join(","),
+export function climbsToCSV(climbs: ClimbInput[]): string {
+  const header = CLIMB_COLUMNS.join(",");
+  const lines = climbs.map((climb) =>
+    CLIMB_COLUMNS.map((col) => escapeCSV(climb[col])).join(","),
   );
   return BOM + [header, ...lines].join("\n");
 }
 
 /**
- * Parsa una riga CSV rispettando le virgolette RFC 4180.
+ * Splits CSV text into records (RFC 4180). Works on the whole text, not line
+ * by line, so quoted fields may contain commas, quotes and newlines.
  */
-export function parseCSVRow(line: string): string[] {
-  const result: string[] = [];
-  let current = "";
+export function parseCSVRecords(text: string): string[][] {
+  const records: string[][] = [];
+  let record: string[] = [];
+  let field = "";
   let inQuotes = false;
-  let i = 0;
 
-  while (i < line.length) {
-    const ch = line[i];
-    if (ch === '"') {
-      if (inQuotes && line[i + 1] === '"') {
-        // Virgoletta raddoppiata → virgoletta letterale
-        current += '"';
-        i += 2;
-      } else {
-        inQuotes = !inQuotes;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+
+    if (inQuotes) {
+      if (ch === '"' && text[i + 1] === '"') {
+        field += '"';
         i++;
+      } else if (ch === '"') {
+        inQuotes = false;
+      } else {
+        field += ch;
       }
-    } else if (ch === "," && !inQuotes) {
-      result.push(current);
-      current = "";
-      i++;
+    } else if (ch === '"') {
+      inQuotes = true;
+    } else if (ch === ",") {
+      record.push(field);
+      field = "";
+    } else if (ch === "\n" || ch === "\r") {
+      if (ch === "\r" && text[i + 1] === "\n") i++;
+      record.push(field);
+      records.push(record);
+      record = [];
+      field = "";
     } else {
-      current += ch;
-      i++;
+      field += ch;
     }
   }
-  result.push(current);
-  return result;
+
+  record.push(field);
+  records.push(record);
+
+  // Drop blank lines (e.g. a trailing newline)
+  return records.filter((r) => r.some((f) => f.trim() !== ""));
 }
 
 /**
- * Parsa l'intero testo CSV.
- * - Rimuove il BOM se presente.
- * - Salta le righe vuote.
- * - Valida che l'intestazione corrisponda alle colonne attese.
- * Lancia un errore descrittivo in caso di problemi.
+ * Parses and validates a CSV exported by the app.
+ * Throws a CSVImportError describing the first problem found.
  */
-export function parseCSV(text: string): ClimbRow[] {
-  const clean = text.startsWith("\uFEFF") ? text.slice(1) : text;
-  const lines = clean.split(/\r?\n/).filter((l) => l.trim() !== "");
+export function parseClimbsCSV(text: string): ClimbInput[] {
+  const clean = text.startsWith(BOM) ? text.slice(1) : text;
+  const [headerRow, ...rows] = parseCSVRecords(clean);
 
-  if (lines.length < 2) {
-    throw new Error(
-      "Il file CSV non contiene dati (almeno una riga dati è richiesta).",
-    );
+  if (!headerRow || rows.length === 0) {
+    throw new CSVImportError("csv.errorEmpty");
   }
 
-  const headers = parseCSVRow(lines[0]).map((h) => h.trim());
-
-  // Verifica che tutte le colonne attese siano presenti
-  const missing = CSV_COLUMNS.filter((col) => !headers.includes(col));
+  const headers = headerRow.map((h) => h.trim());
+  const missing = CLIMB_COLUMNS.filter((col) => !headers.includes(col));
   if (missing.length > 0) {
-    throw new Error(
-      `Colonne mancanti nel CSV: ${missing.join(", ")}.\n` +
-        `Assicurati di esportare il file dall'app e di non eliminare colonne in Google Fogli.`,
-    );
+    throw new CSVImportError("csv.errorMissingColumns", {
+      columns: missing.join(", "),
+    });
   }
 
-  return lines.slice(1).map((line, lineIdx) => {
-    const values = parseCSVRow(line);
-    const row: Record<string, unknown> = {};
-
-    headers.forEach((header, idx) => {
-      row[header] = values[idx]?.trim() ?? "";
+  return rows.map((values, idx) => {
+    const line = idx + 2; // 1-based, after the header
+    const raw: Record<string, string> = {};
+    headers.forEach((header, col) => {
+      raw[header] = values[col]?.trim() ?? "";
     });
 
-    // Casting e normalizzazione dei tipi
-    return {
-      date: row.date as string,
-      crag: row.crag as string,
-      route: row.route as string,
-      grade: row.grade as string,
-      style: row.style as string,
-      mode: row.mode as string,
-      // attempts: intero, default 1 se mancante o non numerico
-      attempts: (() => {
-        const n = parseInt(row.attempts as string, 10);
-        if (isNaN(n)) {
-          throw new Error(
-            `Riga ${lineIdx + 2}: "attempts" non è un numero intero valido ("${row.attempts}").`,
-          );
-        }
-        return n;
-      })(),
-      // difficulty: intero
-      difficulty: (() => {
-        const n = parseInt(row.difficulty as string, 10);
-        if (isNaN(n)) {
-          throw new Error(
-            `Riga ${lineIdx + 2}: "difficulty" non è un numero intero valido ("${row.difficulty}").`,
-          );
-        }
-        return n;
-      })(),
-      // notes: stringa vuota → NULL
-      notes: (row.notes as string) || null,
-    } satisfies ClimbRow;
+    const climb = normalizeClimbInput({
+      date: raw.date,
+      crag: raw.crag,
+      route: raw.route,
+      grade: raw.grade,
+      style: raw.style as ClimbStyle,
+      mode: raw.mode as ClimbMode,
+      attempts: parseInteger(raw.attempts),
+      difficulty: parseInteger(raw.difficulty),
+      notes: raw.notes,
+    });
+
+    const error = validateClimb(climb);
+    if (error) {
+      throw new CSVImportError("csv.errorRow", { line, errorKey: error });
+    }
+    return climb;
   });
 }
+
+const parseInteger = (value: string): number =>
+  /^-?\d+$/.test(value) ? Number(value) : NaN;

@@ -1,23 +1,23 @@
 import OptionButton from "@/components/Buttons/OptionButton";
 import SectionLabel from "@/components/SectionLabel";
-import i18n from "@/i18n";
+import { ReactNode } from "react";
 import { ScrollView, View } from "react-native";
 
-interface Option<T> {
+export interface Option<T> {
   label: string;
   value: T;
-  isKey?: boolean;
   color?: string;
   disabled?: boolean;
 }
 
-const FieldOptionScroll = <T extends string>({
+const FieldOptionScroll = <T extends string | number>({
   label,
   options,
   value,
   onChange,
   useScroll = false,
   disabled = false,
+  footer,
 }: {
   label: string;
   options: Option<T>[];
@@ -25,13 +25,15 @@ const FieldOptionScroll = <T extends string>({
   onChange: (value: T) => void;
   useScroll?: boolean;
   disabled?: boolean;
+  /** Content shown below the options, e.g. an explanation of the selection. */
+  footer?: ReactNode;
 }) => {
   const content = options.map((opt) => (
     <OptionButton
       key={opt.value}
-      label={opt.isKey ? i18n.t(opt.label) : opt.label}
+      label={opt.label}
       selected={value === opt.value}
-      onPress={() => !disabled && !opt.disabled && onChange(opt.value)}
+      onPress={() => onChange(opt.value)}
       color={opt.color}
       disabled={disabled || !!opt.disabled}
     />
@@ -39,7 +41,7 @@ const FieldOptionScroll = <T extends string>({
 
   return (
     <View style={{ marginVertical: 12 }}>
-      <SectionLabel text={i18n.t(label)} />
+      <SectionLabel text={label} />
       {useScroll ? (
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {content}
@@ -49,6 +51,7 @@ const FieldOptionScroll = <T extends string>({
           {content}
         </View>
       )}
+      {footer}
     </View>
   );
 };

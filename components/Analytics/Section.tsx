@@ -1,34 +1,38 @@
+import { Colors } from "@/constants/theme";
+import { ReactNode } from "react";
 import { Text, View } from "react-native";
 
 const AnalyticSection = ({
   title,
+  subtitle,
   children,
 }: {
   title: string;
-  children: any;
+  /** What the section counts, when the title alone could mislead. */
+  subtitle?: string;
+  children: ReactNode;
 }) => {
   return (
-    <View>
-      <View
+    <View style={{ marginBottom: 28 }}>
+      <Text
         style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginBottom: 12,
+          color: Colors.text,
+          fontSize: 16,
+          fontWeight: "700",
+          letterSpacing: 0.3,
+          marginBottom: subtitle ? 2 : 12,
         }}
       >
+        {title}
+      </Text>
+      {subtitle && (
         <Text
-          style={{
-            color: "#ffffff",
-            fontSize: 16,
-            fontWeight: "700",
-            letterSpacing: 0.3,
-          }}
+          style={{ color: Colors.textMuted, fontSize: 12, marginBottom: 12 }}
         >
-          {title}
+          {subtitle}
         </Text>
-      </View>
-      <View style={{ marginBottom: 28 }}>{children}</View>
+      )}
+      {children}
     </View>
   );
 };

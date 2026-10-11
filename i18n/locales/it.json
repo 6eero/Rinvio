@@ -1,40 +1,153 @@
 {
   "tabs": {
-    "climbs": "Le mie salite",
+    "climbs": "Salite",
     "analytics": "Analisi",
     "add": "Aggiungi",
-    "stats": "Progressi",
     "settings": "Settings"
   },
   "home": {
     "title": "Le mie salite",
-    "total": "{{count}} totali",
-    "loading": "Caricamento...",
-    "empty": "Nessuna salita ancora",
-    "addFirst": "Aggiungi la prima!"
-  },
-  "analytics": {
-    "title": "Analisi salite da primo",
-    "empty": "Nessun dato da analizzare",
-    "leadTitle": "Statistiche",
-    "totalLead": "Totale",
-    "closedLead": "Salite Chiuse",
-    "completionRateLead": "Percentuale Chiuse",
-    "maxLeadGrade": "Grado Massimo",
-    "calendar": {
-      "title": "Calendario {{year}}"
+    "today": "Oggi",
+    "yesterday": "Ieri",
+    "routes": {
+      "one": "1 via",
+      "other": "{{count}} vie"
     },
-    "gradeChart": {
-      "title": "Gradi chiusi"
+    "closed": {
+      "one": "1 chiusa",
+      "other": "{{count}} chiuse"
+    },
+    "maxGrade": "max {{grade}}",
+    "addToSession": "Aggiungi via",
+    "searchPlaceholder": "Cerca falesia, via o grado",
+    "noResults": "Nessuna salita trovata",
+    "emptyTitle": "Nessuna salita",
+    "emptyMessage": "Registra la tua prima via per iniziare il diario.",
+    "emptyAction": "Aggiungi salita",
+    "attempts": {
+      "one": "1 tentativo",
+      "other": "{{count}} tentativi"
     }
   },
-  "card": {
-    "deleteTitle": "Elimina salita",
-    "deleteMessage": "Vuoi eliminare \"{{name}}\"?",
-    "deleteConfirm": "Elimina",
-    "cancel": "Annulla",
-    "attempts": "tent.",
-    "difficulty": "diff."
+  "analytics": {
+    "title": "Analisi",
+    "empty": "Nessun dato da analizzare",
+    "emptyRange": "Nessuna salita in questo periodo",
+    "range": {
+      "3m": "3 mesi",
+      "12m": "12 mesi",
+      "ytd": "Quest'anno",
+      "all": "Sempre"
+    },
+    "outcome": {
+      "firstTry": "A vista/Flash",
+      "redpoint": "Redpoint",
+      "hangdog": "Lavorata",
+      "follow": "Da secondo",
+      "failure": "Abbandonata"
+    },
+    "overview": {
+      "title": "Panoramica",
+      "routes": "Vie",
+      "split": "{{lead}} da primo · {{follow}} da secondo",
+      "days": "Giorni in falesia",
+      "crags": {
+        "one": "1 falesia",
+        "other": "{{count}} falesie"
+      }
+    },
+    "level": {
+      "maxSend": "Grado massimo",
+      "top10": "Media top 10",
+      "top10Caption": {
+        "one": "della tua via migliore",
+        "other": "delle {{count}} vie migliori"
+      },
+      "maxOnsight": "Max a vista",
+      "maxFlash": "Max flash"
+    },
+    "insights": {
+      "title": "Cosa dicono i dati",
+      "trendUp": "In crescita: negli ultimi 3 mesi hai chiuso {{recent}}, contro il {{previous}} dei 3 mesi precedenti.",
+      "trendDown": "Negli ultimi 3 mesi il tuo massimo è {{recent}}, sotto il {{previous}} dei 3 mesi precedenti.",
+      "trendSteady": "Livello stabile: massimo {{recent}} sia negli ultimi 3 mesi che nei 3 precedenti.",
+      "firstTryGap": {
+        "one": "Tra il tuo massimo al primo giro ({{firstTry}}) e quello lavorato ({{send}}) c'è un solo grado di differenza.",
+        "other": "Tra il tuo massimo al primo giro ({{firstTry}}) e quello lavorato ({{send}}) ci sono {{count}} gradi di differenza."
+      },
+      "firstTryAtMax": "Il tuo grado massimo ({{send}}) l'hai chiuso al primo giro: c'è margine per lavorare vie più dure.",
+      "comfortZone": "Zona di comfort fino al {{grade}}: lì chiudi da primo il {{rate}}% delle vie.",
+      "wallGrade": "Il {{grade}} è il tuo muro: da primo ne chiudi solo il {{rate}}%.",
+      "highFailure": "Abbandoni il {{rate}}% delle vie da primo: prova a lavorarle con i resting invece di calarti.",
+      "noFailure": "Nessuna via abbandonata né lavorata: prova qualche grado più duro, è lì che si migliora.",
+      "followShare": "Il {{rate}}% delle vie chiuse è da secondo: non contano per il tuo grado da primo."
+    },
+    "lead": {
+      "title": "Da primo",
+      "subtitle": {
+        "one": "1 via tentata · il grado conta solo le chiuse pulite (a vista, flash, redpoint)",
+        "other": "{{count}} vie tentate · il grado conta solo le chiuse pulite (a vista, flash, redpoint)"
+      },
+      "sendRate": "Chiuse pulite",
+      "sendCaption": "{{onsight}} OS · {{flash}} FL · {{redpoint}} RP",
+      "firstTryRate": "Al primo giro",
+      "firstTryCaption": "delle chiuse pulite",
+      "hangdog": "Lavorate",
+      "failure": "Abbandonate",
+      "failureCaption": "{{rate}}% delle vie da primo",
+      "toppedRate": "In catena",
+      "toppedCaption": "anche appendendosi",
+      "avgRedpointAttempts": "Tentativi per RP",
+      "avgRedpointCaption": "media per redpoint"
+    },
+    "follow": {
+      "title": "Da secondo",
+      "subtitle": "Utili per allenarsi, ma non contano per il grado",
+      "topped": "Chiuse",
+      "maxGrade": "Grado massimo",
+      "failures": {
+        "one": "1 abbandonata",
+        "other": "{{count}} abbandonate"
+      }
+    },
+    "pyramid": {
+      "title": "Piramide dei gradi",
+      "subtitle": "Tutte le vie per grado ed esito",
+      "hint": "Tocca un grado per vederne il dettaglio",
+      "selected": {
+        "one": "{{grade}}: 1 via",
+        "other": "{{grade}}: {{count}} vie"
+      }
+    },
+    "monthly": {
+      "title": "Nel tempo",
+      "subtitle": "Tocca un mese per vederne il dettaglio",
+      "progression": "PROGRESSIONE DEL GRADO",
+      "volume": "VIE AL MESE",
+      "sendSeries": "Max chiusa pulita",
+      "firstTrySeries": "Max a vista/flash",
+      "maxSend": "max {{grade}}",
+      "maxFirstTry": "a vista/flash {{grade}}",
+      "noSends": "Nessuna via chiusa pulita da primo in questo periodo"
+    },
+    "projects": {
+      "title": "Progetti aperti",
+      "subtitle": "{{open}} da chiudere da primo · {{sent}} chiusi dopo più tentativi",
+      "sessions": {
+        "one": "1 sessione",
+        "other": "{{count}} sessioni"
+      }
+    },
+    "crags": {
+      "title": "Falesie",
+      "days": {
+        "one": "1 giorno",
+        "other": "{{count}} giorni"
+      }
+    },
+    "calendar": {
+      "title": "Calendario {{year}}"
+    }
   },
   "form": {
     "date": "Data",
@@ -43,70 +156,46 @@
     "route": "Nome Via",
     "routePlaceholder": "Es. Bicio Bragio",
     "grade": "Grado (scala francese)",
-    "length": "Lunghezza in metri (facoltativo)",
-    "lengthPlaceholder": "Es. 25",
-    "outcome": "Esito",
-    "outcomeSuccess": "✓  Superata",
-    "outcomeFailure": "✗  Fallita",
     "attempts": "Numero Tentativi",
     "style": "Stile",
-    "modeOnsight": "Onsight",
-    "modeFlash": "Flash",
-    "modeRedpoint": "Red Point",
-    "Style": "Stile",
     "mode": "Modalità",
     "difficulty": "Difficoltà percepita",
     "notes": "Note (facoltativo)",
     "notesPlaceholder": "Commenti, condizioni, beta...",
-    "save": "Salva",
     "addClimb": "Aggiungi salita",
     "updateClimb": "Aggiorna",
     "deleteClimb": "Elimina",
     "errorRoute": "Inserisci il nome della via",
-    "errorDate": "Data nel formato YYYY-MM-DD",
     "errorInvalidDate": "Data non valida",
     "errorAttempts": "Tentativi deve essere almeno 1",
     "errorCrag": "Inserisci il nome della falesia",
     "errorGrade": "Seleziona il grado della via",
     "errorInvalidLeadMode": "La modalità scelta non è valida per la scalata da primo (Lead)",
     "errorInvalidFollowMode": "La modalità scelta non è valida per la scalata da secondo (Follow)",
-    "errorPerfectAscentAttempts": "Le salite Onsight e Flash sono possibili solo al 1° tentativo"
+    "errorPerfectAscentAttempts": "Le salite Onsight e Flash sono possibili solo al 1° tentativo",
+    "errorStyle": "Seleziona lo stile",
+    "errorDifficulty": "La difficoltà percepita deve essere tra 1 e 5"
   },
   "add": {
     "title": "Aggiungi salita",
     "savedTitle": "Salvata!",
     "savedMessage": "Salita aggiunta con successo",
-    "errorTitle": "Errore",
-    "errorMessage": "Impossibile salvare la salita",
-    "ok": "OK"
+    "errorMessage": "Impossibile salvare la salita"
   },
   "edit": {
     "title": "Modifica salita",
-    "loading": "Caricamento...",
-    "notFound": "Salita non trovata",
     "savedTitle": "Salvata!",
     "savedMessage": "Salita aggiornata",
     "deleteTitle": "Elimina salita",
     "deleteMessage": "Sei sicuro di voler eliminare questa salita?",
-    "errorTitle": "Errore",
     "errorMessage": "Impossibile aggiornare la salita",
-    "ok": "OK",
     "deleteConfirm": "Elimina",
-    "cancel": "Annulla"
+    "deleteErrorMessage": "Impossibile eliminare la salita"
   },
   "settings": {
     "title": "Impostazioni",
-    "noRecords": "Nessun record",
-    "refresh": "Refresh",
-    "clear": "Clear",
-    "export": "Export",
-    "import": "Import",
     "exportAsCSV": "Export come CSV",
     "importAsCSV": "Import come CSV",
-    "clearTitle": "Svuota DB",
-    "clearMessage": "Sei sicuro di voler eliminare tutti i record?",
-    "clearConfirm": "Svuota",
-    "cancel": "Annulla",
     "databaseSettings": "Impostazioni database",
     "version": "Versione dell'app",
     "preferences": "Preferenze",
@@ -130,33 +219,15 @@
         "btnCancel": "Annulla",
         "btnImport": "Importa",
         "successTitle": "Importazione completata",
-        "successMsgSingular": "salita importata con successo.",
-        "successMsgPlural": "salite importate con successo.",
         "errorTitle": "Errore importazione",
-        "errorDefaultMsg": "Impossibile importare il CSV."
-      },
-      "clear": {
-        "confirmTitle": "Elimina database",
-        "confirmMsg": "Tutti i dati verranno eliminati definitivamente. Continuare?",
-        "btnCancel": "Annulla",
-        "btnDelete": "Elimina",
-        "successTitle": "Database eliminato",
-        "successMsg": "Riavvia l'app per applicare le modifiche."
+        "errorDefaultMsg": "Impossibile importare il CSV.",
+        "successMsg": {
+          "one": "1 salita importata con successo.",
+          "other": "{{count}} salite importate con successo."
+        }
       }
-    }
-  },
-  "backup": {
-    "exportError": "Impossibile esportare il database",
-    "exportNotAvailable": "La condivisione non è disponibile su questo dispositivo",
-    "exportDialogTitle": "Esporta backup Rinvio",
-    "dbNotFound": "Database non trovato",
-    "importTitle": "Importa backup",
-    "importMessage": "Attenzione: tutti i dati attuali verranno sostituiti. Continuare?",
-    "importConfirm": "Importa",
-    "importSuccess": "Importazione completata",
-    "importSuccessMessage": "Il backup è stato ripristinato. Riavvia l'app.",
-    "importError": "Impossibile importare il database",
-    "cancel": "Annulla"
+    },
+    "themeDark": "Scuro"
   },
   "options": {
     "style": {
@@ -171,6 +242,26 @@
       "lead_failure": "Abbandonata",
       "follow_success": "Chiusa",
       "follow_failure": "Abbandonata"
+    },
+    "modeHint": {
+      "lead_onsight": "Detta anche «a vista». Chiusa al primo tentativo, senza informazioni sulla via e senza aver visto salire nessuno.",
+      "lead_flash": "Chiusa al primo tentativo, ma con informazioni (beta, video, visto salire qualcuno).",
+      "lead_redpoint": "Chiusa senza cadere né appendersi, dopo uno o più tentativi precedenti.",
+      "lead_hangdog": "Arrivato in catena, ma cadendo o appendendoti alla corda lungo la via.",
+      "lead_failure": "Non sei arrivato in catena.",
+      "follow_success": "Arrivato in catena da secondo.",
+      "follow_failure": "Non sei arrivato in catena.",
+      "firstTryOnly": "Onsight e flash sono possibili solo al primo tentativo."
     }
+  },
+  "common": {
+    "ok": "OK",
+    "cancel": "Annulla",
+    "errorTitle": "Errore"
+  },
+  "csv": {
+    "errorEmpty": "Il file CSV non contiene dati (serve almeno una riga oltre all'intestazione).",
+    "errorMissingColumns": "Colonne mancanti nel CSV: {{columns}}.\nAssicurati di esportare il file dall'app e di non eliminare colonne in Google Fogli.",
+    "errorRow": "Riga {{line}}: {{error}}"
   }
 }

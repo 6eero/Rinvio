@@ -1,53 +1,66 @@
 /**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
+ * Design tokens. The app is dark-only: always use these instead of hex
+ * literals in components, so the palette can be changed in one place.
  */
-
-import { Platform } from 'react-native';
-
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
-
 export const Colors = {
-  light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
+  // Backgrounds, from the darkest
+  background: "#0d0d0d",
+  header: "#151718",
+  tabBar: "#121414",
+  surface: "#161616", // cards, inputs, option buttons
+  surfaceMuted: "#1f1f1f", // disabled inputs, secondary buttons
+  surfaceRaised: "#252525", // badges, grade box
+  surfaceAction: "#2c2c2c", // buttons on a surface
+  surfaceSelected: "#474747",
+
+  // Borders
+  border: "#202020",
+  borderSelected: "#505050",
+  borderSubtle: "rgba(255,255,255,0.075)",
+  divider: "#2a2a2a",
+
+  // Text, from the brightest
+  text: "#ffffff",
+  textSecondary: "#cccccc",
+  textLabel: "#aaaaaa",
+  textMuted: "#888888",
+  textFaint: "#555555",
+  textOnLight: "#0d0d0d",
+
+  // Semantic
+  tint: "#ffffff",
+  danger: "#ef4444",
+  successBg: "#2a4a2a",
+  successText: "#aaffaa",
+  warningBg: "#4a3f22",
+  warningText: "#ffdd99",
+  failureBg: "#4a2a2a",
+  failureText: "#ffaaaa",
+
+  // Data viz
+  chartBar: "#b3b3b3",
+  // Perceived difficulty, from easy to hard: one color per level
+  difficulty: ["#5cb85c", "#a3c94f", "#e8c547", "#e8893c", "#d9534f"],
+  activity: "#ffffff",
+  // How a route went, from the best to the worst (validated for color vision
+  // deficiencies on the dark surface; always shown with a label too)
+  outcome: {
+    firstTry: "#199e70",
+    redpoint: "#3987e5",
+    hangdog: "#c98500",
+    follow: "#9085e9",
+    failure: "#e66767",
   },
-  dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
-  },
+  chartGrid: "#262626",
 };
 
-export const Fonts = Platform.select({
-  ios: {
-    /** iOS `UIFontDescriptorSystemDesignDefault` */
-    sans: 'system-ui',
-    /** iOS `UIFontDescriptorSystemDesignSerif` */
-    serif: 'ui-serif',
-    /** iOS `UIFontDescriptorSystemDesignRounded` */
-    rounded: 'ui-rounded',
-    /** iOS `UIFontDescriptorSystemDesignMonospaced` */
-    mono: 'ui-monospace',
-  },
-  default: {
-    sans: 'normal',
-    serif: 'serif',
-    rounded: 'normal',
-    mono: 'monospace',
-  },
-  web: {
-    sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-    serif: "Georgia, 'Times New Roman', serif",
-    rounded: "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
-    mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
-  },
-});
+export const Radius = {
+  sm: 4,
+  md: 8,
+  lg: 12,
+  xl: 14,
+};
+
+export const Layout = {
+  padding: 16,
+};

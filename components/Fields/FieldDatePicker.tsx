@@ -1,11 +1,14 @@
 import i18n from "@/i18n";
+import { formatLongDate, fromISODate, toISODate } from "@/utilities/date";
 import DateTimePicker, {
-  DateTimePickerEvent,
+  DateTimePickerChangeEvent,
 } from "@react-native-community/datetimepicker";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { Platform, Text, TouchableOpacity, View } from "react-native";
 import SectionLabel from "../SectionLabel";
+import { inputBoxStyle, inputTextStyle } from "./inputStyle";
 
+/** Date field; `value` and `onChange` use "yyyy-MM-dd" strings. */
 const FieldDatePicker = ({
   label,
   value,
@@ -13,58 +16,42 @@ const FieldDatePicker = ({
   disabled = false,
 }: {
   label: string;
-  value: Date;
-  onChange: (date: Date) => void;
+  value: string;
+  onChange: (date: string) => void;
   disabled?: boolean;
 }) => {
   const [showPicker, setShowPicker] = useState(false);
 
-  const handleChange = useCallback(
-    (_: DateTimePickerEvent, selected?: Date) => {
-      if (Platform.OS === "android") setShowPicker(false);
-      if (selected) onChange(selected);
-    },
-    [onChange],
-  );
+  // Android shows a dialog that closes on its own after a pick or a cancel
+  const closeOnAndroid = () => {
+    if (Platform.OS === "android") setShowPicker(false);
+  };
+
+  const handleValueChange = (_: DateTimePickerChangeEvent, selected: Date) => {
+    closeOnAndroid();
+    onChange(toISODate(selected));
+  };
 
   return (
-    <View
-      style={{
-        marginVertical: 12,
-      }}
-    >
-      <SectionLabel text={i18n.t(label)} />
+    <View style={{ marginVertical: 12 }}>
+      <SectionLabel text={label} />
       <TouchableOpacity
-        style={{
-          backgroundColor: disabled ? "#1f1f1f" : "#161616",
-          borderRadius: 12,
-          padding: 10,
-          borderWidth: 1,
-          borderColor: "#202020",
-        }}
+        style={inputBoxStyle(disabled)}
         onPress={() => setShowPicker(true)}
         disabled={disabled}
       >
-        <Text
-          style={{
-            color: disabled ? "#888" : "#fff",
-            fontSize: 16,
-          }}
-        >
-          {value.toLocaleDateString(i18n.locale, {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })}
+        <Text style={inputTextStyle(disabled)}>
+          {formatLongDate(value, i18n.locale)}
         </Text>
       </TouchableOpacity>
 
       {showPicker && (
         <DateTimePicker
-          value={value}
+          value={fromISODate(value)}
           mode="date"
           display={Platform.OS === "ios" ? "spinner" : "default"}
-          onChange={handleChange}
+          onValueChange={handleValueChange}
+          onDismiss={closeOnAndroid}
           maximumDate={new Date()}
         />
       )}

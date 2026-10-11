@@ -1,3 +1,4 @@
+import { Colors, Radius } from "@/constants/theme";
 import { Text, TouchableOpacity } from "react-native";
 
 const OptionButton = ({
@@ -21,24 +22,24 @@ const OptionButton = ({
         {
           paddingHorizontal: 14,
           paddingVertical: 10,
-          borderRadius: 10,
-          backgroundColor: "#161616",
+          borderRadius: Radius.md + 2,
+          backgroundColor: Colors.surface,
           borderWidth: 1,
-          borderColor: "#202020",
+          borderColor: Colors.border,
           marginRight: 8,
           opacity: disabled ? 0.4 : 1,
         },
         selected && {
-          backgroundColor: color ?? "#474747",
-          borderColor: color ?? "#505050",
+          backgroundColor: color ?? Colors.surfaceSelected,
+          borderColor: color ?? Colors.borderSelected,
         },
       ]}
     >
       <Text
-        style={[
-          { color: "#888", fontWeight: "600" },
-          selected && { color: "#fff" },
-        ]}
+        style={{
+          color: selected ? Colors.text : Colors.textMuted,
+          fontWeight: "600",
+        }}
       >
         {label}
       </Text>

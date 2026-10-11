@@ -1,6 +1,7 @@
-import i18n from "@/i18n";
+import { Colors } from "@/constants/theme";
 import { TextInput, View } from "react-native";
 import SectionLabel from "../SectionLabel";
+import { inputBoxStyle, inputTextStyle } from "./inputStyle";
 
 const FieldTextArea = ({
   label,
@@ -14,29 +15,19 @@ const FieldTextArea = ({
   onChange: (text: string) => void;
 }) => {
   return (
-    <View
-      style={{
-        marginVertical: 12,
-      }}
-    >
-      <SectionLabel text={i18n.t(label)} />
+    <View style={{ marginVertical: 12 }}>
+      <SectionLabel text={label} />
       <TextInput
-        style={{
-          backgroundColor: "#161616",
-          borderRadius: 12,
-          padding: 10,
-          color: "#fff",
-          fontSize: 16,
-          borderWidth: 1,
-          borderColor: "#202020",
-          minHeight: 100,
-          textAlignVertical: "top",
-        }}
+        style={[
+          inputBoxStyle(),
+          inputTextStyle(),
+          { minHeight: 100, textAlignVertical: "top" },
+        ]}
         value={value}
         onChangeText={onChange}
         multiline
-        placeholder={i18n.t(placeholder)}
-        placeholderTextColor="#555"
+        placeholder={placeholder}
+        placeholderTextColor={Colors.textFaint}
       />
     </View>
   );

@@ -1,3 +1,4 @@
+import { Colors, Layout } from "@/constants/theme";
 import { Text, View } from "react-native";
 
 const PageTitle: React.FC<{ title: string; children?: React.ReactNode }> = ({
@@ -9,12 +10,14 @@ const PageTitle: React.FC<{ title: string; children?: React.ReactNode }> = ({
       style={{
         flexDirection: "row",
         justifyContent: "space-between",
-        padding: 16,
+        alignItems: "center",
+        padding: Layout.padding,
       }}
     >
-      <Text style={{ color: "#fff", fontSize: 24, fontWeight: "bold" }}>
+      <Text style={{ color: Colors.text, fontSize: 24, fontWeight: "bold" }}>
         {title}
       </Text>
+      {children}
     </View>
   );
 };

@@ -1,36 +1,23 @@
 import { HapticTab } from "@/components/HapticTab";
-import { useColorScheme } from "@/hooks/use-color-scheme";
 import i18n from "@/i18n";
 import { Tabs } from "expo-router";
 import { ChartSpline, Database, List, PlusCircle } from "lucide-react-native";
-import { Colors } from "../../constants/theme";
+import { Colors } from "@/constants/theme";
 
 export default function NavBar() {
-  const colorScheme = useColorScheme();
-  const activeColor = Colors[colorScheme ?? "light"].tint;
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: activeColor,
-        tabBarInactiveTintColor: "#555555",
+        tabBarActiveTintColor: Colors.tint,
+        tabBarInactiveTintColor: Colors.textFaint,
         headerShown: false,
         tabBarButton: HapticTab,
+        sceneStyle: { backgroundColor: Colors.background },
+        // height and bottom safe area are handled by the navigator: the tab bar
+        // stays in the layout flow, so screens never end up underneath it
         tabBarStyle: {
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          backgroundColor: "#121414",
-          borderTopColor: "#2a2a2a",
-          height: 90,
-          paddingBottom: 12,
-          paddingTop: 8,
-          elevation: 8,
-          zIndex: 100,
-        },
-        tabBarLabelStyle: {
-          marginTop: 2,
+          backgroundColor: Colors.tabBar,
+          borderTopColor: Colors.divider,
         },
       }}
     >
