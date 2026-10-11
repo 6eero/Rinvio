@@ -227,7 +227,13 @@
         }
       }
     },
-    "themeDark": "Dark"
+    "themeDark": "Dark",
+    "lastBackup": "Last backup",
+    "lastBackupNever": "Never",
+    "backupNotice": {
+      "backup": "Google backup completed ({{time}})",
+      "restore": "Climbs restored from your Google backup"
+    }
   },
   "options": {
     "style": {

@@ -18,7 +18,7 @@
         "android.permission.MANAGE_EXTERNAL_STORAGE",
         "android.permission.SYSTEM_ALERT_WINDOW"
       ],
-      "allowBackup": false,
+      "allowBackup": true,
       "adaptiveIcon": {
         "backgroundColor": "#161616",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -47,6 +47,7 @@
         }
       ],
       "expo-sqlite",
+      "./plugins/withBackupRules",
       "expo-localization",
       "@react-native-community/datetimepicker",
       "expo-file-system",

@@ -227,7 +227,13 @@
         }
       }
     },
-    "themeDark": "Scuro"
+    "themeDark": "Scuro",
+    "lastBackup": "Ultimo backup",
+    "lastBackupNever": "Mai",
+    "backupNotice": {
+      "backup": "Backup su Google completato ({{time}})",
+      "restore": "Salite ripristinate dal backup Google"
+    }
   },
   "options": {
     "style": {

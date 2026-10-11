@@ -57,3 +57,13 @@ export const formatMonth = (value: string, locale: string): string =>
       year: "numeric",
     }),
   );
+
+/** Epoch ms → "12 ott 2026, 03:14". */
+export const formatDateTime = (time: number, locale: string): string =>
+  new Date(time).toLocaleString(locale, {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });

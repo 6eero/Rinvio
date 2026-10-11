@@ -1,7 +1,13 @@
 import { exportDatabaseAsCSV, importDatabaseAsCSV } from "@/db/backupRestore";
 import { Colors, Radius } from "@/constants/theme";
 import i18n from "@/i18n";
-import { ReactNode } from "react";
+import {
+  getLastBackupTime,
+  isBackupStatusAvailable,
+} from "@/modules/backup-status";
+import { formatDateTime } from "@/utilities/date";
+import { useFocusEffect } from "expo-router";
+import { ReactNode, useCallback, useState } from "react";
 import {
   Linking,
   StyleSheet,
@@ -25,6 +31,15 @@ const SettingSection = ({
 );
 
 export default function ClimbSettings() {
+  const [lastBackup, setLastBackup] = useState(getLastBackupTime);
+
+  // A backup may have run while the app was in the background
+  useFocusEffect(
+    useCallback(() => {
+      setLastBackup(getLastBackupTime());
+    }, []),
+  );
+
   return (
     <>
       {/* Preferences */}
@@ -42,6 +57,18 @@ export default function ClimbSettings() {
 
       {/* Database */}
       <SettingSection title={i18n.t("settings.databaseSettings")}>
+        {isBackupStatusAvailable && (
+          <View style={styles.listRow}>
+            <Text style={styles.listLabel}>
+              {i18n.t("settings.lastBackup")}
+            </Text>
+            <Text style={styles.listValue}>
+              {lastBackup === null
+                ? i18n.t("settings.lastBackupNever")
+                : formatDateTime(lastBackup, i18n.locale)}
+            </Text>
+          </View>
+        )}
         <View style={styles.grid}>
           <TouchableOpacity onPress={exportDatabaseAsCSV} style={styles.button}>
             <Text style={styles.buttonText}>

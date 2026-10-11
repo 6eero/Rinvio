@@ -8,6 +8,7 @@ Rinvio is a mobile application for climbers to track their outdoor and indoor as
 - **SQLite Storage**: All data is stored locally on your device. Your data stays yours.
 - **Statistics**: View a summary of your activities and progression.
 - **Export/Import**: easily backup your database or move it to another device via CSV export/import.
+- **Automatic Backup (Android)**: the database is included in Android's Google account backup, so reinstalling the app with the same account restores your climbs. The backup is handled by the OS: the app itself never connects to the internet. Settings show when the last backup ran, and a toast tells you when a new backup or a restore has happened.
 - **Multilingual Support**: Fully localized in English and Italian.
 - **Dark Mode**: High-contrast UI designed for both indoor gyms and outdoor crags.
 
