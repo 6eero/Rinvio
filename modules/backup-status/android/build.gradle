@@ -3,6 +3,13 @@ plugins {
   id 'expo-module-gradle-plugin'
 }
 
+group = 'expo.modules.backupstatus'
+version = '1.0.0'
+
 android {
   namespace "expo.modules.backupstatus"
+  defaultConfig {
+    versionCode 1
+    versionName '1.0.0'
+  }
 }

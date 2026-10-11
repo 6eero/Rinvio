@@ -24,16 +24,16 @@ internal class BackupStatusStore(context: Context) {
    */
   fun consumeNotice(): Pair<String, Long>? {
     val restore = read(LAST_RESTORE)
-    if (restore != null && restore > (read(NOTIFIED_RESTORE) ?: 0)) {
+    if (restore != null && restore > (read(NOTIFIED_RESTORE) ?: 0L)) {
       prefs.edit()
         .putLong(NOTIFIED_RESTORE, restore)
-        .putLong(NOTIFIED_BACKUP, lastBackup ?: 0)
+        .putLong(NOTIFIED_BACKUP, lastBackup ?: 0L)
         .commit()
       return "restore" to restore
     }
 
     val backup = lastBackup
-    if (backup != null && backup > (read(NOTIFIED_BACKUP) ?: 0)) {
+    if (backup != null && backup > (read(NOTIFIED_BACKUP) ?: 0L)) {
       prefs.edit().putLong(NOTIFIED_BACKUP, backup).commit()
       return "backup" to backup
     }
