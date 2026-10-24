@@ -1,10 +1,12 @@
-import { exportDatabaseAsCSV, importDatabaseAsCSV } from "@/db/backupRestore";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { Colors, Radius } from "@/constants/theme";
+import { exportDatabaseAsCSV, importDatabaseAsCSV } from "@/db/backupRestore";
 import i18n from "@/i18n";
 import {
   getLastBackupTime,
   isBackupStatusAvailable,
 } from "@/modules/backup-status";
+import { useLocaleStore } from "@/store/useLocaleStore";
 import { formatDateTime } from "@/utilities/date";
 import { useFocusEffect } from "expo-router";
 import { ReactNode, useCallback, useState } from "react";
@@ -31,6 +33,7 @@ const SettingSection = ({
 );
 
 export default function ClimbSettings() {
+  useLocaleStore((s) => s.locale); // re-render on language change
   const [lastBackup, setLastBackup] = useState(getLastBackupTime);
 
   // A backup may have run while the app was in the background
@@ -44,9 +47,11 @@ export default function ClimbSettings() {
     <>
       {/* Preferences */}
       <SettingSection title={i18n.t("settings.preferences")}>
-        <View style={styles.listRow}>
+        <View
+          style={[styles.listRow, { alignItems: "center", paddingVertical: 8 }]}
+        >
           <Text style={styles.listLabel}>{i18n.t("settings.language")}</Text>
-          <Text style={styles.listValue}>{i18n.locale.toUpperCase()}</Text>
+          <LanguageSwitcher />
         </View>
 
         <View style={styles.listRow}>

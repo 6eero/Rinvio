@@ -2,6 +2,7 @@ import { Colors } from "@/constants/theme";
 import i18n from "@/i18n";
 import { consumeBackupNotice } from "@/modules/backup-status";
 import { useClimbsStore } from "@/store/useClimbsStore";
+import { useLocaleStore } from "@/store/useLocaleStore";
 import { formatDateTime } from "@/utilities/date";
 import { DarkTheme, Stack, ThemeProvider } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -17,6 +18,7 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const refresh = useClimbsStore((s) => s.refresh);
+  const locale = useLocaleStore((s) => s.locale);
 
   // Initial load; afterwards the store refreshes itself on every write
   useEffect(() => {
@@ -47,6 +49,7 @@ export default function RootLayout() {
         {/* the UI is dark-only */}
         <ThemeProvider value={DarkTheme}>
           <Stack
+            key={locale}
             screenOptions={{
               headerShown: false,
               contentStyle: { backgroundColor: Colors.background },
