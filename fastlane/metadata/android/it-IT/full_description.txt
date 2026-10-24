@@ -1,0 +1,12 @@
+Rinvio è un logbook semplice e privato per chi arrampica. Registra le tue salite outdoor e indoor e segui i tuoi progressi nel tempo, con tutti i dati salvati solo sul tuo dispositivo.
+
+<b>Funzioni</b>
+• Registra le salite con nome, grado, settore e stile (Lead, Top Rope, Boulder)
+• Statistiche e riepilogo della tua attività e dei tuoi progressi
+• Esporta e importa le salite in CSV per fare un backup o spostarle su un altro dispositivo
+• Backup automatico su Android: il database è incluso nel backup di sistema del tuo account Google, quindi reinstallando l'app ritrovi le tue salite. Il backup è gestito interamente dal sistema operativo
+• Interfaccia scura e ad alto contrasto, pensata per palestre e falesie
+• Disponibile in italiano e inglese
+
+<b>Privacy</b>
+Rinvio funziona completamente offline. Non ha account, pubblicità né tracker, e l'app non richiede il permesso INTERNET, quindi i tuoi dati non possono uscire dal dispositivo tramite l'app.

@@ -1,0 +1,12 @@
+Rinvio is a simple, private logbook for climbers. Record your outdoor and indoor ascents and follow your progression over time, with all your data stored only on your device.
+
+<b>Features</b>
+• Log climbs with name, grade, sector and style (Lead, Top Rope, Boulder)
+• Statistics and a summary of your activity and progression
+• Export and import your climbs as CSV to back up or move to another device
+• Automatic backup on Android: the database is included in the system backup of your Google account, so reinstalling the app restores your climbs. The backup is handled entirely by the OS
+• Dark, high-contrast interface designed for gyms and crags
+• Available in English and Italian
+
+<b>Privacy</b>
+Rinvio works fully offline. It has no accounts, no ads and no trackers, and the app does not request the INTERNET permission, so your data cannot leave your device through the app.
